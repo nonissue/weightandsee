@@ -8,6 +8,7 @@ import { Nav } from "./Nav";
 export const Header: React.FunctionComponent = () => {
   const headerColor = useColorModeValue("orange.400", "orange.300");
   const [mobileNavShown, setMobileNavShown] = useState(false);
+  const loginLinkColor = useColorModeValue("green.500", "green.200");
 
   return (
     <>
@@ -57,10 +58,11 @@ export const Header: React.FunctionComponent = () => {
           </Stack>
           {mobileNavShown && (
             <Stack pb={5} spacing={2} fontWeight="bold">
-              <NextChakraLink href="/">Home</NextChakraLink>
-              <NextChakraLink href="/posts">Posts</NextChakraLink>
-              <NextChakraLink href="/users">Users</NextChakraLink>
-              <NextChakraLink href="/about">About</NextChakraLink>
+              <NextChakraLink href="/weights" color={loginLinkColor}>
+                + Add
+              </NextChakraLink>
+              <NextChakraLink href="/users">Graphs</NextChakraLink>
+              <NextChakraLink href="/weights">Weights</NextChakraLink>
             </Stack>
           )}
         </Box>
