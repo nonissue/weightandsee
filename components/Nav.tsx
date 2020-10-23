@@ -1,4 +1,10 @@
-import { Flex, Box, Stack, IconButton } from "@chakra-ui/core";
+import {
+  Flex,
+  Box,
+  Stack,
+  IconButton,
+  useColorModeValue
+} from "@chakra-ui/core";
 import { Menu } from "heroicons-react";
 import { useBreakpointValue } from "@chakra-ui/media-query";
 import { NextChakraLink } from "./NextChakraLink";
@@ -16,6 +22,9 @@ export const Nav: React.FunctionComponent<Props> = ({
   setMobileNavShown
 }) => {
   const showBurger = useBreakpointValue({ base: false, sm: true });
+  const logoutLinkColor = useColorModeValue("orange.500", "orange.200");
+  const loginLinkColor = useColorModeValue("green.500", "green.200");
+  const user = true;
 
   // showBurger => show burger button rather than full nav
   // mobileNavShown => burger clicked, show mobile nav items
@@ -31,11 +40,27 @@ export const Nav: React.FunctionComponent<Props> = ({
               alignItems="center"
               fontWeight="semibold"
             >
-              <NextChakraLink href="/">Home</NextChakraLink>
-              <NextChakraLink href="/posts">Posts</NextChakraLink>
-              <NextChakraLink href="/users">Users</NextChakraLink>
-              <NextChakraLink href="/about">About</NextChakraLink>
-
+              {!user ? (
+                <>
+                  <NextChakraLink href="/login" color={loginLinkColor}>
+                    Login
+                  </NextChakraLink>
+                </>
+              ) : (
+                <>
+                  {" "}
+                  {/* <NextChakraLink href="/posts">Weign In</NextChakraLink> */}
+                  <NextChakraLink href="/weights" color={loginLinkColor}>
+                    + Add
+                  </NextChakraLink>
+                  <NextChakraLink href="/users">Graphs</NextChakraLink>
+                  <NextChakraLink href="/weights">Weights</NextChakraLink>
+                  <NextChakraLink href="/logout" color={logoutLinkColor}>
+                    Logout
+                  </NextChakraLink>
+                </>
+              )}
+              ;
               <ColorModeToggle />
             </Stack>
           ) : (

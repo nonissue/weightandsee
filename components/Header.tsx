@@ -12,7 +12,7 @@ export const Header: React.FunctionComponent = () => {
   return (
     <>
       <Head>
-        <title>nonstarter</title>
+        <title>tonnage</title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
@@ -40,10 +40,10 @@ export const Header: React.FunctionComponent = () => {
                   mr={12}
                 >
                   <Text fontFamily="DM Sans" fontWeight="700">
-                    non
+                    gross
                   </Text>
                   <Text fontFamily="DM Sans" fontStyle="">
-                    starter
+                    tonnage
                   </Text>
                 </Stack>
               </NextChakraLink>
