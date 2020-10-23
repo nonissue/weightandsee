@@ -3,6 +3,10 @@ import { Chakra } from '../Chakra';
 
 import type { NextComponentType, NextPageContext } from 'next';
 import type { NextRouter } from 'next/router';
+
+import "react-datepicker/dist/react-datepicker.css";
+import './react-datepicker.css';
+
 export interface AppRenderProps {
   pageProps: object;
   err?: Error;

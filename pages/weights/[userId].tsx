@@ -52,9 +52,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps = async (): Promise<{
   props: { post: string };
 }> => {
-  const postResponse = await prisma.post.findOne({
+  const postResponse = await prisma.weighIn.findOne({
     where: { id: 1 },
-    include: { author: true }
+    include: { owner: true }
   });
 
   const json = await JSON.stringify(postResponse);
