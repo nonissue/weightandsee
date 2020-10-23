@@ -1,3 +1,17 @@
+// https://spectrum.chat/react-hook-form/help/usefieldarray-append-remove-clearing-form-data~37c65e57-411e-489b-a4dd-2f0df7277954
+// https://codesandbox.io/s/react-hook-form-usefieldarray-vy8fv?from-embed
+// https://github.com/react-hook-form/react-hook-form/issues/398
+
+// Error handling: https://github.com/react-hook-form/react-hook-form/blob/master/examples/FieldArray.tsx
+// https://github.com/react-hook-form/react-hook-form/issues/1617
+
+// https://github.com/react-hook-form/react-hook-form/issues/978 -> Original solution
+
+// (PRETTY CLEAN TBH) simple form with add / remove https://codesandbox.io/s/6j1760jkjk
+// Proper json stringify: https://codesandbox.io/s/react-hook-form-v6-controller-append-prepepend-insert-7clz7?file=/src/index.js
+
+// Datepicker: https://codesandbox.io/s/react-hook-form-controller-079xx?file=/src/index.js
+
 import {
   Grid,
   Box,
@@ -59,7 +73,7 @@ const posts: React.FunctionComponent<Posts> = () => {
   const [entryCount, setEntryCount] = useState(1);
   const [people, setPeople] = useState(["Al", "Cheese", "Boich"]);
 
-  // console.log(watch("example")); // watch input value by passing the name of it
+  console.log(watch("entry")); // watch input value by passing the name of it
 
   return (
     <Layout>
@@ -71,11 +85,13 @@ const posts: React.FunctionComponent<Posts> = () => {
               {createArrayWithNumbers(entryCount).map(i => (
                 <Stack key={i} direction={["column", "row"]}>
                   <Stack w="100%">
-                    <Box key={i} w="100%">
-                      <Select
+                    <Box w="100%">
+                      <Controller
                         name={`entry.${i}.name`}
-                        ref={register}
-                        placeholder="Person..."
+                        as={Select}
+                        control={control}
+                        placeholder="Select Person"
+                        rules={{ required: true }}
                       >
                         {people.map(p => {
                           return (
@@ -84,9 +100,9 @@ const posts: React.FunctionComponent<Posts> = () => {
                             </option>
                           );
                         })}
-                      </Select>
+                      </Controller>
                     </Box>
-                    {errors.entry?.[i]?.weight && (
+                    {errors.entry?.[i]?.name && (
                       <Box
                         fontFamily="mono"
                         fontSize="xs"
@@ -137,7 +153,6 @@ const posts: React.FunctionComponent<Posts> = () => {
               ))}
 
               {/* include validation with required or other standard HTML validation rules */}
-              {/* <Input name="date" ref={register({ required: true })} /> */}
               <Stack direction={["column", "row"]}>
                 <Button
                   onClick={() => {
@@ -163,24 +178,34 @@ const posts: React.FunctionComponent<Posts> = () => {
                 )}
 
                 <Box w="100%">
-                  <Controller
-                    control={control}
-                    name="date"
-                    defaultValue={startDate}
-                    // as={DatePicker}
-                    render={({ onChange, onBlur, value }) => (
-                      <ReactDatePicker
-                        onChange={onChange}
-                        onBlur={onBlur}
-                        selected={value}
-                      />
-                    )}
-                    rules={{ required: true }}
-                  />
+                  <Stack w="100%">
+                    <Controller
+                      control={control}
+                      name="date"
+                      defaultValue={startDate}
+                      // as={DatePicker}
+                      render={({ onChange, onBlur, value }) => (
+                        <ReactDatePicker
+                          onChange={onChange}
+                          onBlur={onBlur}
+                          selected={value}
+                        />
+                      )}
+                      rules={{ required: true }}
+                    />
+                  </Stack>
+                  {errors.date && (
+                    <Box
+                      fontFamily="mono"
+                      fontSize="xs"
+                      textColor="red.400"
+                      pl="1"
+                    >
+                      Required
+                    </Box>
+                  )}
                 </Box>
-                {errors.exampleRequired && <span>This field is required</span>}
-                {errors.date && <span>This field is required</span>}
-                {errors.weightRequired && <span>This field is required</span>}
+
                 <Box w="100%">
                   <Button colorScheme="green" type="submit" w="100%">
                     Submit
