@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -27,7 +27,7 @@ model Person {
   createdAt DateTime  @default(now()) @map(name: "created_at")
   updatedAt DateTime  @default(now()) @map(name: "updated_at")
   name      String    @unique
-  nickName  String    @unique
+  nickName  String?   @unique
   weighIns  WeighIn[]
 
   @@map(name: "people")
