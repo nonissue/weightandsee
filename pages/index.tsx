@@ -1,11 +1,8 @@
 import {
-  Alert,
-  AlertIcon,
   Button,
   Input,
   Grid,
   Stack,
-  useColorModeValue,
   FormControl,
   FormLabel,
   FormErrorMessage,
@@ -16,8 +13,8 @@ import { Layout } from "../components/Layout";
 
 const IndexPage: React.FunctionComponent = () => {
   // const iconColor = useColorModeValue("gray.300", "gray.500");
-  const alertBGColor = useColorModeValue("gray.100", "gray.700");
-  const alertBorderColor = useColorModeValue("gray.200", "gray.600");
+  // const alertBGColor = useColorModeValue("gray.100", "gray.700");
+  // const alertBorderColor = useColorModeValue("gray.200", "gray.600");
 
   return (
     <Layout>

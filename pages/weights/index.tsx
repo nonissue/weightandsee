@@ -33,7 +33,7 @@ import { Layout } from "../../components/Layout";
 import { Confirmation } from "../../components/Confirmation";
 import ReactDatePicker from "react-datepicker";
 // import { NextChakraLink } from "../../components/NextChakraLink";
-import { Post, Posts } from "../../interfaces";
+import { Posts } from "../../interfaces";
 
 type Inputs = {
   example: string;
@@ -65,7 +65,7 @@ function createArrayWithNumbers(length: number) {
 // When form submitted, verify that no entries duplicated
 
 const posts: React.FunctionComponent<Posts> = () => {
-  const { register, handleSubmit, watch, errors, control } = useForm<Inputs>();
+  const { handleSubmit, errors, control } = useForm<Inputs>();
 
   const onSubmit = (data: Result) => {
     console.log(data);
@@ -73,9 +73,11 @@ const posts: React.FunctionComponent<Posts> = () => {
     alert(JSON.stringify(data));
   };
 
-  const [startDate, setStartDate] = useState(new Date());
+  // const [startDate, setStartDate] = useState(new Date());
+  const startDate = new Date();
   const [entryCount, setEntryCount] = useState(1);
-  const [people, setPeople] = useState(["Al", "Cheese", "Boich"]);
+  // const [people, setPeople] = useState(["Al", "Cheese", "Boich"]);
+  const people = ["Al", "Cheese", "Boich"];
 
   const confirmationCallback = () => {
     setEntryCount(entryCount - 1);
