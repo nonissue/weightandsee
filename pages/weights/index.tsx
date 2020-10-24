@@ -13,6 +13,10 @@
 // Datepicker: https://codesandbox.io/s/react-hook-form-controller-079xx?file=/src/index.js
 
 // Oh man, Chakra isRequired is way better than relying on form errors
+import { GetStaticProps } from "next";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 import {
   Grid,
@@ -58,26 +62,56 @@ type Result = {
   };
 };
 
+type Person = {
+  name: string;
+  nickName?: string;
+  weighIns?: number[];
+};
+
+type Participants = {
+  people: Person[];
+};
+
 function createArrayWithNumbers(length: number) {
   return Array.from({ length }, (_, k) => k + 1);
 }
 
 // When form submitted, verify that no entries duplicated
 
-const posts: React.FunctionComponent<Posts> = () => {
+export const getStaticProps: GetStaticProps = async () => {
+  const people = await prisma.person.findMany({
+    // select: { name: true, nickName: true },
+    select: {
+      name: true,
+      nickName: true
+    },
+    orderBy: { createdAt: "desc" }
+  });
+
+  // const people = await JSON.stringify(res);
+
+  return {
+    props: { people }
+  };
+};
+
+const posts: React.FunctionComponent<Participants> = ({ people }) => {
   const { handleSubmit, errors, control } = useForm<Inputs>();
+
+  console.log(people);
+  // const peopleList = await people;
+  // const peopleList = await JSON.parse(people);
+  // console.log(people);
 
   const onSubmit = (data: Result) => {
     console.log(data);
     console.log(data.entry);
-    alert(JSON.stringify(data));
+    alert(JSON.stringify(data.date.toISOString().split("T")[0]));
   };
 
   // const [startDate, setStartDate] = useState(new Date());
   const startDate = new Date();
   const [entryCount, setEntryCount] = useState(1);
-  // const [people, setPeople] = useState(["Al", "Cheese", "Boich"]);
-  const people = ["Al", "Cheese", "Boich"];
 
   const confirmationCallback = () => {
     setEntryCount(entryCount - 1);
@@ -97,7 +131,6 @@ const posts: React.FunctionComponent<Posts> = () => {
                   <Stack w="100%">
                     <Box w="100%">
                       <FormControl id="person">
-                        {/* <FormLabel>Person</FormLabel> */}
                         <Controller
                           name={`entry.${i}.name`}
                           as={Select}
@@ -110,8 +143,8 @@ const posts: React.FunctionComponent<Posts> = () => {
                         >
                           {people.map(p => {
                             return (
-                              <option key={p} value={p}>
-                                {p}
+                              <option key={p.name} value={p.nickName}>
+                                {p.nickName}
                               </option>
                             );
                           })}
@@ -196,6 +229,7 @@ const posts: React.FunctionComponent<Posts> = () => {
                           onChange={onChange}
                           onBlur={onBlur}
                           selected={value}
+                          dateFormat="yyyy/MM/dd"
                         />
                       )}
                       rules={{ required: true }}
