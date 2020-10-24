@@ -13,7 +13,7 @@ export const Header: React.FunctionComponent = () => {
   return (
     <>
       <Head>
-        <title>tonnage</title>
+        <title>CatchWeight</title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
@@ -41,10 +41,10 @@ export const Header: React.FunctionComponent = () => {
                   mr={12}
                 >
                   <Text fontFamily="DM Sans" fontWeight="700">
-                    gross
+                    catch
                   </Text>
                   <Text fontFamily="DM Sans" fontStyle="">
-                    tonnage
+                    weight
                   </Text>
                 </Stack>
               </NextChakraLink>
@@ -61,8 +61,8 @@ export const Header: React.FunctionComponent = () => {
               <NextChakraLink href="/weights" color={loginLinkColor}>
                 + Add
               </NextChakraLink>
-              <NextChakraLink href="/users">Graphs</NextChakraLink>
-              <NextChakraLink href="/weights">Weights</NextChakraLink>
+              <NextChakraLink href="/demo">Graphs</NextChakraLink>
+              <NextChakraLink href="/demo">Data</NextChakraLink>
             </Stack>
           )}
         </Box>
