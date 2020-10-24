@@ -55,9 +55,9 @@ export const Nav: React.FunctionComponent<Props> = ({
                   </NextChakraLink>
                   <NextChakraLink href="/users">Graphs</NextChakraLink>
                   <NextChakraLink href="/weights">Weights</NextChakraLink>
-                  <NextChakraLink href="/logout" color={logoutLinkColor}>
+                  {/* <NextChakraLink href="/logout" color={logoutLinkColor}>
                     Logout
-                  </NextChakraLink>
+                  </NextChakraLink> */}
                 </>
               )}
               ;

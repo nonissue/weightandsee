@@ -1,9 +1,15 @@
 import {
   Alert,
   AlertIcon,
+  Button,
+  Input,
   Grid,
   Stack,
-  useColorModeValue
+  useColorModeValue,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  FormHelperText
 } from "@chakra-ui/core";
 
 import { Layout } from "../components/Layout";
@@ -17,7 +23,7 @@ const IndexPage: React.FunctionComponent = () => {
     <Layout>
       <Grid maxW="min(65ch, 100%)" mx="auto" px={["4", "4", "2", "2"]} my="0">
         <Stack spacing={3} my="4">
-          <Alert
+          {/* <Alert
             //
             status="info"
             // variant="info"
@@ -30,7 +36,21 @@ const IndexPage: React.FunctionComponent = () => {
           >
             <AlertIcon />
             Authentication is required.
-          </Alert>
+          </Alert> */}
+          <form>
+            <FormControl id="email" isRequired>
+              <FormLabel>Enter Password</FormLabel>
+              <Input type="password" />
+              <FormHelperText>
+                Password required to access this site.
+              </FormHelperText>
+              <FormErrorMessage>Required</FormErrorMessage>
+            </FormControl>
+
+            <Button mt={4} colorScheme="teal" isLoading={false} type="submit">
+              Login
+            </Button>
+          </form>
         </Stack>
       </Grid>
     </Layout>

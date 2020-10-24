@@ -12,6 +12,8 @@
 
 // Datepicker: https://codesandbox.io/s/react-hook-form-controller-079xx?file=/src/index.js
 
+// Oh man, Chakra isRequired is way better than relying on form errors
+
 import {
   Grid,
   Box,
@@ -19,7 +21,8 @@ import {
   Button,
   Stack,
   Select,
-  Divider
+  Divider,
+  FormControl
 } from "@chakra-ui/core";
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
@@ -27,6 +30,7 @@ import { useForm, Controller } from "react-hook-form";
 import "react-datepicker/dist/react-datepicker.css";
 
 import { Layout } from "../../components/Layout";
+import { Confirmation } from "../../components/Confirmation";
 import ReactDatePicker from "react-datepicker";
 // import { NextChakraLink } from "../../components/NextChakraLink";
 import { Post, Posts } from "../../interfaces";
@@ -63,9 +67,9 @@ function createArrayWithNumbers(length: number) {
 const posts: React.FunctionComponent<Posts> = () => {
   const { register, handleSubmit, watch, errors, control } = useForm<Inputs>();
 
-  // const onSubmit = ({ data }: { [x: string]: string }) => console.log(data);
   const onSubmit = (data: Result) => {
     console.log(data);
+    console.log(data.entry);
     alert(JSON.stringify(data));
   };
 
@@ -73,7 +77,11 @@ const posts: React.FunctionComponent<Posts> = () => {
   const [entryCount, setEntryCount] = useState(1);
   const [people, setPeople] = useState(["Al", "Cheese", "Boich"]);
 
-  console.log(watch("entry")); // watch input value by passing the name of it
+  const confirmationCallback = () => {
+    setEntryCount(entryCount - 1);
+  };
+
+  // console.log(watch("entry")); // watch input value by passing the name of it
 
   return (
     <Layout>
@@ -86,23 +94,29 @@ const posts: React.FunctionComponent<Posts> = () => {
                 <Stack key={i} direction={["column", "row"]}>
                   <Stack w="100%">
                     <Box w="100%">
-                      <Controller
-                        name={`entry.${i}.name`}
-                        as={Select}
-                        control={control}
-                        placeholder="Select Person"
-                        rules={{ required: true }}
-                      >
-                        {people.map(p => {
-                          return (
-                            <option key={p} value={p}>
-                              {p}
-                            </option>
-                          );
-                        })}
-                      </Controller>
+                      <FormControl id="person">
+                        {/* <FormLabel>Person</FormLabel> */}
+                        <Controller
+                          name={`entry.${i}.name`}
+                          as={Select}
+                          control={control}
+                          placeholder="Select Person"
+                          defaultValue=""
+                          isInvalid={errors.entry?.[i]?.name ? true : false}
+                          errorBorderColor="red.300"
+                          rules={{ required: true }}
+                        >
+                          {people.map(p => {
+                            return (
+                              <option key={p} value={p}>
+                                {p}
+                              </option>
+                            );
+                          })}
+                        </Controller>
+                      </FormControl>
                     </Box>
-                    {errors.entry?.[i]?.name && (
+                    {errors.entry?.[i]?.name && false && (
                       <Box
                         fontFamily="mono"
                         fontSize="xs"
@@ -115,67 +129,59 @@ const posts: React.FunctionComponent<Posts> = () => {
                   </Stack>
                   <Box w="100%">
                     <Stack w="100%">
-                      <Controller
-                        name={`entry.${i}.weight`}
-                        control={control}
-                        as={Input}
-                        placeholder="weight"
-                        defaultValue=""
-                        rules={{ required: true, min: 2 }}
-                      />
-                      {errors.entry?.[i]?.weight && (
-                        <Box
-                          fontFamily="mono"
-                          fontSize="xs"
-                          textColor="red.400"
-                          pl="1"
-                        >
-                          Required
-                        </Box>
-                      )}
+                      <FormControl id="person">
+                        <Controller
+                          name={`entry.${i}.weight`}
+                          control={control}
+                          as={Input}
+                          placeholder="Weight (lbs)"
+                          defaultValue=""
+                          isInvalid={errors.entry?.[i]?.weight ? true : false}
+                          rules={{ required: true, min: 2 }}
+                        />
+                        {errors.entry?.[i]?.weight && false && (
+                          <Box
+                            fontFamily="mono"
+                            fontSize="xs"
+                            textColor="red.400"
+                            pl="1"
+                          >
+                            Required
+                          </Box>
+                        )}
+                      </FormControl>
                     </Stack>
                   </Box>
                   <Divider display={["block", "none"]} />
-                  {i === entryCount && i !== 1 && false && (
-                    // <Box w={"100%"}>
-                    <Button
-                      onClick={() => {
-                        setEntryCount(entryCount - 1);
-                      }}
-                      colorScheme="orange"
-                      variant="outline"
-                    >
-                      -
-                    </Button>
-                    // </Box>
-                  )}
                 </Stack>
               ))}
 
               {/* include validation with required or other standard HTML validation rules */}
               <Stack direction={["column", "row"]}>
-                <Button
-                  onClick={() => {
-                    setEntryCount(entryCount + 1);
-                  }}
-                  colorScheme="blue"
-                  variant="outline"
-                >
-                  +
-                </Button>
-
-                {/* Confirm removal? */}
-                {entryCount !== 1 && (
+                <Stack direction="row">
                   <Button
                     onClick={() => {
-                      setEntryCount(entryCount - 1);
+                      setEntryCount(entryCount + 1);
                     }}
-                    colorScheme="orange"
+                    colorScheme="blue"
                     variant="outline"
+                    w="100%"
                   >
-                    -
+                    +
                   </Button>
-                )}
+
+                  {/* Confirm removal? */}
+
+                  {entryCount !== 1 && (
+                    <Confirmation
+                      title="-"
+                      action={confirmationCallback}
+                      variant="outline"
+                      colorScheme="orange"
+                      w="100%"
+                    />
+                  )}
+                </Stack>
 
                 <Box w="100%">
                   <Stack w="100%">
@@ -183,7 +189,6 @@ const posts: React.FunctionComponent<Posts> = () => {
                       control={control}
                       name="date"
                       defaultValue={startDate}
-                      // as={DatePicker}
                       render={({ onChange, onBlur, value }) => (
                         <ReactDatePicker
                           onChange={onChange}
