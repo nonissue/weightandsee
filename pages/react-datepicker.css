@@ -8,6 +8,10 @@
   display: block;
 }
 
+.react-datepicker__tab-loop {
+  margin-top: 0 !important;
+}
+
 .react-datepicker__input-container {
   font-size: 1rem;
   padding-left: 1rem;
