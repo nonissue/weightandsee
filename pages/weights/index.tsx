@@ -13,10 +13,9 @@
 // Datepicker: https://codesandbox.io/s/react-hook-form-controller-079xx?file=/src/index.js
 
 // Oh man, Chakra isRequired is way better than relying on form errors
-import { GetStaticProps } from "next";
-import { PrismaClient } from "@prisma/client";
+import { GetServerSideProps } from "next";
 
-const prisma = new PrismaClient();
+import { PrismaClient } from "@prisma/client";
 
 import {
   Grid,
@@ -36,8 +35,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Layout } from "../../components/Layout";
 import { Confirmation } from "../../components/Confirmation";
 import ReactDatePicker from "react-datepicker";
-// import { NextChakraLink } from "../../components/NextChakraLink";
-import { Posts } from "../../interfaces";
+
+const prisma = new PrismaClient();
 
 type Inputs = {
   example: string;
@@ -56,13 +55,14 @@ type Result = {
   date: Date;
   entry: {
     [k: string]: {
-      weight: string;
+      weight: number;
       name: string;
     };
-  };
+  }[];
 };
 
 type Person = {
+  id: number;
   name: string;
   nickName?: string;
   weighIns?: number[];
@@ -78,14 +78,15 @@ function createArrayWithNumbers(length: number) {
 
 // When form submitted, verify that no entries duplicated
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const people = await prisma.person.findMany({
     // select: { name: true, nickName: true },
     select: {
+      id: true,
       name: true,
       nickName: true
     },
-    orderBy: { createdAt: "desc" }
+    orderBy: { createdAt: "asc" }
   });
 
   // const people = await JSON.stringify(res);
@@ -103,10 +104,37 @@ const posts: React.FunctionComponent<Participants> = ({ people }) => {
   // const peopleList = await JSON.parse(people);
   // console.log(people);
 
-  const onSubmit = (data: Result) => {
+  const onSubmit = async (data: Result) => {
     console.log(data);
     console.log(data.entry);
-    alert(JSON.stringify(data.date.toISOString().split("T")[0]));
+    console.log(data.entry.length);
+    data.entry.map(e =>
+      alert(
+        `${JSON.stringify(data.date.toISOString().split("T")[0])}
+${e.name} / ${e.weight} lbs}`
+      )
+    );
+
+    //     alert(
+    //       `${JSON.stringify(data.date.toISOString().split("T")[0])}
+    // ${data.entry[1].name} / ${data.entry[1].weight}lbs`
+    //     );
+    // try {
+    // Might have to move this to an api call?
+    // https://github.com/prisma/prisma-examples/blob/latest/typescript/rest-nextjs-api-routes-auth/pages/api/post/index.ts
+    // const weighIn = await prisma.weighIn.create({
+    //   data: {
+    //     weight: data.entry[1].weight,
+    //     weighDate: data.date.toISOString().split("T")[0],
+    //     person: {
+    //       connect: { nickName: "Cheese" }
+    //     }
+    //   }
+    // });
+    //   // console.log(weighIn);
+    // } catch (e) {
+    //   console.error(e);
+    // }
   };
 
   // const [startDate, setStartDate] = useState(new Date());
@@ -143,8 +171,8 @@ const posts: React.FunctionComponent<Participants> = ({ people }) => {
                         >
                           {people.map(p => {
                             return (
-                              <option key={p.name} value={p.nickName}>
-                                {p.nickName}
+                              <option key={p.id} value={p.name}>
+                                {p.id} - {p.nickName}
                               </option>
                             );
                           })}
