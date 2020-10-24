@@ -22,7 +22,7 @@ export const Nav: React.FunctionComponent<Props> = ({
   setMobileNavShown
 }) => {
   const showBurger = useBreakpointValue({ base: false, sm: true });
-  const logoutLinkColor = useColorModeValue("orange.500", "orange.200");
+  // const logoutLinkColor = useColorModeValue("orange.500", "orange.200");
   const loginLinkColor = useColorModeValue("green.500", "green.200");
   const user = true;
 
