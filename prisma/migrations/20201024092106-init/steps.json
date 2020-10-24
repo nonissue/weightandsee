@@ -217,13 +217,6 @@
       }
     },
     {
-      "tag": "CreateField",
-      "model": "User",
-      "field": "posts",
-      "type": "WeighIn",
-      "arity": "List"
-    },
-    {
       "tag": "CreateDirective",
       "location": {
         "path": {
@@ -245,6 +238,188 @@
       },
       "argument": "name",
       "value": "\"users\""
+    },
+    {
+      "tag": "CreateModel",
+      "model": "Person"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Person",
+      "field": "id",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Person",
+          "field": "id"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Person",
+          "field": "id"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Person",
+          "field": "id"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "autoincrement()"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Person",
+      "field": "createdAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Person",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Person",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Person",
+          "field": "createdAt"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Person",
+          "field": "createdAt"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"created_at\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Person",
+      "field": "updatedAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Person",
+          "field": "updatedAt"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Person",
+          "field": "updatedAt"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Person",
+          "field": "updatedAt"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Person",
+          "field": "updatedAt"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"updated_at\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Person",
+      "field": "name",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Person",
+      "field": "nickName",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Person",
+      "field": "weighIns",
+      "type": "WeighIn",
+      "arity": "List"
     },
     {
       "tag": "CreateModel",
@@ -410,6 +585,13 @@
     {
       "tag": "CreateField",
       "model": "WeighIn",
+      "field": "weighDate",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "WeighIn",
       "field": "weight",
       "type": "Int",
       "arity": "Required"
@@ -417,8 +599,15 @@
     {
       "tag": "CreateField",
       "model": "WeighIn",
-      "field": "owner",
-      "type": "User",
+      "field": "personId",
+      "type": "Int",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "WeighIn",
+      "field": "Person",
+      "type": "Person",
       "arity": "Optional"
     },
     {
@@ -427,7 +616,7 @@
         "path": {
           "tag": "Field",
           "model": "WeighIn",
-          "field": "owner"
+          "field": "Person"
         },
         "directive": "relation"
       }
@@ -439,12 +628,12 @@
         "path": {
           "tag": "Field",
           "model": "WeighIn",
-          "field": "owner"
+          "field": "Person"
         },
         "directive": "relation"
       },
       "argument": "fields",
-      "value": "[ownerId]"
+      "value": "[personId]"
     },
     {
       "tag": "CreateArgument",
@@ -453,19 +642,12 @@
         "path": {
           "tag": "Field",
           "model": "WeighIn",
-          "field": "owner"
+          "field": "Person"
         },
         "directive": "relation"
       },
       "argument": "references",
       "value": "[id]"
-    },
-    {
-      "tag": "CreateField",
-      "model": "WeighIn",
-      "field": "ownerId",
-      "type": "Int",
-      "arity": "Optional"
     },
     {
       "tag": "CreateDirective",
