@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
 
 import { Entry } from "../../../interfaces";
-
+const prisma = new PrismaClient();
 // POST /api/post
 // Required fields in body: title
 // Optional fields in body: content
@@ -11,8 +11,6 @@ export default async (
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> => {
-  const prisma = new PrismaClient();
-
   const { date, entries } = req.body;
 
   const records = entries.map((entry: Entry) => {
