@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
 
-import { FormResult, Entry } from "../../../interfaces";
+import { Entry } from "../../../interfaces";
 
 // POST /api/post
 // Required fields in body: title
