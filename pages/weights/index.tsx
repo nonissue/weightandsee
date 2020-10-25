@@ -79,7 +79,7 @@ const posts: React.FunctionComponent<Participants> = ({ people }) => {
         body: JSON.stringify(data)
       });
       console.log(res);
-      // await Router.push("/people/Edwin");
+      await Router.push("/people/Edwin");
     } catch (e) {
       console.log(e);
     }
