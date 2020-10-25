@@ -9,17 +9,33 @@ export type User = {
   name: string;
 };
 
-export type Post = {
+export type Person = {
   id: number;
-  title: string;
-  content: string;
-  author: string;
-  tags: string[];
-  slug: string;
+  name: string;
+  nickName?: string;
+  weighIns?: string[];
 };
 
-export type Posts = {
-  id: number;
-  title: string;
-  posts: Post[];
+export type Participants = {
+  people: Person[];
+};
+
+export type Entry = {
+  weight: string;
+  name: string;
+};
+
+export type Entries = {
+  [k: string]: Entry;
+}[];
+
+export type FormInputs = {
+  date: Date;
+  weightRequired: string;
+  entries: Entries;
+};
+
+export type FormResult = {
+  date: Date;
+  entries: Entries;
 };

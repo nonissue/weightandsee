@@ -13,10 +13,12 @@
 // Datepicker: https://codesandbox.io/s/react-hook-form-controller-079xx?file=/src/index.js
 
 // Oh man, Chakra isRequired is way better than relying on form errors
+import { useState } from "react";
 import { GetServerSideProps } from "next";
-
 import { PrismaClient } from "@prisma/client";
-
+import { useForm, Controller } from "react-hook-form";
+import ReactDatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import {
   Grid,
   Box,
@@ -27,50 +29,12 @@ import {
   Divider,
   FormControl
 } from "@chakra-ui/core";
-import { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
-
-import "react-datepicker/dist/react-datepicker.css";
 
 import { Layout } from "../../components/Layout";
 import { Confirmation } from "../../components/Confirmation";
-import ReactDatePicker from "react-datepicker";
+import { Participants, FormInputs, FormResult } from "../../interfaces";
 
 const prisma = new PrismaClient();
-
-type Inputs = {
-  example: string;
-  date: Date;
-  exampleRequired: string;
-  weightRequired: string;
-  entry: {
-    [k: number]: {
-      weight: string;
-      name: string;
-    };
-  };
-};
-
-type Result = {
-  date: Date;
-  entry: {
-    [k: string]: {
-      weight: number;
-      name: string;
-    };
-  }[];
-};
-
-type Person = {
-  id: number;
-  name: string;
-  nickName?: string;
-  weighIns?: number[];
-};
-
-type Participants = {
-  people: Person[];
-};
 
 function createArrayWithNumbers(length: number) {
   return Array.from({ length }, (_, k) => k + 1);
@@ -89,21 +53,19 @@ export const getServerSideProps: GetServerSideProps = async () => {
     orderBy: { createdAt: "asc" }
   });
 
-  // const people = await JSON.stringify(res);
-
   return {
     props: { people }
   };
 };
 
 const posts: React.FunctionComponent<Participants> = ({ people }) => {
-  const { handleSubmit, errors, control } = useForm<Inputs>();
+  const { handleSubmit, errors, control } = useForm<FormInputs>();
 
-  const onSubmit = async (data: Result) => {
+  const onSubmit = async (data: FormResult) => {
     console.log(data);
-    console.log(data.entry);
-    console.log(data.entry.length);
-    data.entry.map(e =>
+    console.log(JSON.stringify(data.entries));
+    console.log(data.entries?.length);
+    data.entries.map(e =>
       alert(
         `${JSON.stringify(data.date.toISOString().split("T")[0])}
 ${e.name} / ${e.weight} lbs`
@@ -155,12 +117,12 @@ ${e.name} / ${e.weight} lbs`
                     <Box w="100%">
                       <FormControl id="person">
                         <Controller
-                          name={`entry.${i}.name`}
+                          name={`entries.${i}.name`}
                           as={Select}
                           control={control}
                           placeholder="Select Person"
                           defaultValue=""
-                          isInvalid={errors.entry?.[i]?.name ? true : false}
+                          isInvalid={errors.entries?.[i]?.name ? true : false}
                           errorBorderColor="red.300"
                           rules={{ required: true }}
                         >
@@ -174,7 +136,7 @@ ${e.name} / ${e.weight} lbs`
                         </Controller>
                       </FormControl>
                     </Box>
-                    {errors.entry?.[i]?.name && false && (
+                    {errors.entries?.[i]?.name && false && (
                       <Box
                         fontFamily="mono"
                         fontSize="xs"
@@ -189,15 +151,15 @@ ${e.name} / ${e.weight} lbs`
                     <Stack w="100%">
                       <FormControl id="person">
                         <Controller
-                          name={`entry.${i}.weight`}
+                          name={`entries.${i}.weight`}
                           control={control}
                           as={Input}
                           placeholder="Weight (lbs)"
                           defaultValue=""
-                          isInvalid={errors.entry?.[i]?.weight ? true : false}
+                          isInvalid={errors.entries?.[i]?.weight ? true : false}
                           rules={{ required: true, min: 2 }}
                         />
-                        {errors.entry?.[i]?.weight && false && (
+                        {errors.entries?.[i]?.weight && false && (
                           <Box
                             fontFamily="mono"
                             fontSize="xs"
