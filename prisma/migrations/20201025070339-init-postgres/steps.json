@@ -12,7 +12,7 @@
         "source": "db"
       },
       "argument": "provider",
-      "value": "\"sqlite\""
+      "value": "\"postgres\""
     },
     {
       "tag": "CreateArgument",
@@ -408,11 +408,33 @@
       "arity": "Required"
     },
     {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Person",
+          "field": "name"
+        },
+        "directive": "unique"
+      }
+    },
+    {
       "tag": "CreateField",
       "model": "Person",
       "field": "nickName",
       "type": "String",
-      "arity": "Optional"
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Person",
+          "field": "nickName"
+        },
+        "directive": "unique"
+      }
     },
     {
       "tag": "CreateField",
@@ -420,6 +442,29 @@
       "field": "weighIns",
       "type": "WeighIn",
       "arity": "List"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Model",
+          "model": "Person"
+        },
+        "directive": "map"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Model",
+          "model": "Person"
+        },
+        "directive": "map"
+      },
+      "argument": "name",
+      "value": "\"people\""
     },
     {
       "tag": "CreateModel",
@@ -606,7 +651,7 @@
     {
       "tag": "CreateField",
       "model": "WeighIn",
-      "field": "Person",
+      "field": "person",
       "type": "Person",
       "arity": "Optional"
     },
@@ -616,7 +661,7 @@
         "path": {
           "tag": "Field",
           "model": "WeighIn",
-          "field": "Person"
+          "field": "person"
         },
         "directive": "relation"
       }
@@ -628,7 +673,7 @@
         "path": {
           "tag": "Field",
           "model": "WeighIn",
-          "field": "Person"
+          "field": "person"
         },
         "directive": "relation"
       },
@@ -642,7 +687,7 @@
         "path": {
           "tag": "Field",
           "model": "WeighIn",
-          "field": "Person"
+          "field": "person"
         },
         "directive": "relation"
       },
