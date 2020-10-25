@@ -2,12 +2,13 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgres"
   url = "***"
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["transactionApi"]
 }
 
 model User {
@@ -27,7 +28,7 @@ model Person {
   createdAt DateTime  @default(now()) @map(name: "created_at")
   updatedAt DateTime  @default(now()) @map(name: "updated_at")
   name      String    @unique
-  nickName  String?   @unique
+  nickName  String    @unique
   weighIns  WeighIn[]
 
   @@map(name: "people")
