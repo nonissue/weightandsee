@@ -99,11 +99,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
 const posts: React.FunctionComponent<Participants> = ({ people }) => {
   const { handleSubmit, errors, control } = useForm<Inputs>();
 
-  console.log(people);
-  // const peopleList = await people;
-  // const peopleList = await JSON.parse(people);
-  // console.log(people);
-
   const onSubmit = async (data: Result) => {
     console.log(data);
     console.log(data.entry);
@@ -111,7 +106,7 @@ const posts: React.FunctionComponent<Participants> = ({ people }) => {
     data.entry.map(e =>
       alert(
         `${JSON.stringify(data.date.toISOString().split("T")[0])}
-${e.name} / ${e.weight} lbs}`
+${e.name} / ${e.weight} lbs`
       )
     );
 
@@ -232,9 +227,6 @@ ${e.name} / ${e.weight} lbs}`
                   >
                     +
                   </Button>
-
-                  {/* Confirm removal? */}
-
                   {entryCount !== 1 && (
                     <Confirmation
                       title="-"
