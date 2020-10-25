@@ -11,18 +11,22 @@ export default async (
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> => {
+  console.log(req.body);
   const { date, entries } = req.body;
+  console.log(entries);
 
-  const records = entries.map((entry: Entry) => {
-    return prisma.weighIn.create({
-      data: {
-        weighDate: date,
-        weight: parseInt(entry.weight),
-        person: { connect: { name: entry.name } }
-      },
-      include: { person: true }
+  const records = entries
+    .filter((entry: Entry) => !!entry)
+    .map((entry: Entry) => {
+      return prisma.weighIn.create({
+        data: {
+          weighDate: date,
+          weight: parseInt(entry.weight),
+          person: { connect: { name: entry.name } }
+        },
+        include: { person: true }
+      });
     });
-  });
 
   let result;
 

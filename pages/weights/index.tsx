@@ -15,6 +15,7 @@
 // Oh man, Chakra isRequired is way better than relying on form errors
 import { useState } from "react";
 import { GetServerSideProps } from "next";
+import Router from "next/router";
 import { PrismaClient } from "@prisma/client";
 import { useForm, Controller } from "react-hook-form";
 import ReactDatePicker from "react-datepicker";
@@ -63,14 +64,25 @@ const posts: React.FunctionComponent<Participants> = ({ people }) => {
 
   const onSubmit = async (data: FormResult) => {
     console.log(data);
-    console.log(JSON.stringify(data.entries));
-    console.log(data.entries?.length);
-    data.entries.map(e =>
-      alert(
-        `${JSON.stringify(data.date.toISOString().split("T")[0])}
-${e.name} / ${e.weight} lbs`
-      )
-    );
+    // console.log(JSON.stringify(data.entries));
+    // console.log(data.entries?.length);
+    //     data.entries.map(e =>
+    //       alert(
+    //         `${JSON.stringify(data.date.toISOString().split("T")[0])}
+    // ${e.name} / ${e.weight} lbs`
+    //       )
+    //     );
+    try {
+      const res = await fetch(`http://localhost:3000/api/weigh-ins`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+      console.log(res);
+      // await Router.push("/people/Edwin");
+    } catch (e) {
+      console.log(e);
+    }
 
     //     alert(
     //       `${JSON.stringify(data.date.toISOString().split("T")[0])}
@@ -117,7 +129,7 @@ ${e.name} / ${e.weight} lbs`
                     <Box w="100%">
                       <FormControl id="person">
                         <Controller
-                          name={`entries.${i}.name`}
+                          name={`entries.[${i}].name`}
                           as={Select}
                           control={control}
                           placeholder="Select Person"
@@ -129,7 +141,7 @@ ${e.name} / ${e.weight} lbs`
                           {people.map(p => {
                             return (
                               <option key={p.id} value={p.name}>
-                                {p.id} - {p.nickName}
+                                {p.name}
                               </option>
                             );
                           })}
@@ -151,7 +163,7 @@ ${e.name} / ${e.weight} lbs`
                     <Stack w="100%">
                       <FormControl id="person">
                         <Controller
-                          name={`entries.${i}.weight`}
+                          name={`entries.[${i}].weight`}
                           control={control}
                           as={Input}
                           placeholder="Weight (lbs)"
