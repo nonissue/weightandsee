@@ -8,7 +8,8 @@ import {
   ListItem,
   Text,
   VStack,
-  Divider
+  Divider,
+  useColorModeValue
 } from "@chakra-ui/core";
 import { Layout } from "../../components/Layout";
 
@@ -30,6 +31,8 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 };
 
 export const PersonPage: React.FunctionComponent = ({ test }: any) => {
+  const weightColor = useColorModeValue("gray.700", "gray.300");
+
   const data = JSON.parse(test);
 
   console.log(data);
@@ -38,28 +41,40 @@ export const PersonPage: React.FunctionComponent = ({ test }: any) => {
     <Layout>
       <Grid templateColumns={`1fr min(65ch, 100%) 1fr`}>
         <Grid column="2" my="4" px={["4", "4", "2", "2"]}>
-          <Heading size="lg" mb="4" px={["4", "4", "2", "2"]}>
-            {data.name} ({data.nickName})
-          </Heading>
+          <VStack isInline mb="4" px={["4", "4", "2", "2"]}>
+            <Heading
+              size="2xl"
+              fontFamily="DM Serif"
+              fontWeight="800"
+              letterSpacing="1px"
+            >
+              {data.name}
+            </Heading>
 
-          <Heading size="md" mb={2} px={["4", "4", "2", "2"]}>
+            <Text fontFamily="DM Sans" fontSize="md" color={weightColor}>
+              ({data.nickName})
+            </Text>
+          </VStack>
+
+          {/* <Heading size="md" mb={2} px={["4", "4", "2", "2"]}>
             Results
-          </Heading>
+          </Heading> */}
           <Divider />
           <List px={["4", "4", "2", "2"]}>
             {data.weighIns.map((weighIn: any) => {
               return (
                 <ListItem key={weighIn.id}>
-                  <VStack isInline spacing={0}>
+                  <VStack isInline spacing={0} align="center">
                     {/* <Text fontSize="4xl" fontWeight="400" color="gray.500">
                       —
                     </Text> */}
                     <Text
-                      fontSize="4xl"
+                      fontSize="3xl"
                       // textShadow="lg"
 
                       fontFamily="DM Mono"
                       fontWeight="600"
+                      color={weightColor}
                     >
                       {weighIn.weight}
                     </Text>

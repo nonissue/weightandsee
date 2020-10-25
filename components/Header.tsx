@@ -61,6 +61,9 @@ export const Header: React.FunctionComponent = () => {
               <NextChakraLink href="/weights" color={loginLinkColor}>
                 + Add
               </NextChakraLink>
+              <NextChakraLink href="/people/Alastair">
+                Demo Person
+              </NextChakraLink>
               <NextChakraLink href="/demo">Graphs</NextChakraLink>
               <NextChakraLink href="/demo">Data</NextChakraLink>
             </Stack>
