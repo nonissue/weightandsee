@@ -30,6 +30,7 @@ model Person {
   name      String    @unique
   nickName  String    @unique
   weighIns  WeighIn[]
+  // add current weight?
 
   @@map(name: "people")
 }
@@ -38,7 +39,7 @@ model WeighIn {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @default(now()) @map(name: "updated_at")
-  weighDate DateTime
+  weighDate String
   weight    Int
 
   personId Int?

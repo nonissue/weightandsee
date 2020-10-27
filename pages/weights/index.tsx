@@ -13,246 +13,74 @@
 // Datepicker: https://codesandbox.io/s/react-hook-form-controller-079xx?file=/src/index.js
 
 // Oh man, Chakra isRequired is way better than relying on form errors
-import { useState } from "react";
 import { GetServerSideProps } from "next";
-import Router from "next/router";
 import { PrismaClient } from "@prisma/client";
-import { useForm, Controller } from "react-hook-form";
-import ReactDatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import {
-  Grid,
-  Box,
-  Input,
-  Button,
-  Stack,
-  Select,
-  Divider,
-  FormControl
-} from "@chakra-ui/core";
+import { Grid, Heading, Box } from "@chakra-ui/core";
 
 import { Layout } from "../../components/Layout";
-import { Confirmation } from "../../components/Confirmation";
-import { Participants, FormInputs, FormResult } from "../../interfaces";
+import { WeighIns } from "../../interfaces";
 
 const prisma = new PrismaClient();
-
-function createArrayWithNumbers(length: number) {
-  return Array.from({ length }, (_, k) => k + 1);
-}
-
 // When form submitted, verify that no entries duplicated
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const people = await prisma.person.findMany({
+  const data = await prisma.weighIn.findMany({
     // select: { name: true, nickName: true },
     select: {
       id: true,
-      name: true,
-      nickName: true
+      // weighDate: true,
+      weight: true,
+      person: {
+        select: { name: true }
+      }
     },
-    orderBy: { createdAt: "asc" }
+    // include: { person: { select: { name: true } } },
+    // sort by weightdate
+    orderBy: { createdAt: "desc" }
   });
 
+  // const parsedData = data.map((entry) => {
+  //   return {
+  //     weighDate:
+  //   }
+  // }
+
+  // if we return date, we have to stringify the data, and then type the props as string
+  // which sucks
+  //
+  // we could verify the result from prisma is the right type
+  // stringify it, parse it on the other end, and check the data parsing result is correct type
+  // Or:
+  // - We can change schema for db to use just string for the weighDate, and change form to submit a string
+  // - We can parse the response from prisma and convert all date objects to strings
   return {
-    props: { people }
+    props: { weighIns: data }
   };
 };
 
-const posts: React.FunctionComponent<Participants> = ({ people }) => {
-  const { handleSubmit, errors, control } = useForm<FormInputs>();
+const WeightsPage: React.FunctionComponent<WeighIns> = ({ weighIns }) => {
+  console.log(weighIns);
 
-  const onSubmit = async (data: FormResult) => {
-    console.log(data);
-    // console.log(JSON.stringify(data.entries));
-    // console.log(data.entries?.length);
-    //     data.entries.map(e =>
-    //       alert(
-    //         `${JSON.stringify(data.date.toISOString().split("T")[0])}
-    // ${e.name} / ${e.weight} lbs`
-    //       )
-    //     );
-    try {
-      const res = await fetch(`http://localhost:3000/api/weigh-ins`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      });
-      console.log(res);
-      await Router.push("/people/Edwin");
-    } catch (e) {
-      console.log(e);
-    }
-
-    //     alert(
-    //       `${JSON.stringify(data.date.toISOString().split("T")[0])}
-    // ${data.entry[1].name} / ${data.entry[1].weight}lbs`
-    //     );
-    // try {
-    // Might have to move this to an api call?
-    // https://github.com/prisma/prisma-examples/blob/latest/typescript/rest-nextjs-api-routes-auth/pages/api/post/index.ts
-    // const weighIn = await prisma.weighIn.create({
-    //   data: {
-    //     weight: data.entry[1].weight,
-    //     weighDate: data.date.toISOString().split("T")[0],
-    //     person: {
-    //       connect: { nickName: "Cheese" }
-    //     }
-    //   }
-    // });
-    //   // console.log(weighIn);
-    // } catch (e) {
-    //   console.error(e);
-    // }
-  };
-
-  // const [startDate, setStartDate] = useState(new Date());
-  const startDate = new Date();
-  const [entryCount, setEntryCount] = useState(1);
-
-  const confirmationCallback = () => {
-    setEntryCount(entryCount - 1);
-  };
-
-  // console.log(watch("entry")); // watch input value by passing the name of it
+  // const parsedData: WeighIns = JSON.parse(weighIns);
 
   return (
     <Layout>
       <Grid templateColumns={`1fr min(65ch, 100%) 1fr`}>
         <Grid column="2" my="4" px={["4", "4", "2", "2"]}>
-          {/* "handleSubmit" will validate your inputs before invoking "onSubmit" */}
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Stack spacing={2}>
-              {createArrayWithNumbers(entryCount).map(i => (
-                <Stack key={i} direction={["column", "row"]}>
-                  <Stack w="100%">
-                    <Box w="100%">
-                      <FormControl id="person">
-                        <Controller
-                          name={`entries.[${i}].name`}
-                          as={Select}
-                          control={control}
-                          placeholder="Select Person"
-                          defaultValue=""
-                          isInvalid={errors.entries?.[i]?.name ? true : false}
-                          errorBorderColor="red.300"
-                          rules={{ required: true }}
-                        >
-                          {people.map(p => {
-                            return (
-                              <option key={p.id} value={p.name}>
-                                {p.name}
-                              </option>
-                            );
-                          })}
-                        </Controller>
-                      </FormControl>
-                    </Box>
-                    {errors.entries?.[i]?.name && false && (
-                      <Box
-                        fontFamily="mono"
-                        fontSize="xs"
-                        textColor="red.400"
-                        pl="1"
-                      >
-                        Required
-                      </Box>
-                    )}
-                  </Stack>
-                  <Box w="100%">
-                    <Stack w="100%">
-                      <FormControl id="person">
-                        <Controller
-                          name={`entries.[${i}].weight`}
-                          control={control}
-                          as={Input}
-                          placeholder="Weight (lbs)"
-                          defaultValue=""
-                          isInvalid={errors.entries?.[i]?.weight ? true : false}
-                          rules={{ required: true, min: 2 }}
-                        />
-                        {errors.entries?.[i]?.weight && false && (
-                          <Box
-                            fontFamily="mono"
-                            fontSize="xs"
-                            textColor="red.400"
-                            pl="1"
-                          >
-                            Required
-                          </Box>
-                        )}
-                      </FormControl>
-                    </Stack>
-                  </Box>
-                  <Divider display={["block", "none"]} />
-                </Stack>
-              ))}
-
-              {/* include validation with required or other standard HTML validation rules */}
-              <Stack direction={["column", "row"]}>
-                <Stack direction="row">
-                  <Button
-                    onClick={() => {
-                      setEntryCount(entryCount + 1);
-                    }}
-                    colorScheme="blue"
-                    variant="outline"
-                    w="100%"
-                  >
-                    +
-                  </Button>
-                  {entryCount !== 1 && (
-                    <Confirmation
-                      title="-"
-                      action={confirmationCallback}
-                      variant="outline"
-                      colorScheme="orange"
-                      w="100%"
-                    />
-                  )}
-                </Stack>
-
-                <Box w="100%">
-                  <Stack w="100%">
-                    <Controller
-                      control={control}
-                      name="date"
-                      defaultValue={startDate}
-                      render={({ onChange, onBlur, value }) => (
-                        <ReactDatePicker
-                          onChange={onChange}
-                          onBlur={onBlur}
-                          selected={value}
-                          dateFormat="yyyy/MM/dd"
-                        />
-                      )}
-                      rules={{ required: true }}
-                    />
-                  </Stack>
-                  {errors.date && (
-                    <Box
-                      fontFamily="mono"
-                      fontSize="xs"
-                      textColor="red.400"
-                      pl="1"
-                    >
-                      Required
-                    </Box>
-                  )}
-                </Box>
-
-                <Box w="100%">
-                  <Button colorScheme="green" type="submit" w="100%">
-                    Submit
-                  </Button>
-                </Box>
-              </Stack>
-            </Stack>
-          </form>
+          <Heading>Entries</Heading>
+          <Box mt="2">
+            {weighIns.map(weighIn => {
+              return (
+                <div key={weighIn.id}>
+                  {weighIn.person.name} - {weighIn.weight}lbs - Date Goes Here
+                </div>
+              );
+            })}
+          </Box>
         </Grid>
       </Grid>
     </Layout>
   );
 };
 
-export default posts;
+export default WeightsPage;
