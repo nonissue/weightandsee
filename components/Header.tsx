@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Box, Stack, Text, useColorModeValue } from "@chakra-ui/core";
 import { NextChakraLink } from "./NextChakraLink";
+import { NavItems } from "./Nav";
 import Head from "next/head";
 
 import { Nav } from "./Nav";
@@ -8,7 +9,6 @@ import { Nav } from "./Nav";
 export const Header: React.FunctionComponent = () => {
   const headerColor = useColorModeValue("orange.400", "orange.300");
   const [mobileNavShown, setMobileNavShown] = useState(false);
-  const loginLinkColor = useColorModeValue("green.500", "green.200");
 
   return (
     <>
@@ -58,14 +58,7 @@ export const Header: React.FunctionComponent = () => {
           </Stack>
           {mobileNavShown && (
             <Stack pb={5} spacing={2} fontWeight="bold">
-              <NextChakraLink href="/weights" color={loginLinkColor}>
-                + Add
-              </NextChakraLink>
-              <NextChakraLink href="/people/Alastair">
-                Demo Person
-              </NextChakraLink>
-              <NextChakraLink href="/demo">Graphs</NextChakraLink>
-              <NextChakraLink href="/demo">Data</NextChakraLink>
+              <NavItems />
             </Stack>
           )}
         </Box>
