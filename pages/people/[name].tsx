@@ -13,11 +13,10 @@ import {
 } from "@chakra-ui/core";
 import { Layout } from "../../components/Layout";
 
+const prisma = new PrismaClient();
 // import { Heading, Divider, Box, List} from
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const prisma = new PrismaClient();
-
   const result = await prisma.person.findOne({
     where: { name: params?.name as string },
     include: { weighIns: true }
@@ -41,9 +40,9 @@ export const PersonPage: React.FunctionComponent = ({ test }: any) => {
     <Layout>
       <Grid templateColumns={`1fr min(65ch, 100%) 1fr`}>
         <Grid column="2" my="4" px={["4", "4", "2", "2"]}>
-          <VStack isInline mb="4" px={["4", "4", "2", "2"]}>
+          <VStack isInline mb="4">
             <Heading
-              size="2xl"
+              size="xl"
               fontFamily="DM Serif"
               fontWeight="800"
               letterSpacing="1px"
@@ -60,7 +59,7 @@ export const PersonPage: React.FunctionComponent = ({ test }: any) => {
             Results
           </Heading> */}
           <Divider />
-          <List px={["4", "4", "2", "2"]}>
+          <List>
             {data.weighIns.map((weighIn: any) => {
               return (
                 <ListItem key={weighIn.id}>
