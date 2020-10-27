@@ -44,21 +44,11 @@ export const PeoplePage: React.FunctionComponent<{ data: string }> = ({
       <Grid templateColumns={`1fr min(65ch, 100%) 1fr`}>
         <Grid column="2" my="4" px={["4", "4", "2", "2"]}>
           <VStack isInline mb="3">
-            <Heading
-              size="xl"
-              // fontFamily=""
-              // textTransform="uppercase"
-              letterSpacing="-1px"
-              fontWeight="700"
-              // letterSpacing="1px"
-            >
+            <Heading size="xl" letterSpacing="-1px" fontWeight="700">
               People
             </Heading>
           </VStack>
 
-          {/* <Heading size="md" mb={2} px={["4", "4", "2", "2"]}>
-            Results
-          </Heading> */}
           <Divider borderWidth="1px" />
           <List mt={0}>
             {peopleList.map(person => {
