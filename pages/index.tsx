@@ -31,24 +31,30 @@ const IndexPage: React.FunctionComponent = () => {
       <Grid maxW="min(65ch, 100%)" mx="auto" px={["4", "4", "2", "2"]} my="0">
         <Stack spacing={3} my="4">
           <form onSubmit={e => handleSubmit(e)}>
-            <FormControl id="email" isRequired>
-              <FormLabel>Enter Password</FormLabel>
-              <Input type="password" />
-              <FormHelperText>
-                Password required to access this site.
-              </FormHelperText>
-              <FormErrorMessage>Required</FormErrorMessage>
-            </FormControl>
-            <Stack align="flex-end">
-              <Button
-                mt={4}
-                w={["100%", "20vw"]}
-                colorScheme="teal"
-                isLoading={false}
-                type="submit"
-              >
-                Login
-              </Button>
+            <Stack align="center" direction={["column", "row"]}>
+              <FormControl id="email" isRequired>
+                <FormLabel>Enter Password</FormLabel>
+                <Input type="password" />
+                <FormHelperText>
+                  Password required to access this site.
+                </FormHelperText>
+                <FormErrorMessage>Required</FormErrorMessage>
+              </FormControl>
+              <FormControl w={["100%", "25%"]}>
+                <FormLabel visibility="hidden">Login</FormLabel>
+                <Button
+                  // mt={4}
+                  width="100%"
+                  colorScheme="teal"
+                  isLoading={false}
+                  type="submit"
+                >
+                  Login
+                </Button>
+                <FormHelperText visibility="hidden">
+                  Login button
+                </FormHelperText>
+              </FormControl>
             </Stack>
           </form>
         </Stack>

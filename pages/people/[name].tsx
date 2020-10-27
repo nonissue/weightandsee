@@ -55,22 +55,14 @@ export const PersonPage: React.FunctionComponent = ({ test }: any) => {
             </Text>
           </VStack>
 
-          {/* <Heading size="md" mb={2} px={["4", "4", "2", "2"]}>
-            Results
-          </Heading> */}
           <Divider />
           <List>
             {data.weighIns.map((weighIn: any) => {
               return (
                 <ListItem key={weighIn.id}>
                   <VStack isInline spacing={0} align="center">
-                    {/* <Text fontSize="4xl" fontWeight="400" color="gray.500">
-                      —
-                    </Text> */}
                     <Text
                       fontSize="3xl"
-                      // textShadow="lg"
-
                       fontFamily="DM Mono"
                       fontWeight="600"
                       color={weightColor}
