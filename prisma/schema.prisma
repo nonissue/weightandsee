@@ -39,7 +39,7 @@ model WeighIn {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @default(now()) @map(name: "updated_at")
-  weighDate String
+  weighDate DateTime
   weight    Int
 
   personId Int?
