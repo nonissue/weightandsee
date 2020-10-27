@@ -16,6 +16,10 @@ export type Person = {
   weighIns?: string[];
 };
 
+// export type People = {
+//   people: Person[];
+// };
+
 export type Participants = {
   people: Person[];
 };
@@ -39,3 +43,14 @@ export type FormResult = {
   date: Date;
   entries: Entries;
 };
+
+export type WeighIn = {
+  date: Date;
+  weight: string;
+  person: Person;
+  id: number;
+}
+
+export type WeighIns = {
+  weighIns: WeighIn[];
+}
