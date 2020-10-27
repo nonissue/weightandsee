@@ -15,6 +15,20 @@ type Props = {
   setMobileNavShown: (bool: boolean) => void;
 };
 
+export const NavItems: React.FunctionComponent = () => {
+  const loginLinkColor = useColorModeValue("green.500", "green.200");
+  return (
+    <>
+      <NextChakraLink href="/weights/add" color={loginLinkColor}>
+        + Add
+      </NextChakraLink>
+      <NextChakraLink href="/people">People</NextChakraLink>
+      <NextChakraLink href="/weights">Entries</NextChakraLink>
+      <NextChakraLink href="/demo">Graphs</NextChakraLink>
+    </>
+  );
+};
+
 // Can we render mobile nav in here?
 // or should mobile nav be its own component altogether?
 export const Nav: React.FunctionComponent<Props> = ({
@@ -47,21 +61,7 @@ export const Nav: React.FunctionComponent<Props> = ({
                   </NextChakraLink>
                 </>
               ) : (
-                <>
-                  {" "}
-                  {/* <NextChakraLink href="/posts">Weign In</NextChakraLink> */}
-                  <NextChakraLink href="/weights" color={loginLinkColor}>
-                    + Add
-                  </NextChakraLink>
-                  <NextChakraLink href="/people/Alastair">
-                    Demo Person
-                  </NextChakraLink>
-                  <NextChakraLink href="/demo">Graphs</NextChakraLink>
-                  <NextChakraLink href="/demo">Data</NextChakraLink>
-                  {/* <NextChakraLink href="/logout" color={logoutLinkColor}>
-                    Logout
-                  </NextChakraLink> */}
-                </>
+                <NavItems />
               )}
               ;
               <ColorModeToggle />
