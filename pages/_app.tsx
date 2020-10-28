@@ -4,8 +4,7 @@ import { Chakra } from '../Chakra';
 import type { NextComponentType, NextPageContext } from 'next';
 import type { NextRouter } from 'next/router';
 
-import "react-datepicker/dist/react-datepicker.css";
-import './react-datepicker.css';
+import './react-datepicker.css'; // can we move this elsewhere with next.js 10?
 
 export interface AppRenderProps {
   pageProps: object;
