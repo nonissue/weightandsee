@@ -1,3 +1,7 @@
+# CatchWeight
+
+
+
 ## Components
 
 - [x] Enter single data point
@@ -15,6 +19,12 @@
 - [ ] Add current weight to person schema
   - [ ] How/When to calculate?
     - [ ] When person is updated, sort their weights by date, take latest.
+- [ ] Export all components from `./components/index.tsx` so imports are cleaner
+- [ ] Remove unused `List` components
+
+### WeightTag
+
+- [ ] Accept Stack Props (`{...props}`)
 
 ## Pages
 

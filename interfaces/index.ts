@@ -13,7 +13,7 @@ export type Person = {
   id: number;
   name: string;
   nickName?: string;
-  weighIns?: string[];
+  weighIns?: WeighIn[];
 };
 
 // export type People = {
