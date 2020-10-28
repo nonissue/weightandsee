@@ -1,7 +1,5 @@
 # CatchWeight
 
-
-
 ## Components
 
 - [x] Enter single data point
@@ -28,9 +26,14 @@
 
 ## Pages
 
+### People
+
+- [ ] Fetch current weight of person (and maybe conditionally show green/red based on trend)
+
 ### Weights (EntryList)
 
-- [ ] Group entries by date (set?)
+- [x] Group entries by date (done with conditional logic)
+- [ ] Change date display format to YYYY-MM-DD (currently MM-DD-YYYY)
 
 ## Graphs
 
