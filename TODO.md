@@ -1,5 +1,15 @@
 # CatchWeight
 
+## General
+
+- [ ] Scrollbar shift (fix)
+- [ ] Find a better datepicker
+- [ ] CRUD for entries
+- [ ] Date getting messed up with timezone?
+  - [ ] Set start date hours to 00-00-00 and local to alberta
+  - [ ] Verify issue resolved? I think it is.
+  - [ ] Date is recorded in utc, but we are now parsing it back to America/Denver time, so likely resolved?
+
 ## Components
 
 - [x] Enter single data point
@@ -33,7 +43,7 @@
 ### Weights (EntryList)
 
 - [x] Group entries by date (done with conditional logic)
-- [ ] Change date display format to YYYY-MM-DD (currently MM-DD-YYYY)
+- [x] Change date display format to YYYY-MM-DD (currently MM-DD-YYYY) (`toLocaleDateString('en-CA', { timeZone: 'Americas/Denver' })`)
 
 ## Graphs
 

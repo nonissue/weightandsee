@@ -20,6 +20,7 @@ import { PrismaClient } from "@prisma/client";
 import { useForm, Controller } from "react-hook-form";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+
 import {
   Grid,
   Box,
@@ -236,7 +237,10 @@ const CreateWeights: React.FunctionComponent<Participants> = ({ people }) => {
                       defaultValue={startDate}
                       render={({ onChange, onBlur, value }) => (
                         <ReactDatePicker
-                          onChange={onChange}
+                          onChange={date => {
+                            onChange(date);
+                            console.log(date);
+                          }}
                           onBlur={onBlur}
                           selected={value}
                           dateFormat="yyyy/MM/dd"
