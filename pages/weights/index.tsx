@@ -38,7 +38,9 @@ export const getServerSideProps: GetServerSideProps = async () => {
     parsedData = await data?.map(item => {
       return {
         ...item,
-        weighDate: item.weighDate.toLocaleDateString()
+        weighDate: item.weighDate.toLocaleDateString("en-CA", {
+          timeZone: "America/Denver"
+        })
       };
     });
     console.log(parsedData);
