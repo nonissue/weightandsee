@@ -16,6 +16,12 @@
   - [ ] How/When to calculate?
     - [ ] When person is updated, sort their weights by date, take latest.
 
+## Pages
+
+### Weights (EntryList)
+
+- [ ] Group entries by date (set?)
+
 ## Graphs
 
 ### Everyone

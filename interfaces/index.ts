@@ -45,10 +45,10 @@ export type FormResult = {
 };
 
 export type WeighIn = {
-  date: Date;
   weight: string;
   person: Person;
   id: number;
+  weighDate: string;
 }
 
 export type WeighIns = {
