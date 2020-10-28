@@ -32,6 +32,7 @@ import {
 } from "@chakra-ui/core";
 
 import { Layout } from "../../components/Layout";
+
 import { Confirmation } from "../../components/Confirmation";
 import { Participants, FormInputs, FormResult } from "../../interfaces";
 
@@ -70,7 +71,7 @@ const CreateWeights: React.FunctionComponent<Participants> = ({ people }) => {
 
   const onSubmit = async (data: FormResult) => {
     console.log(data);
-    const strDate = data.date.toISOString().split("T")[0];
+    const strDate = data.date.toLocaleDateString();
     console.log(strDate);
     console.log(typeof strDate);
 

@@ -6,13 +6,13 @@ import {
   Grid,
   List,
   ListItem,
-  Text,
   VStack,
   Divider,
   Stack,
   useColorModeValue
 } from "@chakra-ui/core";
 import { Layout } from "../../components/Layout";
+import { WeightTag } from "../../components/WeightTag";
 import { NextChakraLink } from "../../components/NextChakraLink";
 
 const prisma = new PrismaClient();
@@ -34,10 +34,8 @@ export const PeoplePage: React.FunctionComponent<{ data: string }> = ({
   data
 }) => {
   const peopleList: Person[] = JSON.parse(data);
-  const weightColor = useColorModeValue("gray.700", "gray.300");
-  const weightBGColor = useColorModeValue("gray.200", "gray.700");
-  const weightBorderColor = useColorModeValue("gray.300", "gray.600");
-  const lbsColor = useColorModeValue("gray.500", "gray.500");
+  console.log(peopleList);
+  const nameColor = useColorModeValue("gray.700", "gray.300");
 
   return (
     <Layout>
@@ -49,51 +47,32 @@ export const PeoplePage: React.FunctionComponent<{ data: string }> = ({
             </Heading>
           </VStack>
 
-          <Divider borderWidth="1px" />
-          <List mt={0}>
-            {peopleList.map(person => {
+          <List spacing={1} mt={0}>
+            <Divider borderWidth="1px" />
+            {peopleList.map((person, k) => {
               return (
-                <ListItem pl="0" fontFamily="" key={person.id}>
-                  <Stack isInline align="center" spacing="0">
+                <ListItem key={person.id}>
+                  <Stack
+                    isInline
+                    align="center"
+                    spacing="0"
+                    // justifyContent="space-between"
+                    justifyContent="space-between"
+                  >
                     <NextChakraLink
-                      fontWeight="500"
-                      // letterSpacing="-0.5px"
+                      fontWeight="600"
                       fontSize="2xl"
                       mr="2"
-                      // fontStyle="italic"
-                      color={weightColor}
+                      color={nameColor}
                       href={`/people/${person.name}`}
                     >
                       {person.name}
                     </NextChakraLink>
-                    <Stack
-                      isInline
-                      spacing="0"
-                      borderBottom="1px"
-                      px="1"
-                      align="center"
-                      borderRadius="4px"
-                      background={weightBGColor}
-                      fontSize="xs"
-                      borderBottomColor={weightBorderColor}
-                    >
-                      <Text
-                        fontSize="xs"
-                        // background={weightBorderColor}
-
-                        fontWeight="400"
-                        px={0}
-                        fontFamily="mono"
-                        color={weightColor}
-                      >
-                        180
-                      </Text>
-                      <Text fontWeight="400" color={lbsColor}>
-                        &nbsp;lbs
-                      </Text>
-                    </Stack>
+                    <WeightTag weight="179" />
                   </Stack>
-                  <Divider borderWidth="0.5px" />
+                  {k !== peopleList.length - 1 && (
+                    <Divider borderWidth="0.5px" />
+                  )}
                 </ListItem>
               );
             })}
