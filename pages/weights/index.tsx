@@ -14,19 +14,17 @@ const prisma = new PrismaClient();
 
 export const getServerSideProps: GetServerSideProps = async () => {
   let data;
-
   try {
     data = await prisma.weighIn.findMany({
-      // select: { name: true, nickName: true },
       select: {
         id: true,
         weighDate: true,
         weight: true,
         person: {
-          select: { name: true }
-        }
+          select: { name: true },
+        },
       },
-      orderBy: { weighDate: "desc" }
+      orderBy: { weighDate: "desc" },
     });
   } catch (e) {
     console.log("Error fetching entries");
@@ -35,12 +33,12 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
   let parsedData;
   try {
-    parsedData = await data?.map(item => {
+    parsedData = await data?.map((item) => {
       return {
         ...item,
         weighDate: item.weighDate.toLocaleDateString("en-CA", {
-          timeZone: "America/Denver"
-        })
+          timeZone: "America/Denver",
+        }),
       };
     });
     console.log(parsedData);
@@ -58,7 +56,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   // - We can change schema for db to use just string for the weighDate, and change form to submit a string
   // - We can parse the response from prisma and convert all date objects to strings
   return {
-    props: { weighIns: parsedData }
+    props: { weighIns: parsedData },
   };
 };
 
@@ -67,13 +65,26 @@ const WeightsPage: React.FunctionComponent<WeighIns> = ({ weighIns }) => {
 
   let lastDate: string;
 
+  if (weighIns.length === 0) {
+    return (
+      <Layout>
+        <Grid templateColumns={`1fr min(65ch, 100%) 1fr`}>
+          <Grid column="2" my="4" px={["4", "4", "2", "2"]}>
+            <Heading mb="4">Weigh-Ins</Heading>
+            <Text>No data yet! Click add to start using weightandsee.</Text>
+          </Grid>
+        </Grid>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <Grid templateColumns={`1fr min(65ch, 100%) 1fr`}>
         <Grid column="2" my="4" px={["4", "4", "2", "2"]}>
-          <Heading>Entries</Heading>
+          <Heading>Weigh Ins</Heading>
           <Stack mt="1" spacing={1}>
-            {weighIns.map(weighIn => {
+            {weighIns.map((weighIn) => {
               const showDate = weighIn.weighDate === lastDate ? false : true;
               lastDate = weighIn.weighDate;
 
@@ -112,8 +123,6 @@ const WeightsPage: React.FunctionComponent<WeighIns> = ({ weighIns }) => {
                       {weighIn.person.name}
                     </NextChakraLink>
                     <WeightTag weight={weighIn.weight} />
-                    {/* <Text display="inline">{weighIn.weight}</Text> */}
-                    {/* <Text display="inline">lbs</Text> */}
                   </Stack>
                 </Stack>
               );

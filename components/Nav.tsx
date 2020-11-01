@@ -3,9 +3,13 @@ import {
   Box,
   Stack,
   IconButton,
-  useColorModeValue
+  useColorModeValue,
 } from "@chakra-ui/core";
-import { Menu } from "heroicons-react";
+import {
+  Menu,
+  InformationCircleOutline,
+  InformationCircle,
+} from "heroicons-react";
 import { useBreakpointValue } from "@chakra-ui/media-query";
 import { NextChakraLink } from "./NextChakraLink";
 import { ColorModeToggle } from "./ColorModeToggle";
@@ -23,9 +27,9 @@ export const NavItems: React.FunctionComponent = () => {
         + Add
       </NextChakraLink>
       <NextChakraLink href="/people">People</NextChakraLink>
-      <NextChakraLink href="/weights">Entries</NextChakraLink>
+      <NextChakraLink href="/weights">Weigh-Ins</NextChakraLink>
       <NextChakraLink href="/demo">Graphs</NextChakraLink>
-      <NextChakraLink href="/about">About</NextChakraLink>
+      {/* <NextChakraLink href="/about">About</NextChakraLink> */}
     </>
   );
 };
@@ -34,9 +38,16 @@ export const NavItems: React.FunctionComponent = () => {
 // or should mobile nav be its own component altogether?
 export const Nav: React.FunctionComponent<Props> = ({
   mobileNavShown,
-  setMobileNavShown
+  setMobileNavShown,
 }) => {
-  const showBurger = useBreakpointValue({ base: false, sm: true });
+  // this is actually the opposite of what we expect?
+  const showBurger = useBreakpointValue({
+    base: true,
+    sm: true,
+    md: false,
+    lg: false,
+  });
+
   // const logoutLinkColor = useColorModeValue("orange.500", "orange.200");
   const loginLinkColor = useColorModeValue("green.500", "green.200");
   const user = true;
@@ -47,28 +58,18 @@ export const Nav: React.FunctionComponent<Props> = ({
   return (
     <>
       <Box>
-        <Stack isInline spacing={4} alignItems="center">
+        <Stack isInline spacing={0} alignItems="center">
           {showBurger ? (
-            <Stack
-              isInline
-              spacing={6}
-              alignItems="center"
-              fontWeight="semibold"
-            >
-              {!user ? (
-                <>
-                  <NextChakraLink href="/demo" color={loginLinkColor}>
-                    Login
-                  </NextChakraLink>
-                </>
-              ) : (
-                <NavItems />
-              )}
-              ;
-              <ColorModeToggle />
-            </Stack>
-          ) : (
             <Flex justifyContent="flex-end" alignItems="center" width="100%">
+              <NextChakraLink href="/about">
+                <IconButton
+                  marginLeft="1"
+                  size="sm"
+                  aria-label={`About/Info`}
+                  variant="ghost"
+                  icon={<InformationCircleOutline />}
+                />
+              </NextChakraLink>
               <ColorModeToggle />
 
               <IconButton
@@ -83,6 +84,36 @@ export const Nav: React.FunctionComponent<Props> = ({
                 }}
               />
             </Flex>
+          ) : (
+            <Stack
+              isInline
+              spacing={["4", "4", "4", "6"]}
+              alignItems="center"
+              fontWeight="semibold"
+            >
+              {!user ? (
+                <>
+                  <NextChakraLink href="/demo" color={loginLinkColor}>
+                    Login
+                  </NextChakraLink>
+                </>
+              ) : (
+                <NavItems />
+              )}
+              ;
+              <Stack isInline spacing={1}>
+                <NextChakraLink href="/about">
+                  <IconButton
+                    // marginLeft="1"
+                    size="sm"
+                    aria-label={`About/Info`}
+                    variant="ghost"
+                    icon={<InformationCircleOutline />}
+                  />
+                </NextChakraLink>
+                <ColorModeToggle />
+              </Stack>
+            </Stack>
           )}
         </Stack>
       </Box>

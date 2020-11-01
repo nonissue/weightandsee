@@ -13,7 +13,7 @@ export const Header: React.FunctionComponent = () => {
   return (
     <>
       <Head>
-        <title>CatchWeight</title>
+        <title>WeightAndSee</title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
@@ -29,7 +29,7 @@ export const Header: React.FunctionComponent = () => {
               <NextChakraLink
                 href="/"
                 _hover={{
-                  color: headerColor
+                  color: headerColor,
                 }}
               >
                 <Stack
@@ -41,10 +41,13 @@ export const Header: React.FunctionComponent = () => {
                   mr={12}
                 >
                   <Text fontFamily="DM Sans" fontWeight="700">
-                    catch
-                  </Text>
-                  <Text fontFamily="DM Sans" fontStyle="">
                     weight
+                  </Text>
+                  <Text fontFamily="DM Sans" fontWeight="400">
+                    &
+                  </Text>
+                  <Text fontFamily="DM Sans" fontWeight="700">
+                    see
                   </Text>
                 </Stack>
               </NextChakraLink>
