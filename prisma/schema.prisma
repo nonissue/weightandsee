@@ -30,7 +30,7 @@ model Person {
   name      String    @unique
   nickName  String    @unique
   weighIns  WeighIn[]
-  // add current weight?
+
 
   @@map(name: "people")
 }

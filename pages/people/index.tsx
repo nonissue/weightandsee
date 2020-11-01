@@ -9,7 +9,8 @@ import {
   VStack,
   Divider,
   Stack,
-  useColorModeValue
+  Text,
+  useColorModeValue,
 } from "@chakra-ui/core";
 import { Layout } from "../../components/Layout";
 import { WeightTag } from "../../components/WeightTag";
@@ -20,18 +21,18 @@ const prisma = new PrismaClient();
 export const getServerSideProps: GetServerSideProps = async () => {
   const result = await prisma.person.findMany({
     // where: { name: params?.name as string },
-    include: { weighIns: true }
+    include: { weighIns: true },
   });
 
   console.log(result);
 
   return {
-    props: { data: JSON.stringify(result) }
+    props: { data: JSON.stringify(result) },
   };
 };
 
 export const PeoplePage: React.FunctionComponent<{ data: string }> = ({
-  data
+  data,
 }) => {
   const peopleList: Person[] = JSON.parse(data);
   console.log(peopleList);
@@ -56,7 +57,6 @@ export const PeoplePage: React.FunctionComponent<{ data: string }> = ({
                     isInline
                     align="center"
                     spacing="0"
-                    // justifyContent="space-between"
                     justifyContent="space-between"
                   >
                     <NextChakraLink
@@ -68,6 +68,11 @@ export const PeoplePage: React.FunctionComponent<{ data: string }> = ({
                     >
                       {person.name}
                     </NextChakraLink>
+                    <Text>
+                      {/* {person?.weighIns?.length !== 0
+                        ? person.weighIns[0]
+                        : "No data"} */}
+                    </Text>
                     <WeightTag weight="179" />
                   </Stack>
                   {k !== peopleList.length - 1 && (

@@ -1,18 +1,5 @@
-// https://spectrum.chat/react-hook-form/help/usefieldarray-append-remove-clearing-form-data~37c65e57-411e-489b-a4dd-2f0df7277954
-// https://codesandbox.io/s/react-hook-form-usefieldarray-vy8fv?from-embed
-// https://github.com/react-hook-form/react-hook-form/issues/398
+// componentize some of this
 
-// Error handling: https://github.com/react-hook-form/react-hook-form/blob/master/examples/FieldArray.tsx
-// https://github.com/react-hook-form/react-hook-form/issues/1617
-
-// https://github.com/react-hook-form/react-hook-form/issues/978 -> Original solution
-
-// (PRETTY CLEAN TBH) simple form with add / remove https://codesandbox.io/s/6j1760jkjk
-// Proper json stringify: https://codesandbox.io/s/react-hook-form-v6-controller-append-prepepend-insert-7clz7?file=/src/index.js
-
-// Datepicker: https://codesandbox.io/s/react-hook-form-controller-079xx?file=/src/index.js
-
-// Oh man, Chakra isRequired is way better than relying on form errors
 import { useState } from "react";
 import { GetServerSideProps } from "next";
 import Router from "next/router";
@@ -44,7 +31,6 @@ function createArrayWithNumbers(length: number) {
 }
 
 // When form submitted, verify that no entries duplicated
-
 export const getServerSideProps: GetServerSideProps = async () => {
   const people = await prisma.person.findMany({
     // select: { name: true, nickName: true },
@@ -76,25 +62,6 @@ const CreateWeights: React.FunctionComponent<Participants> = ({ people }) => {
     console.log(strDate);
     console.log(typeof strDate);
 
-    // const parsedData = {
-    //   ...data,
-    //   date: strDate
-    // };
-
-    // const stringifyDate = {
-    //   date: data.date.toISOString().split("T")[0],
-    //   ...data
-    // };
-
-    // data.date = data.date.toISOString().split("T")[0];
-    // console.log(JSON.stringify(data.entries));
-    // console.log(data.entries?.length);
-    //     data.entries.map(e =>
-    //       alert(
-    //         `${JSON.stringify(data.date.toISOString().split("T")[0])}
-    // ${e.name} / ${e.weight} lbs`
-    //       )
-    //     );
     try {
       const res = await fetch(`/api/weigh-ins`, {
         method: "POST",
@@ -106,32 +73,7 @@ const CreateWeights: React.FunctionComponent<Participants> = ({ people }) => {
     } catch (e) {
       console.log(e);
     }
-
-    //     alert(
-    //       `${JSON.stringify(data.date.toISOString().split("T")[0])}
-    // ${data.entry[1].name} / ${data.entry[1].weight}lbs`
-    //     );
-    // try {
-    // Might have to move this to an api call?
-    // https://github.com/prisma/prisma-examples/blob/latest/typescript/rest-nextjs-api-routes-auth/pages/api/post/index.ts
-    // const weighIn = await prisma.weighIn.create({
-    //   data: {
-    //     weight: data.entry[1].weight,
-    //     weighDate: data.date.toISOString().split("T")[0],
-    //     person: {
-    //       connect: { nickName: "Cheese" }
-    //     }
-    //   }
-    // });
-    //   // console.log(weighIn);
-    // } catch (e) {
-    //   console.error(e);
-    // }
   };
-
-  // const [startDate, setStartDate] = useState(new Date());
-
-  // console.log(watch("entry")); // watch input value by passing the name of it
 
   return (
     <Layout>
