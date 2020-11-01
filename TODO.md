@@ -10,7 +10,7 @@
   - [x] Verify issue resolved? I think it is.
   - [x] Date is recorded in utc, but we are now parsing it back to America/Denver time, so likely resolved?
 - [ ] Make current weight avaiable somehow
-- [x] Fix menu line breaking on screen size between mobile and desktop? (480px - 540px) FIX: Show hamburger on sm & md sizes
+- [x] Fix menu line breaking on screen size between mobile and desktop? (480px - 540px) // FIXed I think: Show hamburger on sm & md sizes
 
 ## Next
 
