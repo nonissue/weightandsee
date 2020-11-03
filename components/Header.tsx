@@ -7,7 +7,9 @@ import Head from "next/head";
 import { Nav } from "./Nav";
 
 export const Header: React.FunctionComponent = () => {
-  const headerColor = useColorModeValue("orange.400", "orange.300");
+  const headerColor = useColorModeValue("pink.400", "pink.300");
+  const headerBg = useColorModeValue("gray.100", "gray.700");
+  const headerDs = useColorModeValue("xs", "md");
   const [mobileNavShown, setMobileNavShown] = useState(false);
 
   return (
@@ -17,7 +19,7 @@ export const Header: React.FunctionComponent = () => {
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <Box shadow="md" mb="6" as="header">
+      <Box shadow={headerDs} mb="6" as="header" bg={headerBg}>
         <Box maxW="min(65ch, 100%)" mx="auto" px={["4", "4", "2", "2"]}>
           <Stack
             isInline
