@@ -9,7 +9,9 @@
   - [x] Set start date hours to 00-00-00 and local to alberta
   - [x] Verify issue resolved? I think it is.
   - [x] Date is recorded in utc, but we are now parsing it back to America/Denver time, so likely resolved?
-- [ ] Make current weight avaiable somehow
+- [x] Make current weight avaiable somehow
+  - Form lets you specify whether or not to update individuals weights
+  - The current weight is shown on the People page
 - [x] Fix menu line breaking on screen size between mobile and desktop? (480px - 540px) // FIXed I think: Show hamburger on sm & md sizes
 
 ## Next
@@ -39,6 +41,7 @@
     - [ ] When person is updated, sort their weights by date, take latest.
 - [ ] Export all components from `./components/index.tsx` so imports are cleaner
 - [ ] Remove unused `List` components
+- [x] Add Footer
 
 ### WeightTag
 
