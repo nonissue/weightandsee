@@ -1,3 +1,5 @@
+import { GA_TRACKING_ID } from "../lib/gtag";
+
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { ColorModeScript } from "@chakra-ui/core";
 import NextDocument, {
@@ -5,7 +7,7 @@ import NextDocument, {
   Head,
   Html,
   Main,
-  NextScript
+  NextScript,
 } from "next/document";
 
 export default class Document extends NextDocument {
@@ -32,6 +34,22 @@ export default class Document extends NextDocument {
           <link
             href="https://fonts.googleapis.com/css2?family=Recursive:wght@300;400;500;600;700;800;850;900&display=swap"
             rel="stylesheet"
+          />
+          <script
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+          />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_TRACKING_ID}', {
+              page_path: window.location.pathname,
+            });
+          `,
+            }}
           />
         </Head>
         <body>
