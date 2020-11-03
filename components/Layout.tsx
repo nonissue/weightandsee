@@ -2,6 +2,7 @@ import { Box } from "@chakra-ui/core";
 import React, { ReactNode } from "react";
 
 import { Header } from "./Header";
+import { Footer } from "./Footer";
 
 // import Link from 'next/link';
 // import Head from 'next/head';
@@ -16,5 +17,7 @@ export const Layout: React.FunctionComponent<Props> = ({ children }) => (
     <Header />
 
     {children}
+
+    <Footer />
   </Box>
 );
