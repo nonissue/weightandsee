@@ -3,7 +3,7 @@ import { useColorModeValue, Stack, Text } from "@chakra-ui/core";
 // TODO: Accept stack props as {...props}
 
 export const WeightTag: React.FunctionComponent<{ weight: string }> = ({
-  weight
+  weight,
 }) => {
   const weightColor = useColorModeValue("gray.700", "gray.300");
   const weightBGColor = useColorModeValue("gray.200", "gray.700");
