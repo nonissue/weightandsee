@@ -82,7 +82,9 @@ const WeightsPage: React.FunctionComponent<WeighIns> = ({ weighIns }) => {
     <Layout>
       <Grid templateColumns={`1fr min(65ch, 100%) 1fr`}>
         <Grid column="2" my="4" px={["4", "4", "2", "2"]}>
-          <Heading>Weigh Ins</Heading>
+          <Heading mb="3" size="lg" letterSpacing="-1px" fontWeight="700">
+            Weigh Ins
+          </Heading>
           <Stack mt="1" spacing={1}>
             {weighIns.map((weighIn) => {
               const showDate = weighIn.weighDate === lastDate ? false : true;
@@ -92,11 +94,7 @@ const WeightsPage: React.FunctionComponent<WeighIns> = ({ weighIns }) => {
                 <Stack spacing={0} key={weighIn.id}>
                   {showDate && (
                     <>
-                      <Divider
-                        // borderWidth="px"
-                        mt={1}
-                        borderColor="gray.400"
-                      />
+                      <Divider borderWidth="1.5px" mt={1} />
                       <Text
                         fontSize="xl"
                         fontFamily="mono"
@@ -127,6 +125,7 @@ const WeightsPage: React.FunctionComponent<WeighIns> = ({ weighIns }) => {
                 </Stack>
               );
             })}
+            <Divider borderWidth="1px" />
           </Stack>
         </Grid>
       </Grid>

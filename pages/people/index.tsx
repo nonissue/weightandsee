@@ -19,6 +19,7 @@ const prisma = new PrismaClient();
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const result = await prisma.person.findMany({
+    orderBy: { name: "asc" },
     // where: { name: params?.name as string },
     include: { weighIns: true },
   });
@@ -42,13 +43,14 @@ export const PeoplePage: React.FunctionComponent<{ data: string }> = ({
       <Grid templateColumns={`1fr min(65ch, 100%) 1fr`}>
         <Grid column="2" my="4" px={["4", "4", "2", "2"]}>
           <VStack isInline mb="3">
-            <Heading size="xl" letterSpacing="-1px" fontWeight="700">
+            {/* <Heading size="xl" letterSpacing="-1px" fontWeight="700"> */}
+            <Heading size="lg" letterSpacing="-1px" fontWeight="700">
               People
             </Heading>
           </VStack>
 
           <List spacing={0} mt={0}>
-            <Divider borderWidth="1px" />
+            <Divider borderWidth="1.5px" mt={1} />
             {peopleList.map((person, k) => {
               return (
                 <ListItem m="0" p="0" key={person.id}>
@@ -73,9 +75,7 @@ export const PeoplePage: React.FunctionComponent<{ data: string }> = ({
                         <WeightTag weight={String(person.currentWeight)} />
                       )}
                   </Stack>
-                  {k !== peopleList.length - 1 && (
-                    <Divider borderWidth="0.5px" />
-                  )}
+                  {k !== peopleList.length - 1 && <Divider />}
                 </ListItem>
               );
             })}
