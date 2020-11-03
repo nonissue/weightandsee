@@ -1,7 +1,7 @@
 // componentize some of this
 
 import { useState } from "react";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Router from "next/router";
 import { PrismaClient } from "@prisma/client";
 import { useForm, Controller } from "react-hook-form";
@@ -16,7 +16,9 @@ import {
   Stack,
   Select,
   Divider,
-  FormControl
+  FormControl,
+  Checkbox,
+  Flex,
 } from "@chakra-ui/core";
 
 import { Layout } from "../../components/Layout";
@@ -25,6 +27,12 @@ import { Confirmation } from "../../components/Confirmation";
 import { Participants, FormInputs, FormResult } from "../../interfaces";
 
 const prisma = new PrismaClient();
+
+type Person = {
+  id: number;
+  name: string;
+  nickName: string;
+};
 
 function createArrayWithNumbers(length: number) {
   return Array.from({ length }, (_, k) => k + 1);
@@ -37,17 +45,19 @@ export const getServerSideProps: GetServerSideProps = async () => {
     select: {
       id: true,
       name: true,
-      nickName: true
+      nickName: true,
     },
-    orderBy: { createdAt: "asc" }
+    orderBy: { name: "asc" },
   });
 
   return {
-    props: { people }
+    props: { people },
   };
 };
 
-const CreateWeights: React.FunctionComponent<Participants> = ({ people }) => {
+const CreateWeights: React.FunctionComponent<Participants> = ({
+  people,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { handleSubmit, errors, control } = useForm<FormInputs>();
   const startDate = new Date();
   const [entryCount, setEntryCount] = useState(1);
@@ -57,6 +67,8 @@ const CreateWeights: React.FunctionComponent<Participants> = ({ people }) => {
   };
 
   const onSubmit = async (data: FormResult) => {
+    // data.updateCurrentWeight = checked;
+
     console.log(data);
     const strDate = data.date.toLocaleDateString();
     console.log(strDate);
@@ -66,7 +78,7 @@ const CreateWeights: React.FunctionComponent<Participants> = ({ people }) => {
       const res = await fetch(`/api/weigh-ins`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
       });
       console.log(res);
       await Router.push("/weights");
@@ -82,7 +94,7 @@ const CreateWeights: React.FunctionComponent<Participants> = ({ people }) => {
           {/* "handleSubmit" will validate your inputs before invoking "onSubmit" */}
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={2}>
-              {createArrayWithNumbers(entryCount).map(i => (
+              {createArrayWithNumbers(entryCount).map((i) => (
                 <Stack key={i} direction={["column", "row"]}>
                   <Stack w="100%">
                     <Box w="100%">
@@ -97,7 +109,7 @@ const CreateWeights: React.FunctionComponent<Participants> = ({ people }) => {
                           errorBorderColor="red.300"
                           rules={{ required: true }}
                         >
-                          {people.map(p => {
+                          {people.map((p: Person) => {
                             return (
                               <option key={p.id} value={p.name}>
                                 {p.name}
@@ -147,7 +159,6 @@ const CreateWeights: React.FunctionComponent<Participants> = ({ people }) => {
                 </Stack>
               ))}
 
-              {/* include validation with required or other standard HTML validation rules */}
               <Stack direction={["column", "row"]}>
                 <Stack direction="row">
                   <Button
@@ -179,9 +190,8 @@ const CreateWeights: React.FunctionComponent<Participants> = ({ people }) => {
                       defaultValue={startDate}
                       render={({ onChange, onBlur, value }) => (
                         <ReactDatePicker
-                          onChange={date => {
+                          onChange={(date) => {
                             onChange(date);
-                            console.log(date);
                           }}
                           onBlur={onBlur}
                           selected={value}
@@ -209,6 +219,28 @@ const CreateWeights: React.FunctionComponent<Participants> = ({ people }) => {
                   </Button>
                 </Box>
               </Stack>
+              <FormControl
+                as={Flex}
+                justifyContent="flex-start"
+                alignItems="center"
+              >
+                <Controller
+                  control={control}
+                  name="updateCurrentWeight"
+                  defaultValue={true}
+                  render={({ onChange, onBlur }) => (
+                    <Checkbox
+                      onBlur={onBlur}
+                      onChange={(e) => {
+                        onChange(e.target.checked);
+                      }}
+                      defaultIsChecked
+                    >
+                      Update Current Weight(s)
+                    </Checkbox>
+                  )}
+                />
+              </FormControl>
             </Stack>
           </form>
         </Grid>
