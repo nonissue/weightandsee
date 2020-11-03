@@ -5,7 +5,7 @@
 - [ ] Scrollbar shift (fix)
 - [ ] Password
 - [ ] CRUD for entries
-- [ ] Date getting messed up with timezone?
+- [x] Date getting messed up with timezone?
   - [x] Set start date hours to 00-00-00 and local to alberta
   - [x] Verify issue resolved? I think it is.
   - [x] Date is recorded in utc, but we are now parsing it back to America/Denver time, so likely resolved?
@@ -55,7 +55,7 @@
 
 ### People
 
-- [ ] Fetch current weight of person (and maybe conditionally show green/red based on trend)
+- [x] Fetch current weight of person (and maybe conditionally show green/red based on trend)
 
 ### Weights (Weigh-Ins)
 
