@@ -1,4 +1,4 @@
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { PrismaClient } from "@prisma/client";
 import { Person } from "../../interfaces";
 import {
@@ -9,7 +9,6 @@ import {
   VStack,
   Divider,
   Stack,
-  Text,
   useColorModeValue,
 } from "@chakra-ui/core";
 import { Layout } from "../../components/Layout";
@@ -33,7 +32,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
 export const PeoplePage: React.FunctionComponent<{ data: string }> = ({
   data,
-}) => {
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const peopleList: Person[] = JSON.parse(data);
   console.log(peopleList);
   const nameColor = useColorModeValue("gray.700", "gray.300");
@@ -48,11 +47,11 @@ export const PeoplePage: React.FunctionComponent<{ data: string }> = ({
             </Heading>
           </VStack>
 
-          <List spacing={1} mt={0}>
+          <List spacing={0} mt={0}>
             <Divider borderWidth="1px" />
             {peopleList.map((person, k) => {
               return (
-                <ListItem key={person.id}>
+                <ListItem m="0" p="0" key={person.id}>
                   <Stack
                     isInline
                     align="center"
@@ -68,12 +67,11 @@ export const PeoplePage: React.FunctionComponent<{ data: string }> = ({
                     >
                       {person.name}
                     </NextChakraLink>
-                    <Text>
-                      {/* {person?.weighIns?.length !== 0
-                        ? person.weighIns[0]
-                        : "No data"} */}
-                    </Text>
-                    <WeightTag weight="179" />
+
+                    {person.currentWeight !== undefined &&
+                      person.currentWeight && (
+                        <WeightTag weight={String(person.currentWeight)} />
+                      )}
                   </Stack>
                   {k !== peopleList.length - 1 && (
                     <Divider borderWidth="0.5px" />
