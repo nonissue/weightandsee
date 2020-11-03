@@ -14,6 +14,7 @@ export type Person = {
   name: string;
   nickName?: string;
   weighIns?: WeighIn[];
+  currentWeight?: number;
 };
 
 // export type People = {
@@ -42,6 +43,7 @@ export type FormInputs = {
 export type FormResult = {
   date: Date;
   entries: Entries;
+  updateCurrentWeight: boolean;
 };
 
 export type WeighIn = {
