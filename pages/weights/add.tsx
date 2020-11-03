@@ -214,7 +214,7 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
                 </Box>
 
                 <Box w="100%">
-                  <Button colorScheme="green" type="submit" w="100%">
+                  <Button colorScheme="blue" type="submit" w="100%">
                     Submit
                   </Button>
                 </Box>
@@ -234,6 +234,8 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
                       onChange={(e) => {
                         onChange(e.target.checked);
                       }}
+                      my={["1", "1"]}
+                      mx={["0", "0"]}
                       defaultIsChecked
                     >
                       Update Current Weight(s)

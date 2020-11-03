@@ -6,7 +6,7 @@ import {
   FormControl,
   FormLabel,
   FormErrorMessage,
-  FormHelperText
+  FormHelperText,
 } from "@chakra-ui/core";
 import { FormEvent } from "react";
 import { useRouter } from "next/router";
@@ -30,7 +30,7 @@ const IndexPage: React.FunctionComponent = () => {
     <Layout>
       <Grid maxW="min(65ch, 100%)" mx="auto" px={["4", "4", "2", "2"]} my="0">
         <Stack spacing={3} my="4">
-          <form onSubmit={e => handleSubmit(e)}>
+          <form onSubmit={(e) => handleSubmit(e)}>
             <Stack align="center" direction={["column", "row"]}>
               <FormControl id="email" isRequired>
                 <FormLabel>Enter Password</FormLabel>
@@ -45,7 +45,7 @@ const IndexPage: React.FunctionComponent = () => {
                 <Button
                   // mt={4}
                   width="100%"
-                  colorScheme="teal"
+                  colorScheme="pink"
                   isLoading={false}
                   type="submit"
                 >

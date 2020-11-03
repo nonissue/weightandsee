@@ -16,7 +16,7 @@ type Props = {
 };
 
 export const NavItems: React.FunctionComponent = () => {
-  const loginLinkColor = useColorModeValue("green.500", "green.200");
+  const loginLinkColor = useColorModeValue("pink.500", "pink.200");
   return (
     <>
       <NextChakraLink href="/weights/add" color={loginLinkColor}>
