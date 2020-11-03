@@ -1,7 +1,7 @@
-import { Heading, Text, Grid, Divider } from "@chakra-ui/core";
+import { Heading, Text, Grid } from "@chakra-ui/core";
 
 import { Layout } from "../components/Layout";
-import { NextChakraLink } from "../components/NextChakraLink";
+// import { NextChakraLink } from "../components/NextChakraLink";
 
 const DemoPage: React.FunctionComponent = () => (
   <Layout title="About | nonstarter">
@@ -9,8 +9,8 @@ const DemoPage: React.FunctionComponent = () => (
       templateColumns={`1fr min(65ch, 100%) 1fr`}
       sx={{
         "& > *": {
-          gridColumn: 2
-        }
+          gridColumn: 2,
+        },
       }}
       rowGap={3}
     >
@@ -21,14 +21,6 @@ const DemoPage: React.FunctionComponent = () => (
       </Grid>
       <Text px={["4", "4", "2", "2"]}>
         This functionality hasn&apos;t been implemeneted yet.
-      </Text>
-      <Grid px={["4", "4", "2", "2"]}>
-        <Divider />
-      </Grid>
-      <Text px={["4", "4", "2", "2"]}>
-        <NextChakraLink href="/" fontFamily="mono">
-          Home
-        </NextChakraLink>
       </Text>
     </Grid>
   </Layout>
