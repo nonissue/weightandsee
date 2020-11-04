@@ -5,6 +5,7 @@
 - [ ] Scrollbar shift (fix)
 - [ ] Password
 - [ ] CRUD for entries
+- [ ] Setup develop branch
 - [x] Date getting messed up with timezone?
   - [x] Set start date hours to 00-00-00 and local to alberta
   - [x] Verify issue resolved? I think it is.
