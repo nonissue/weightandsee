@@ -1,7 +1,8 @@
 // componentize some of this
 
 import { useState } from "react";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { GetStaticProps, InferGetStaticPropsType } from "next";
+// eslint-disable-next-line import/no-named-as-default
 import Router from "next/router";
 import { PrismaClient } from "@prisma/client";
 import { useForm, Controller } from "react-hook-form";
@@ -20,9 +21,8 @@ import {
   Flex,
 } from "@chakra-ui/core";
 
-import { Layout } from "../../components/Layout";
+import { Confirmation, Layout } from "../../components";
 
-import { Confirmation } from "../../components/Confirmation";
 import { Participants, FormInputs, FormResult } from "../../interfaces";
 
 const prisma = new PrismaClient();
@@ -38,7 +38,7 @@ function createArrayWithNumbers(length: number) {
 }
 
 // When form submitted, verify that no entries duplicated
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const people = await prisma.person.findMany({
     // select: { name: true, nickName: true },
     select: {
@@ -56,7 +56,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
 const CreateWeights: React.FunctionComponent<Participants> = ({
   people,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { handleSubmit, errors, control } = useForm<FormInputs>();
   const startDate = new Date();
   const [entryCount, setEntryCount] = useState(1);

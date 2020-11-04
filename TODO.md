@@ -10,7 +10,13 @@
     - [ ] `copy`, `rimraf`, `run-s`
     - [ ] And it slows down builds significantly on vercel
 - [x] Remove `./env` file from git history
-- [ ] Setup develop branch
+- [x] Setup develop branch
+- [ ] Slim down `pages/weights/add.tsx`. Currently imports a tonne of stuff from chakra.
+  - [ ] Could it use `getStaticProps`? UPDATE: trying it, only 'dynamic' content is `PersonList`
+    - [ ] Still big (`235kb`), so many chakra comps
+    - [ ] Info: https://bundlephobia.com/result?p=@chakra-ui/core@1.0.0-rc.8
+- [ ] Leverage theme `variants` (in `./theme.ts`)
+- [ ] Leverage layer styles (https://next.chakra-ui.com/docs/features/text-and-layer-styles#layer-style)
 - [x] Date getting messed up with timezone?
   - [x] Set start date hours to 00-00-00 and local to alberta
   - [x] Verify issue resolved? I think it is.

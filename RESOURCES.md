@@ -1,4 +1,9 @@
-## Resources / References:
+# Resources / References:
+
+## Chakra
+
+- Colors: [https://next.chakra-ui.com/docs/theming/theme](https://next.chakra-ui.com/docs/theming/theme)
+- LayerStyle: [https://next.chakra-ui.com/docs/features/text-and-layer-styles#layer-style](https://next.chakra-ui.com/docs/features/text-and-layer-styles#layer-style)
 
 ### React Hook Form
 

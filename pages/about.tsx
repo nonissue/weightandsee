@@ -11,8 +11,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/core";
 
-import { Layout } from "../components/Layout";
-// import { NextChakraLink } from "../components/NextChakraLink";
+import { Layout } from "../components";
 
 import { Minus } from "heroicons-react";
 
@@ -90,7 +89,11 @@ const AboutPage: React.FunctionComponent = () => {
                   mb="3px"
                   verticalAlign="middle"
                 />
-                <Link color={technologyLinkColor} href="https://nextjs.org">
+                <Link
+                  // color={technologyLinkColor}
+                  href="https://nextjs.org"
+                  variant="external"
+                >
                   Next.js
                 </Link>
               </ListItem>
@@ -102,7 +105,11 @@ const AboutPage: React.FunctionComponent = () => {
                   mb="3px"
                   verticalAlign="middle"
                 />
-                <Link color={technologyLinkColor} href="https://prisma.io">
+                <Link
+                  // color={technologyLinkColor}
+                  variant="external"
+                  href="https://prisma.io"
+                >
                   Prisma
                 </Link>
               </ListItem>
@@ -116,7 +123,8 @@ const AboutPage: React.FunctionComponent = () => {
                 />
                 <Link
                   href="https://next.chakra-ui.com"
-                  color={technologyLinkColor}
+                  // color={technologyLinkColor}
+                  variant="external"
                 >
                   Chakra-UI
                 </Link>
@@ -129,7 +137,7 @@ const AboutPage: React.FunctionComponent = () => {
                   mb="3px"
                   verticalAlign="middle"
                 />
-                <Link href="" color={technologyLinkColor}>
+                <Link href="" variant="external">
                   React-Hook-Form
                 </Link>
               </ListItem>
@@ -143,7 +151,8 @@ const AboutPage: React.FunctionComponent = () => {
                 />
                 <Link
                   href="https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch-sql-typescript-postgres"
-                  color={technologyLinkColor}
+                  // color={technologyLinkColor}
+                  variant="external"
                 >
                   Postgres
                 </Link>
@@ -158,7 +167,8 @@ const AboutPage: React.FunctionComponent = () => {
                 />
                 <Link
                   href="http://typescriptlang.org"
-                  color={technologyLinkColor}
+                  // color={technologyLinkColor}
+                  variant="external"
                 >
                   TypeScript
                 </Link>
@@ -166,13 +176,6 @@ const AboutPage: React.FunctionComponent = () => {
             </List>
           </Stack>
         </Grid>
-
-        <Grid px={["4", "4", "2", "2"]}></Grid>
-        {/* <Text px={["4", "4", "2", "2"]}>
-          <NextChakraLink href="/" fontFamily="mono">
-            Footer
-          </NextChakraLink>
-        </Text> */}
       </Grid>
     </Layout>
   );

@@ -17,6 +17,9 @@
   
 ## Setup
 
+- Add env variables on `vercel`: 
+  - Required: `DATABASE_URL`, `GA_TRACKING_ID`
+
 ```bash
 yarn
 yarn build
@@ -27,6 +30,7 @@ yarn build
 ### Regenerate Favicons
 
 - We don't want to run this on each build because it's super slow, so rerun it when your favicon changes.
+  - Build speeds: don't gen favicon: `55s`, gen favicon: `2m`
 
 ```bash
 yarn gen-favicons # builds favicons and plunks them in public
