@@ -5,6 +5,10 @@
 - [ ] Scrollbar shift (fix)
 - [ ] Password
 - [ ] CRUD for entries
+- [x] Fix `favicon`
+  - [ ] Generated & loads in prod, but fuck, the pipeline requires a bunch of packages:
+    - [ ] `copy`, `rimraf`, `run-s`
+    - [ ] And it slows down builds significantly on vercel
 - [x] Remove `./env` file from git history
 - [ ] Setup develop branch
 - [x] Date getting messed up with timezone?
