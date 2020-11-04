@@ -68,7 +68,6 @@ const AboutPage: React.FunctionComponent = () => {
                 >
                   @github
                 </Link>
-                &nbsp;(coming soon)
               </Text>
             </Box>
 
@@ -76,7 +75,7 @@ const AboutPage: React.FunctionComponent = () => {
               Version
             </Text>
             <Text fontFamily="mono" fontSize="sm" color="gray.400">
-              0.1.0 (beta)
+              0.1.1 (beta)
             </Text>
 
             <Text fontSize="lg" pt="4" fontWeight="500" fontFamily="heading">
