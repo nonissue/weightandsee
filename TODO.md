@@ -41,7 +41,8 @@
 - [ ] Add current weight to person schema
   - [ ] How/When to calculate?
     - [ ] When person is updated, sort their weights by date, take latest.
-- [ ] Export all components from `./components/index.tsx` so imports are cleaner
+- [x] Export all components from `./components/index.tsx` so imports are cleaner
+  - [ ] Use `./components` import rather than `./components/CompName`
 - [ ] Remove unused `List` components
 - [x] Add Footer
 
