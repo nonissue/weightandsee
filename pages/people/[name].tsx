@@ -10,7 +10,7 @@ import {
   VStack,
   Link,
   Divider,
-  useColorModeValue
+  useColorModeValue,
 } from "@chakra-ui/core";
 import { Layout } from "../../components/Layout";
 import { Person } from "../../interfaces";
@@ -20,18 +20,16 @@ const prisma = new PrismaClient();
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const result = await prisma.person.findOne({
     where: { name: params?.name as string },
-    include: { weighIns: true }
+    include: { weighIns: true },
   });
 
-  console.log(result);
-
   return {
-    props: { test: JSON.stringify(result) }
+    props: { test: JSON.stringify(result) },
   };
 };
 
 export const PersonPage: React.FunctionComponent<{ test: string }> = ({
-  test
+  test,
 }) => {
   const data: Person = JSON.parse(test);
 
@@ -69,8 +67,6 @@ export const PersonPage: React.FunctionComponent<{ test: string }> = ({
     );
   }
 
-  console.log(data);
-
   return (
     <Layout>
       <Grid templateColumns={`1fr min(65ch, 100%) 1fr`}>
@@ -93,7 +89,7 @@ export const PersonPage: React.FunctionComponent<{ test: string }> = ({
           <Divider />
           <List>
             {data.weighIns &&
-              data.weighIns?.map(weighIn => {
+              data.weighIns?.map((weighIn) => {
                 return (
                   <ListItem key={weighIn.id}>
                     <VStack isInline spacing={0} align="center">
