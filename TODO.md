@@ -5,6 +5,7 @@
 - [ ] Scrollbar shift (fix)
 - [ ] Password
 - [ ] CRUD for entries
+- [x] Remove `./env` file from git history
 - [ ] Setup develop branch
 - [x] Date getting messed up with timezone?
   - [x] Set start date hours to 00-00-00 and local to alberta

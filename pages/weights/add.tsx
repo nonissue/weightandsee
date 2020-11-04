@@ -6,7 +6,6 @@ import Router from "next/router";
 import { PrismaClient } from "@prisma/client";
 import { useForm, Controller } from "react-hook-form";
 import ReactDatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 
 import {
   Grid,
