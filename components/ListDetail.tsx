@@ -9,8 +9,8 @@ type ListDetailProps = {
   item: User;
 };
 
-const ListDetail: React.FunctionComponent<ListDetailProps> = ({
-  item: user
+export const ListDetail: React.FunctionComponent<ListDetailProps> = ({
+  item: user,
 }) => (
   <Stack spacing={3}>
     <Heading size="lg" fontFamily="body" fontWeight="700">
@@ -24,5 +24,3 @@ const ListDetail: React.FunctionComponent<ListDetailProps> = ({
     <NextChakraLink href="/users">← Back to Users List</NextChakraLink>
   </Stack>
 );
-
-export default ListDetail;
