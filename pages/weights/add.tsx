@@ -67,13 +67,6 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
   };
 
   const onSubmit = async (data: FormResult) => {
-    // data.updateCurrentWeight = checked;
-
-    console.log(data);
-    const strDate = data.date.toLocaleDateString();
-    console.log(strDate);
-    console.log(typeof strDate);
-
     try {
       const res = await fetch(`/api/weigh-ins`, {
         method: "POST",

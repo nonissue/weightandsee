@@ -61,8 +61,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 const WeightsPage: React.FunctionComponent<WeighIns> = ({ weighIns }) => {
-  console.log(weighIns);
-
   let lastDate: string;
 
   if (weighIns.length === 0) {

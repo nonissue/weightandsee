@@ -24,8 +24,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
     include: { weighIns: true },
   });
 
-  console.log(result);
-
   return {
     props: { data: JSON.stringify(result) },
   };
@@ -35,7 +33,6 @@ export const PeoplePage: React.FunctionComponent<{ data: string }> = ({
   data,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const peopleList: Person[] = JSON.parse(data);
-  console.log(peopleList);
   const nameColor = useColorModeValue("gray.700", "gray.300");
 
   return (

@@ -76,7 +76,6 @@ export const Nav: React.FunctionComponent<Props> = ({
                 icon={<Menu />}
                 onClick={() => {
                   setMobileNavShown(!mobileNavShown);
-                  console.log("clicked");
                 }}
               />
             </Flex>
