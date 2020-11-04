@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "next",
     "build": "run-s \"build:**\"",
-    "assets-build:scripts": "node scripts/build.js",
+    "gen-favicons": "node scripts/build.js",
     "build:web": "next build",
     "clean": "run-s \"clean:assets\"",
     "clean:assets": "rimraf \"public/!(.gitkeep)\"",
