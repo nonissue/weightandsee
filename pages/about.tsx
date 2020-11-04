@@ -19,7 +19,6 @@ const AboutPage: React.FunctionComponent = () => {
   const linkColor = useColorModeValue("pink.400", "pink.300");
   const creditsText = useColorModeValue("gray.500", "gray.500");
   const listDecoration = useColorModeValue("gray.400", "gray.600");
-  const technologyLinkColor = useColorModeValue("pink.500", "pink.400");
 
   return (
     <Layout title="About | nonstarter">

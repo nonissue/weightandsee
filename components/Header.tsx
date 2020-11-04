@@ -1,10 +1,8 @@
 import { useState } from "react";
 import { Box, Stack, Text, useColorModeValue } from "@chakra-ui/core";
-import { NextChakraLink } from "./NextChakraLink";
-import { NavItems } from "./Nav";
-import Head from "next/head";
+import { Nav, NavItems, NextChakraLink } from ".";
 
-import { Nav } from "./Nav";
+import Head from "next/head";
 
 export const Header: React.FunctionComponent = () => {
   const headerColor = useColorModeValue("pink.400", "pink.300");
