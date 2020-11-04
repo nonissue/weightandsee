@@ -12,7 +12,6 @@ export const Footer: React.FunctionComponent = () => {
       textColor={textColor}
       mt="4"
     >
-      {/* <Divider mb="4" /> */}
       <Flex fontSize="xs" mb="2" fontFamily="mono" justifyContent="center">
         nonissue inc © 2020
       </Flex>
