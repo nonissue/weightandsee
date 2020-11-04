@@ -37,4 +37,4 @@ yarn-error.log*
 prisma/.env
 # prisma/migrations.dev
 
-public/**/*
+
