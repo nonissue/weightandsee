@@ -1,5 +1,12 @@
 # CatchWeight
 
+## Bugs
+
+- [ ] Too many db connections
+  - [ ] https://github.com/prisma/prisma/issues/1983
+  - [ ] Tried to fix with prisma singleton
+  - [ ] Maybe copy blitz.js implementation
+
 ## General
 
 - [ ] Scrollbar shift (fix)
