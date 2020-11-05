@@ -4,7 +4,7 @@ import { useState } from "react";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 // eslint-disable-next-line import/no-named-as-default
 import Router from "next/router";
-import { PrismaClient } from "@prisma/client";
+
 import { useForm, Controller } from "react-hook-form";
 import ReactDatePicker from "react-datepicker";
 
@@ -24,7 +24,10 @@ import {
 import { Confirmation, Layout } from "../../components";
 import { Participants, FormInputs, FormResult } from "../../interfaces";
 
-const prisma = new PrismaClient();
+import "react-datepicker/dist/react-datepicker.css";
+
+import db from "../../prisma/db";
+const prisma = db.getInstance().prisma;
 
 type Person = {
   id: number;

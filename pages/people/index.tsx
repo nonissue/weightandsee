@@ -1,5 +1,5 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import { PrismaClient } from "@prisma/client";
+
 import { Person } from "../../interfaces";
 import {
   Heading,
@@ -15,7 +15,8 @@ import { Layout } from "../../components/Layout";
 import { WeightTag } from "../../components/WeightTag";
 import { NextChakraLink } from "../../components/NextChakraLink";
 
-const prisma = new PrismaClient();
+import db from "../../prisma/db";
+const prisma = db.getInstance().prisma;
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const result = await prisma.person.findMany({

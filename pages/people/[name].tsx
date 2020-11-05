@@ -1,5 +1,4 @@
 import { GetServerSideProps } from "next";
-import { PrismaClient } from "@prisma/client";
 
 import {
   Heading,
@@ -15,7 +14,8 @@ import {
 import { Layout } from "../../components/Layout";
 import { Person } from "../../interfaces";
 
-const prisma = new PrismaClient();
+import db from "../../prisma/db";
+const prisma = db.getInstance().prisma;
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const result = await prisma.person.findOne({

@@ -1,6 +1,6 @@
 // Oh man, Chakra isRequired is way better than relying on form errors
 import { GetServerSideProps } from "next";
-import { PrismaClient } from "@prisma/client";
+// import { PrismaClient } from "@prisma/client";
 import { Grid, Heading, Divider, Text, Stack } from "@chakra-ui/core";
 
 import { WeighIns } from "../../interfaces";
@@ -9,7 +9,8 @@ import { Layout } from "../../components/Layout";
 import { NextChakraLink } from "../../components/NextChakraLink";
 import { WeightTag } from "../../components/WeightTag";
 
-const prisma = new PrismaClient();
+import db from "../../prisma/db";
+const prisma = db.getInstance().prisma;
 // When form submitted, verify that no entries duplicated
 
 export const getServerSideProps: GetServerSideProps = async () => {
