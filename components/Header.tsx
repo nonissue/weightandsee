@@ -8,8 +8,8 @@ export const Header: React.FunctionComponent = () => {
   const headerColor = useColorModeValue("pink.400", "pink.300");
   // const headerBg = useColorModeValue("gray.50", "gray.800");
   const headerBg = useColorModeValue(
-    "hsla(210, 38%, 95%, 0.05)",
-    "hsla(230, 21%, 15%, 0.7)"
+    "hsla(210, 38%, 99%, 0.1)",
+    "hsla(230, 21%, 15%, 0.4)"
   );
   const headerDs = useColorModeValue("md", "lg");
   const [mobileNavShown, setMobileNavShown] = useState(false);
@@ -33,9 +33,10 @@ export const Header: React.FunctionComponent = () => {
         textDecoration="initial"
         zIndex="1000"
         style={{
-          backdropFilter: "blur(25px)",
+          backdropFilter: "blur(15px)",
           WebkitBackdropFilter: "blur(15px)",
         }}
+        className="nav-header"
       >
         <Box maxW="min(65ch, 100%)" mx="auto" px={["4", "4", "2", "2"]}>
           <Stack

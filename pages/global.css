@@ -1,0 +1,7 @@
+/* because firefox sucks and doesn't support backdrop filter */
+@-moz-document url-prefix() {
+  .nav-header {
+    background: hsla(230, 21%, 15%, 0.97) !important;
+    color: #fff;
+  }
+}
