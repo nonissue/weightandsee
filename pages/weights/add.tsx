@@ -18,11 +18,10 @@ import {
   Divider,
   FormControl,
   Checkbox,
-  Flex,
+  useColorModeValue,
 } from "@chakra-ui/core";
 
 import { Confirmation, Layout } from "../../components";
-
 import { Participants, FormInputs, FormResult } from "../../interfaces";
 
 const prisma = new PrismaClient();
@@ -58,8 +57,11 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
   people,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const { handleSubmit, errors, control } = useForm<FormInputs>();
-  const startDate = new Date();
   const [entryCount, setEntryCount] = useState(1);
+
+  const startDate = new Date();
+
+  const formBorderColor = useColorModeValue("gray.200", "gray.700");
 
   const confirmationCallback = () => {
     setEntryCount(entryCount - 1);
@@ -81,37 +83,63 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
 
   return (
     <Layout>
-      <Grid templateColumns={`1fr min(65ch, 100%) 1fr`}>
-        <Grid column="2" my="4" px={["4", "4", "2", "2"]}>
-          {/* "handleSubmit" will validate your inputs before invoking "onSubmit" */}
+      <Grid templateColumns={`1fr min(65ch, 100%) 1fr`} border="0px">
+        <Grid
+          column="2"
+          my="4"
+          mx={["4", "4", "2", "2"]}
+          p="4"
+          border="1px"
+          borderRadius="10px"
+          shadow="sm"
+          borderColor={formBorderColor}
+        >
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={2}>
               {createArrayWithNumbers(entryCount).map((i) => (
-                <Stack key={i} direction={["column", "row"]}>
-                  <Stack w="100%">
-                    <Box w="100%">
-                      <FormControl id="person">
-                        <Controller
-                          name={`entries.[${i}].name`}
-                          as={Select}
-                          control={control}
-                          placeholder="Select Person"
-                          defaultValue=""
-                          isInvalid={errors.entries?.[i]?.name ? true : false}
-                          errorBorderColor="red.300"
-                          rules={{ required: true }}
-                        >
-                          {people.map((p: Person) => {
-                            return (
-                              <option key={p.id} value={p.name}>
-                                {p.name}
-                              </option>
-                            );
-                          })}
-                        </Controller>
-                      </FormControl>
+                <Stack spacing={2} key={i}>
+                  <FormControl id="person">
+                    <Controller
+                      name={`entries.[${i}].name`}
+                      as={Select}
+                      control={control}
+                      placeholder="Select Person"
+                      defaultValue=""
+                      isInvalid={errors.entries?.[i]?.name ? true : false}
+                      errorBorderColor="red.300"
+                      rules={{ required: true }}
+                    >
+                      {people.map((p: Person) => {
+                        return (
+                          <option key={p.id} value={p.name}>
+                            {p.name}
+                          </option>
+                        );
+                      })}
+                    </Controller>
+                  </FormControl>
+                  {errors.entries?.[i]?.name && false && (
+                    <Box
+                      fontFamily="mono"
+                      fontSize="xs"
+                      textColor="red.400"
+                      pl="1"
+                    >
+                      Required
                     </Box>
-                    {errors.entries?.[i]?.name && false && (
+                  )}
+
+                  <FormControl id="person">
+                    <Controller
+                      name={`entries.[${i}].weight`}
+                      control={control}
+                      as={Input}
+                      placeholder="Weight (lbs)"
+                      defaultValue=""
+                      isInvalid={errors.entries?.[i]?.weight ? true : false}
+                      rules={{ required: true, min: 2 }}
+                    />
+                    {errors.entries?.[i]?.weight && false && (
                       <Box
                         fontFamily="mono"
                         fontSize="xs"
@@ -121,43 +149,23 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
                         Required
                       </Box>
                     )}
-                  </Stack>
-                  <Box w="100%">
-                    <Stack w="100%">
-                      <FormControl id="person">
-                        <Controller
-                          name={`entries.[${i}].weight`}
-                          control={control}
-                          as={Input}
-                          placeholder="Weight (lbs)"
-                          defaultValue=""
-                          isInvalid={errors.entries?.[i]?.weight ? true : false}
-                          rules={{ required: true, min: 2 }}
-                        />
-                        {errors.entries?.[i]?.weight && false && (
-                          <Box
-                            fontFamily="mono"
-                            fontSize="xs"
-                            textColor="red.400"
-                            pl="1"
-                          >
-                            Required
-                          </Box>
-                        )}
-                      </FormControl>
-                    </Stack>
-                  </Box>
+                  </FormControl>
                   <Divider display={["block", "none"]} />
                 </Stack>
               ))}
 
-              <Stack direction={["column", "row"]}>
-                <Stack direction="row">
+              <Stack
+                direction={["column", "column", "row", "row"]}
+                justifyContent="space"
+                alignContent="center"
+                display="flex"
+              >
+                <Stack direction="row" w={["100%"]}>
                   <Button
                     onClick={() => {
                       setEntryCount(entryCount + 1);
                     }}
-                    colorScheme="blue"
+                    colorScheme="pink"
                     variant="outline"
                     w="100%"
                   >
@@ -168,31 +176,29 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
                       title="-"
                       action={confirmationCallback}
                       variant="outline"
-                      colorScheme="orange"
+                      colorScheme="cyan"
                       w="100%"
                     />
                   )}
                 </Stack>
 
                 <Box w="100%">
-                  <Stack w="100%">
-                    <Controller
-                      control={control}
-                      name="date"
-                      defaultValue={startDate}
-                      render={({ onChange, onBlur, value }) => (
-                        <ReactDatePicker
-                          onChange={(date) => {
-                            onChange(date);
-                          }}
-                          onBlur={onBlur}
-                          selected={value}
-                          dateFormat="yyyy/MM/dd"
-                        />
-                      )}
-                      rules={{ required: true }}
-                    />
-                  </Stack>
+                  <Controller
+                    control={control}
+                    name="date"
+                    defaultValue={startDate}
+                    render={({ onChange, onBlur, value }) => (
+                      <ReactDatePicker
+                        onChange={(date) => {
+                          onChange(date);
+                        }}
+                        onBlur={onBlur}
+                        selected={value}
+                        dateFormat="yyyy/MM/dd"
+                      />
+                    )}
+                    rules={{ required: true }}
+                  />
                   {errors.date && (
                     <Box
                       fontFamily="mono"
@@ -204,38 +210,46 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
                     </Box>
                   )}
                 </Box>
-
-                <Box w="100%">
-                  <Button colorScheme="blue" type="submit" w="100%">
-                    Submit
-                  </Button>
-                </Box>
+                <FormControl
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                  p={["1", "0"]}
+                  py={["1", "1"]}
+                  px={["1", "1"]}
+                >
+                  <Controller
+                    control={control}
+                    name="updateCurrentWeight"
+                    defaultValue={true}
+                    render={({ onChange, onBlur }) => (
+                      <Checkbox
+                        onBlur={onBlur}
+                        onChange={(e) => {
+                          onChange(e.target.checked);
+                        }}
+                        my={["1", "1"]}
+                        mx={["0", "0"]}
+                        defaultIsChecked
+                      >
+                        Update Profile Weight
+                      </Checkbox>
+                    )}
+                  />
+                </FormControl>
               </Stack>
-              <FormControl
-                as={Flex}
-                justifyContent="flex-start"
-                alignItems="center"
-              >
-                <Controller
-                  control={control}
-                  name="updateCurrentWeight"
-                  defaultValue={true}
-                  render={({ onChange, onBlur }) => (
-                    <Checkbox
-                      onBlur={onBlur}
-                      onChange={(e) => {
-                        onChange(e.target.checked);
-                      }}
-                      my={["1", "1"]}
-                      mx={["0", "0"]}
-                      defaultIsChecked
-                    >
-                      Update Current Weight(s)
-                    </Checkbox>
-                  )}
-                />
-              </FormControl>
             </Stack>
+            <Box display="flex">
+              <Button
+                colorScheme="blue"
+                type="submit"
+                mx="auto"
+                mt="4"
+                w={["100%", "50%"]}
+              >
+                Submit
+              </Button>
+            </Box>
           </form>
         </Grid>
       </Grid>
