@@ -11,6 +11,7 @@ export const Footer: React.FunctionComponent = () => {
       px={["4", "4", "2", "2"]}
       textColor={textColor}
       mt="4"
+      mb="20"
     >
       <Flex fontSize="xs" mb="2" fontFamily="mono" justifyContent="center">
         nonissue inc © 2020
