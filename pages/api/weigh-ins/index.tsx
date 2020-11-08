@@ -2,7 +2,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
 
 import { Entry } from "../../../interfaces";
-const prisma = new PrismaClient();
+import db from "../../../prisma/db";
+const prisma = db.getInstance().prisma;
 // POST /api/post
 // Required fields in body: title
 // Optional fields in body: content
