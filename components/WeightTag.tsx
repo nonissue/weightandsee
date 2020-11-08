@@ -1,10 +1,14 @@
-import { useColorModeValue, Stack, Text } from "@chakra-ui/core";
+import { useColorModeValue, Stack, Text, StackProps } from "@chakra-ui/core";
 
 // TODO: Accept stack props as {...props}
 
-export const WeightTag: React.FunctionComponent<{ weight: number }> = ({
-  weight,
-}) => {
+// type Props = {
+//   weight: number;
+// };
+
+export const WeightTag: React.FunctionComponent<
+  { weight: number } & StackProps
+> = ({ weight, ...chakraProps }) => {
   const weightColor = useColorModeValue("gray.700", "gray.300");
   const weightBGColor = useColorModeValue("gray.200", "gray.700");
   const weightBorderColor = useColorModeValue("gray.300", "gray.600");
@@ -24,6 +28,7 @@ export const WeightTag: React.FunctionComponent<{ weight: number }> = ({
       fontSize="md"
       shadow="sm"
       borderBottomColor={weightBorderColor}
+      {...chakraProps}
     >
       <Text
         // fontSize="sm"

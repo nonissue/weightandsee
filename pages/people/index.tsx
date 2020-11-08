@@ -1,4 +1,5 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { useRouter } from "next/router";
 
 import { Person } from "../../interfaces";
 import {
@@ -15,31 +16,40 @@ import { Layout } from "../../components/Layout";
 import { WeightTag } from "../../components/WeightTag";
 import { NextChakraLink } from "../../components/NextChakraLink";
 
-import db from "../../prisma/db";
-const prisma = db.getInstance().prisma;
-
 export const getServerSideProps: GetServerSideProps = async () => {
-  const result = await prisma.person.findMany({
-    orderBy: { name: "asc" },
-    include: { weighIns: true },
-  });
+  // const router = useRouter();
+  console.log(process.env);
+  // console.log(router.basePath);
+  let baseURL;
 
-  console.log(result);
+  if (process.env.NODE_ENV === "development") {
+    baseURL = `http://localhost:3000`;
+  } else if (process.env.NODE_ENV === "production") {
+    baseURL = `https://weightandsee.xyz`;
+  } else if (process.env.VERCEL_URL) {
+    baseURL = process.env.VERCEL_URL;
+  } else {
+    console.log("ERROR");
+  }
+
+  const result = await fetch(`${baseURL}/api/people`);
+  const people = await result.json();
 
   return {
-    props: { data: JSON.stringify(result) },
+    props: { data: people },
   };
 };
 
 export const PeoplePage: React.FunctionComponent<{ data: string }> = ({
   data,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const peopleList: Person[] = JSON.parse(data);
+  // const peopleList: Person[] = JSON.parse(data);
+  const peopleList: Person[] = data;
   const nameColor = useColorModeValue("gray.700", "gray.300");
 
   return (
     <Layout>
-      <Grid templateColumns={`1fr min(65ch, 100%) 1fr`}>
+      <Grid templateColumns={`1fr min(65ch, 100%) 1fr`} mt="4">
         <Grid column="2" my="4" px={["4", "4", "2", "2"]}>
           <VStack isInline mb="3">
             <Heading size="lg" letterSpacing="-1px" fontWeight="700">

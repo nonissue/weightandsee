@@ -6,12 +6,14 @@ import {
   List,
   ListItem,
   Text,
-  VStack,
+  Stack,
   Link,
   Divider,
+  Flex,
+  Box,
   useColorModeValue,
 } from "@chakra-ui/core";
-import { Layout } from "../../components/Layout";
+import { Layout, WeightTag } from "../../components";
 import { Person } from "../../interfaces";
 
 import db from "../../prisma/db";
@@ -34,6 +36,10 @@ export const PersonPage: React.FunctionComponent<{ test: string }> = ({
   const data: Person = JSON.parse(test);
 
   const weightColor = useColorModeValue("gray.700", "gray.300");
+  const weightShadow = useColorModeValue(
+    `2px 2px 0px hsla(0,0%,0%,0.1)`,
+    `2px 2px 0px hsla(0,0%,70%,0.2)`
+  );
 
   if (!data) {
     return (
@@ -69,22 +75,56 @@ export const PersonPage: React.FunctionComponent<{ test: string }> = ({
 
   return (
     <Layout>
-      <Grid templateColumns={`1fr min(65ch, 100%) 1fr`}>
+      <Grid templateColumns={`1fr min(65ch, 100%) 1fr`} mt="4">
         <Grid column="2" my="4" px={["4", "4", "2", "2"]}>
-          <VStack isInline mb="4">
-            <Heading
-              size="xl"
-              fontFamily="DM Serif"
-              fontWeight="800"
-              letterSpacing="1px"
-            >
-              {data.name}
-            </Heading>
+          <Flex
+            mb="4"
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Box>
+              <Heading
+                // alignSelf="flex-start"
+                size="lg"
+                fontFamily="heading"
+                fontWeight="800"
+                letterSpacing="1px"
 
-            <Text fontFamily="DM Sans" fontSize="md" color={weightColor}>
-              ({data.nickName})
-            </Text>
-          </VStack>
+                // w="20%"
+                // w="100%"
+              >
+                {data.name}
+              </Heading>
+
+              {/* <Box
+                fontFamily="DM Sans"
+                fontSize="md"
+                color={weightColor}
+
+                // w="100%"
+              >
+                ({data.nickName})
+              </Box> */}
+            </Box>
+            {data.currentWeight && (
+              <Box display="flex" alignItems="center">
+                <Box
+                  align="center"
+                  mr="2"
+                  fontWeight="500"
+                  textColor="gray.500"
+                  textTransform="uppercase"
+                  // fontFamily="mono"
+                  fontSize="sm"
+                  letterSpacing="0.05em"
+                >
+                  Current:
+                </Box>
+                <WeightTag weight={data.currentWeight} />
+              </Box>
+            )}
+          </Flex>
 
           <Divider />
           <List>
@@ -92,27 +132,30 @@ export const PersonPage: React.FunctionComponent<{ test: string }> = ({
               data.weighIns?.map((weighIn) => {
                 return (
                   <ListItem key={weighIn.id}>
-                    <VStack isInline spacing={0} align="center">
+                    <Stack isInline spacing={0} align="center">
                       <Text
-                        fontSize="3xl"
+                        fontSize="4xl"
                         fontFamily="DM Mono"
-                        fontWeight="600"
+                        fontWeight="500"
                         color={weightColor}
+                        // textShadow="0.75px 0.75px 0px hsla(0,0%,70%,0.3)"
+                        // textShadow="2px 2px 0px hsla(0,0%,70%,0.2)"
+                        textShadow={weightShadow}
                       >
                         {weighIn.weight}
                       </Text>
                       <Text
-                        fontFamily="DM Sans"
-                        fontSize="lg"
+                        fontFamily="body"
+                        fontSize="md"
                         pl="0"
                         textTransform="none"
                         fontWeight="400"
-                        fontStyle="italic"
+                        // fontStyle="italic"
                         color="gray.500"
                       >
-                        &nbsp;lbs
+                        &#8198;&#8198;lbs
                       </Text>
-                    </VStack>
+                    </Stack>
                     <Divider />
                   </ListItem>
                 );
