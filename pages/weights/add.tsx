@@ -91,7 +91,7 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
     console.log(data);
 
     try {
-      const res = await fetch(`/api/weigh-ins`, {
+      await fetch(`/api/weigh-ins`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
