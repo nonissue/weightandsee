@@ -20,6 +20,8 @@ export default async (
   const records = entries
     .filter((entry: Entry) => !!entry)
     .map((entry: Entry) => {
+      console.log(entry.weight);
+      console.log(typeof entry.weight);
       return prisma.weighIn.create({
         data: {
           weighDate: date,
