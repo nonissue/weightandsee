@@ -16,32 +16,28 @@ import { WeightTag } from "../../components/WeightTag";
 import { NextChakraLink } from "../../components/NextChakraLink";
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  let baseURL = null;
-
   console.log(process.env);
+  let result;
 
   if (process.env.NODE_ENV === "development") {
     console.log(process.env.NODE_ENV);
-    baseURL = "http://localhost:3000";
+    // baseURL = "http://localhost:3000";
+    result = await fetch("http://localhost:3000/api/people");
   } else if (
     process.env.NODE_ENV === "production" &&
     process.env.VERCEL_URL !== ""
   ) {
     // baseURL = `https://weightandsee.xyz`;
-
-    baseURL = process.env.VERCEL_URL;
-  } else if (process.env.VERCEL_URL !== "") {
-    baseURL = process.env.VERCEL_URL;
+    result = await fetch("http://weightandsee.xyz/api/people");
   } else {
     // in this case process.env.NODE_ENV == prod
     // but we arent actually deployed
-    baseURL = "https://dev.weightandsee.xyz";
+    result = await fetch("http://dev.weightandsee.xyz/api/people");
+
     console.log("ERROR");
   }
 
-  console.log(baseURL);
-
-  const result = await fetch(`${baseURL}/api/people`);
+  // const result = await fetch(`${baseURL}/api/people`);
   // const result = await fetch(``)
   const people = await result.json();
 
