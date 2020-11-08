@@ -70,7 +70,7 @@ export const PeoplePage: React.FunctionComponent<{ data: string }> = ({
 
                     {person.currentWeight !== undefined &&
                       person.currentWeight && (
-                        <WeightTag weight={String(person.currentWeight)} />
+                        <WeightTag weight={person.currentWeight} />
                       )}
                   </Stack>
                   {k !== peopleList.length - 1 && <Divider />}
