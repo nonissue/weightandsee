@@ -28,7 +28,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
     process.env.VERCEL_URL !== ""
   ) {
     // baseURL = `https://weightandsee.xyz`;
-    result = await fetch("http://weightandsee.xyz/api/people");
+    // result = await fetch("http://weightandsee.xyz/api/people");
+    result = await fetch("http://dev.weightandsee.xyz/api/people");
   } else {
     // in this case process.env.NODE_ENV == prod
     // but we arent actually deployed
