@@ -23,7 +23,10 @@ export default async (
       return prisma.weighIn.create({
         data: {
           weighDate: date,
-          weight: parseInt(entry.weight),
+          weight:
+            typeof entry.weight === "string"
+              ? parseFloat(entry.weight)
+              : entry.weight,
           person: { connect: { name: entry.name } },
         },
         include: { person: true },
@@ -48,7 +51,10 @@ export default async (
           return prisma.person.update({
             where: { name: entry.name },
             data: {
-              currentWeight: parseInt(entry.weight),
+              currentWeight:
+                typeof entry.weight === "string"
+                  ? parseFloat(entry.weight)
+                  : entry.weight,
             },
           });
         });

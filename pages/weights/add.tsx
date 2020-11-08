@@ -66,6 +66,7 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
   };
 
   const onSubmit = async (data: FormResult) => {
+    console.log(data);
     try {
       const res = await fetch(`/api/weigh-ins`, {
         method: "POST",
