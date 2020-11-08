@@ -19,6 +19,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   let baseURL;
 
   if (process.env.NODE_ENV === "development") {
+    console.log(process.env.NODE_ENV);
     baseURL = `http://localhost:3000`;
   } else if (process.env.NODE_ENV === "production") {
     // baseURL = `https://weightandsee.xyz`;
@@ -26,6 +27,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   } else if (process.env.VERCEL_URL) {
     baseURL = process.env.VERCEL_URL;
   } else {
+    baseURL = "https://dev.weightandsee.xyz";
     console.log("ERROR");
   }
 
