@@ -19,26 +19,32 @@ export const getServerSideProps: GetServerSideProps = async () => {
   let baseURL = null;
 
   console.log(process.env);
+
   // let result;
-
   if (process.env.NODE_ENV === "development") {
-    console.log(process.env.NODE_ENV);
     baseURL = "http://localhost:3000";
-  } else if (
-    process.env.NODE_ENV === "production" &&
-    process.env.VERCEL_URL !== "https://weightandsee.xyz"
-  ) {
-    baseURL = `https://weightandsee.xyz`;
-  } else if (process.env.VERCEL_URL !== "" && process.env.VERCEL_URL) {
-    // actually in production
-    baseURL = `https://${process.env.VERCEL_URL}`;
   } else {
-    // in this case process.env.NODE_ENV == prod
-    // but we arent actually deployed
     baseURL = "https://dev.weightandsee.xyz";
-
-    console.log("ERROR");
   }
+
+  // if (process.env.NODE_ENV === "development") {
+  //   console.log(process.env.NODE_ENV);
+  //   baseURL = "http://localhost:3000";
+  // } else if (
+  //   process.env.NODE_ENV === "production" &&
+  //   process.env.VERCEL_URL !== "https://weightandsee.xyz"
+  // ) {
+  //   baseURL = `https://weightandsee.xyz`;
+  // } else if (process.env.VERCEL_URL !== "" && process.env.VERCEL_URL) {
+  //   // actually in production
+  //   baseURL = `https://${process.env.VERCEL_URL}`;
+  // } else {
+  //   // in this case process.env.NODE_ENV == prod
+  //   // but we arent actually deployed
+  //   baseURL = "https://dev.weightandsee.xyz";
+
+  //   console.log("ERROR");
+  // }
 
   console.log(`${baseURL}/api/people`);
 
