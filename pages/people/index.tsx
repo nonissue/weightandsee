@@ -26,7 +26,9 @@ export const getServerSideProps: GetServerSideProps = async () => {
   } else if (process.env.VERCEL_URL === "weightandsee.xyz") {
     baseURL = "https://weightandsee.xyz";
   } else {
-    baseURL = "https://dev.weightandsee.xyz";
+    // this could be set to `https://${process.env.VERCEL_URL}` i think
+    // baseURL = "https://dev.weightandsee.xyz";
+    baseURL = `https://${process.env.VERCEL_URL}`;
   }
 
   // if (process.env.NODE_ENV === "development") {
