@@ -50,7 +50,7 @@ export type WeighIn = {
   weight: number;
   person: Person;
   id: number;
-  weighDate: string;
+  weighDate: Date;
 }
 
 export type WeighIns = {
