@@ -26,8 +26,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
     baseURL = "http://localhost:3000";
   } else if (
     process.env.NODE_ENV === "production" &&
-    process.env.VERCEL_URL &&
-    process.env.VERCEL_URL !== ""
+    process.env.VERCEL_URL !== "https://weightandsee.xyz"
   ) {
     baseURL = `https://weightandsee.xyz`;
   } else if (process.env.VERCEL_URL !== "" && process.env.VERCEL_URL) {
