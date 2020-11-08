@@ -30,7 +30,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
     process.env.VERCEL_URL !== ""
   ) {
     baseURL = `https://weightandsee.xyz`;
-  } else if (process.env.VERCEL_URL !== "") {
+  } else if (process.env.VERCEL_URL !== "" && process.env.VERCEL_URL) {
+    // actually in production
     baseURL = `https://${process.env.VERCEL_URL}`;
   } else {
     // in this case process.env.NODE_ENV == prod
