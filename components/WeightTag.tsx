@@ -14,8 +14,6 @@ export const WeightTag: React.FunctionComponent<
   const weightBorderColor = useColorModeValue("gray.300", "gray.600");
   const lbsColor = useColorModeValue("gray.500", "gray.400");
 
-  console.log(weight);
-
   return (
     <Stack
       isInline

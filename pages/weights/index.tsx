@@ -32,7 +32,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
     console.log(e);
   }
 
-  let parsedData;
+  let parsedData = null;
   try {
     parsedData = await data?.map((item) => {
       return {
@@ -42,7 +42,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
         }),
       };
     });
-    console.log(parsedData);
   } catch (e) {
     console.log("Error parsing date");
     console.log(e);
@@ -62,7 +61,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 };
 
 const WeightsPage: React.FunctionComponent<WeighIns> = ({ weighIns }) => {
-  let lastDate: string;
+  let lastDate: Date;
 
   if (weighIns.length === 0) {
     return (

@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
 
-import { Entry } from "../../../interfaces";
 const prisma = new PrismaClient();
 // POST /api/post
 // Required fields in body: title
@@ -9,10 +8,10 @@ const prisma = new PrismaClient();
 
 // Handle updateCurrentWeight
 
-export default async function handler(
-  req: NextApiRequest,
+export default async function handler(_req: NextApiRequest,
   res: NextApiResponse,
 ): Promise<void> {
+
   let test;
   try {
     test = await prisma.person.findMany({

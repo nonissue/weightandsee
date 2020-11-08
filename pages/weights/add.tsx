@@ -89,13 +89,14 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
 
   const onSubmit = async (data: FormResult) => {
     console.log(data);
+
     try {
       const res = await fetch(`/api/weigh-ins`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      console.log(res);
+
       await Router.push("/weights");
     } catch (e) {
       console.log(e);

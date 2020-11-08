@@ -1,5 +1,4 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import { useRouter } from "next/router";
 
 import { Person } from "../../interfaces";
 import {
@@ -17,9 +16,6 @@ import { WeightTag } from "../../components/WeightTag";
 import { NextChakraLink } from "../../components/NextChakraLink";
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  // const router = useRouter();
-  console.log(process.env);
-  // console.log(router.basePath);
   let baseURL;
 
   if (process.env.NODE_ENV === "development") {

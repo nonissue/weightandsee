@@ -7,6 +7,7 @@ class db {
     this.prisma = new PrismaClient();
   }
 
+  // eslint-disable-next-line
   public static getInstance = () => {
     if (!db.instance) {
       db.instance = new db();

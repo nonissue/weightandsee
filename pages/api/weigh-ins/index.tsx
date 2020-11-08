@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
 
 import { Entry } from "../../../interfaces";
 import db from "../../../prisma/db";
@@ -14,15 +13,11 @@ export default async (
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> => {
-  console.log(req.body);
   const { date, entries, updateCurrentWeight } = req.body;
-  console.log(entries);
 
   const records = entries
     .filter((entry: Entry) => !!entry)
     .map((entry: Entry) => {
-      console.log(entry.weight);
-      console.log(typeof entry.weight);
       return prisma.weighIn.create({
         data: {
           weighDate: date,
@@ -62,7 +57,6 @@ export default async (
           });
         });
       updateWeightRes = await prisma.$transaction(updateCurrentWeights);
-      console.log(updateWeightRes);
     } catch (e) {
       console.log("Error updating current weight");
       console.log(e);
