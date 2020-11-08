@@ -26,7 +26,7 @@ export type Participants = {
 };
 
 export type Entry = {
-  weight: string;
+  weight: number;
   name: string;
 };
 
@@ -47,7 +47,7 @@ export type FormResult = {
 };
 
 export type WeighIn = {
-  weight: string;
+  weight: number;
   person: Person;
   id: number;
   weighDate: string;
