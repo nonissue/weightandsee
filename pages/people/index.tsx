@@ -21,9 +21,10 @@ const prisma = db.getInstance().prisma;
 export const getServerSideProps: GetServerSideProps = async () => {
   const result = await prisma.person.findMany({
     orderBy: { name: "asc" },
-    // where: { name: params?.name as string },
     include: { weighIns: true },
   });
+
+  console.log(result);
 
   return {
     props: { data: JSON.stringify(result) },
@@ -41,7 +42,6 @@ export const PeoplePage: React.FunctionComponent<{ data: string }> = ({
       <Grid templateColumns={`1fr min(65ch, 100%) 1fr`}>
         <Grid column="2" my="4" px={["4", "4", "2", "2"]}>
           <VStack isInline mb="3">
-            {/* <Heading size="xl" letterSpacing="-1px" fontWeight="700"> */}
             <Heading size="lg" letterSpacing="-1px" fontWeight="700">
               People
             </Heading>

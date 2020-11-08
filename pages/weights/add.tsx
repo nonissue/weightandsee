@@ -1,7 +1,7 @@
 // componentize some of this
 
 import { useState } from "react";
-import { GetStaticProps, InferGetStaticPropsType } from "next";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 // eslint-disable-next-line import/no-named-as-default
 import Router from "next/router";
 
@@ -40,7 +40,24 @@ function createArrayWithNumbers(length: number) {
 }
 
 // When form submitted, verify that no entries duplicated
-export const getStaticProps: GetStaticProps = async () => {
+// export const getStaticProps: GetStaticProps = async () => {
+//   const people = await prisma.person.findMany({
+//     // select: { name: true, nickName: true },
+//     select: {
+//       id: true,
+//       name: true,
+//       nickName: true,
+//     },
+//     orderBy: { name: "asc" },
+//   });
+
+//   return {
+//     props: { people },
+//   };
+// };
+
+// When form submitted, verify that no entries duplicated
+export const getServerSideProps: GetServerSideProps = async () => {
   const people = await prisma.person.findMany({
     // select: { name: true, nickName: true },
     select: {
@@ -58,7 +75,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
 const CreateWeights: React.FunctionComponent<Participants> = ({
   people,
-}: InferGetStaticPropsType<typeof getStaticProps>) => {
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { handleSubmit, errors, control } = useForm<FormInputs>();
   const [entryCount, setEntryCount] = useState(1);
 
