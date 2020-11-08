@@ -1,3 +1,4 @@
 # Prisma Migrate lockfile v1
 
 20201103210817-init-prod-db
+20201108032953-weight-type--int----float
