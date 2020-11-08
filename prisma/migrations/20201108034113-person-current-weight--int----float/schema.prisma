@@ -18,18 +18,18 @@ model User {
   name      String?
   role      String
   email     String?  @unique
-  // posts     WeighIn[]
 
   @@map(name: "users")
 }
 
 model Person {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now()) @map(name: "created_at")
-  updatedAt DateTime  @default(now()) @map(name: "updated_at")
-  name      String    @unique
-  nickName  String    @unique
-  weighIns  WeighIn[]
+  id            Int       @id @default(autoincrement())
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  updatedAt     DateTime  @default(now()) @map(name: "updated_at")
+  name          String    @unique
+  nickName      String    @unique
+  weighIns      WeighIn[]
+  currentWeight Float?
 
   @@map(name: "people")
 }
@@ -39,7 +39,7 @@ model WeighIn {
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @default(now()) @map(name: "updated_at")
   weighDate DateTime
-  weight    Int
+  weight    Float
 
   personId Int?
   person   Person? @relation(fields: [personId], references: [id])

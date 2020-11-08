@@ -29,7 +29,7 @@ model Person {
   name          String    @unique
   nickName      String    @unique
   weighIns      WeighIn[]
-  currentWeight Int?
+  currentWeight Float?
 
   @@map(name: "people")
 }
