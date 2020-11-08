@@ -16,39 +16,37 @@ import { WeightTag } from "../../components/WeightTag";
 import { NextChakraLink } from "../../components/NextChakraLink";
 
 export const getServerSideProps: GetServerSideProps = async () => {
+  /*
+  
+  VERCEL_URL can be: 
+  ""
+  weightandsee.xyz
+  deploy-url.weightandsee.xyz
+  null?
+
+
+  */
   let baseURL = null;
 
   console.log(process.env);
 
   // let result;
   if (process.env.NODE_ENV === "development") {
+    // local dev
     baseURL = "http://localhost:3000";
   } else if (process.env.VERCEL_URL === "weightandsee.xyz") {
+    // production
     baseURL = "https://weightandsee.xyz";
+  } else if (
+    process.env.VERCEL_URL === "" &&
+    process.env.NODE_ENV === "production"
+  ) {
+    // locally run production mode after building
+    baseURL = "http://localhost:4000";
   } else {
-    // this could be set to `https://${process.env.VERCEL_URL}` i think
-    // baseURL = "https://dev.weightandsee.xyz";
+    // deployed to preview branch
     baseURL = `https://${process.env.VERCEL_URL}`;
   }
-
-  // if (process.env.NODE_ENV === "development") {
-  //   console.log(process.env.NODE_ENV);
-  //   baseURL = "http://localhost:3000";
-  // } else if (
-  //   process.env.NODE_ENV === "production" &&
-  //   process.env.VERCEL_URL !== "https://weightandsee.xyz"
-  // ) {
-  //   baseURL = `https://weightandsee.xyz`;
-  // } else if (process.env.VERCEL_URL !== "" && process.env.VERCEL_URL) {
-  //   // actually in production
-  //   baseURL = `https://${process.env.VERCEL_URL}`;
-  // } else {
-  //   // in this case process.env.NODE_ENV == prod
-  //   // but we arent actually deployed
-  //   baseURL = "https://dev.weightandsee.xyz";
-
-  //   console.log("ERROR");
-  // }
 
   console.log(`${baseURL}/api/people`);
 
