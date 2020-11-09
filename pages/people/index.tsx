@@ -30,28 +30,33 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
   console.log(process.env);
 
-  // let result;
+  // GOD, this sucked
+  // Below is tested in every case EXCEPT for actual deploying to production...
   if (process.env.NODE_ENV === "development") {
     // local dev
     baseURL = "http://localhost:3000";
   } else if (process.env.VERCEL_URL === "weightandsee.xyz") {
-    // production
+    // deployed to production
     baseURL = "https://weightandsee.xyz";
   } else if (
     process.env.VERCEL_URL === "" &&
     process.env.NODE_ENV === "production"
   ) {
-    // locally run production mode after building
+    // locally running in production mode
     baseURL = "http://localhost:4000";
   } else {
     // deployed to preview branch
     baseURL = `https://${process.env.VERCEL_URL}`;
   }
 
+  // just in case we fall through
+  if (baseURL === "") {
+    baseURL = "https://dev.weightandsee.xyz";
+  }
+
   console.log(`${baseURL}/api/people`);
 
   const result = await fetch(`${baseURL}/api/people`);
-
   const people = await result.json();
 
   return {
@@ -62,7 +67,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
 export const PeoplePage: React.FunctionComponent<{ data: string }> = ({
   data,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  // const peopleList: Person[] = JSON.parse(data);
   const peopleList: Person[] = data;
   const nameColor = useColorModeValue("gray.700", "gray.300");
 

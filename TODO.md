@@ -2,10 +2,10 @@
 
 ## Bugs
 
-- [ ] Too many db connections
-  - [ ] https://github.com/prisma/prisma/issues/1983
-  - [ ] Tried to fix with prisma singleton
-  - [ ] Maybe copy blitz.js implementation
+- [x] Too many db connections
+  - [x] https://github.com/prisma/prisma/issues/1983
+  - [x] Tried to fix with prisma singleton
+  - [x] Maybe copy blitz.js implementation
 
 ## General
 

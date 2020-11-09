@@ -11,7 +11,6 @@ import { WeightTag } from "../../components/WeightTag";
 
 import db from "../../prisma/db";
 const prisma = db.getInstance().prisma;
-// When form submitted, verify that no entries duplicated
 
 export const getServerSideProps: GetServerSideProps = async () => {
   let data;
@@ -78,7 +77,7 @@ const WeightsPage: React.FunctionComponent<WeighIns> = ({ weighIns }) => {
 
   return (
     <Layout>
-      <Grid templateColumns={`1fr min(65ch, 100%) 1fr`}>
+      <Grid templateColumns={`1fr min(65ch, 100%) 1fr`} mt="4">
         <Grid column="2" my="4" px={["4", "4", "2", "2"]}>
           <Heading mb="3" size="lg" letterSpacing="-1px" fontWeight="700">
             Weigh Ins
@@ -113,8 +112,8 @@ const WeightsPage: React.FunctionComponent<WeighIns> = ({ weighIns }) => {
                     <NextChakraLink
                       href={`people/${weighIn.person.name}`}
                       mr="1"
-                      fontWeight="500"
-                      fontSize="xl"
+                      fontWeight="600"
+                      fontSize="2xl"
                     >
                       {weighIn.person.name}
                     </NextChakraLink>
