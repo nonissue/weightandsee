@@ -14,19 +14,16 @@ export default async function handler(_req: NextApiRequest,
 
   let test;
   try {
+    res.statusCode = 200;
     test = await prisma.person.findMany({
       orderBy: { name: "asc" },
       include: { weighIns: true },
     });
   } catch (error) {
     res.statusCode = 500;
-    res.end();
+    res.end(JSON.stringify(error));
     console.log(error);
   }
-
-  // res.statusCode = 200;
-  // res.setHeader("Content-Type", "application/json");
-  // res.end(JSON.stringify(test));
 
   res.json(test);
 }
