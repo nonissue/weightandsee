@@ -35,7 +35,7 @@ export const WeightTag: React.FunctionComponent<
         fontFamily="mono"
         color={weightColor}
       >
-        {weight}
+        {weight.toFixed(1)}
       </Text>
       <Text
         fontWeight="600"
