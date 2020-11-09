@@ -17,6 +17,19 @@ export type Person = {
   currentWeight?: number;
 };
 
+export type PersonPageProps = {
+  id: number;
+  name: string;
+  nickName?: string;
+  currentWeight?: number;
+  weighIns?: {
+    weight: number;
+    person: Person;
+    id: number;
+    weighDate: string;
+  }[]
+}
+
 // export type People = {
 //   people: Person[];
 // };

@@ -14,7 +14,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/core";
 import { Layout, WeightTag } from "../../components";
-import { Person } from "../../interfaces";
+import { PersonPageProps } from "../../interfaces";
 
 import db from "../../prisma/db";
 const prisma = db.getInstance().prisma;
@@ -22,7 +22,7 @@ const prisma = db.getInstance().prisma;
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const result = await prisma.person.findOne({
     where: { name: params?.name as string },
-    include: { weighIns: true },
+    include: { weighIns: { orderBy: { weighDate: "desc" } } },
   });
 
   return {
@@ -33,11 +33,11 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 export const PersonPage: React.FunctionComponent<{ test: string }> = ({
   test,
 }) => {
-  const data: Person = JSON.parse(test);
+  const data: PersonPageProps = JSON.parse(test);
 
   const weightColor = useColorModeValue("gray.700", "gray.300");
   const weightShadow = useColorModeValue(
-    `2px 2px 0px hsla(0,0%,0%,0.1)`,
+    `2px 2px 1px hsla(0,0%,50%,0)`,
     `2px 2px 0px hsla(0,0%,70%,0.2)`
   );
 
@@ -85,27 +85,13 @@ export const PersonPage: React.FunctionComponent<{ test: string }> = ({
           >
             <Box>
               <Heading
-                // alignSelf="flex-start"
                 size="lg"
                 fontFamily="heading"
                 fontWeight="800"
                 letterSpacing="1px"
-
-                // w="20%"
-                // w="100%"
               >
                 {data.name}
               </Heading>
-
-              {/* <Box
-                fontFamily="DM Sans"
-                fontSize="md"
-                color={weightColor}
-
-                // w="100%"
-              >
-                ({data.nickName})
-              </Box> */}
             </Box>
             {data.currentWeight && (
               <Box display="flex" alignItems="center">
@@ -115,7 +101,6 @@ export const PersonPage: React.FunctionComponent<{ test: string }> = ({
                   fontWeight="500"
                   textColor="gray.500"
                   textTransform="uppercase"
-                  // fontFamily="mono"
                   fontSize="sm"
                   letterSpacing="0.05em"
                 >
@@ -127,40 +112,57 @@ export const PersonPage: React.FunctionComponent<{ test: string }> = ({
           </Flex>
 
           <Divider />
-          <List>
+          <List w={["100%", "100%", "100%", "100%"]} mx="auto">
             {data.weighIns &&
-              data.weighIns?.map((weighIn) => {
+              data.weighIns?.map((weighIn, k) => {
                 return (
                   <ListItem key={weighIn.id}>
-                    <Stack isInline spacing={0} align="center">
-                      <Text
-                        fontSize="4xl"
-                        fontFamily="DM Mono"
-                        fontWeight="500"
-                        color={weightColor}
-                        // textShadow="0.75px 0.75px 0px hsla(0,0%,70%,0.3)"
-                        // textShadow="2px 2px 0px hsla(0,0%,70%,0.2)"
-                        textShadow={weightShadow}
-                      >
-                        {weighIn.weight}
-                      </Text>
-                      <Text
-                        fontFamily="body"
+                    <Stack
+                      isInline
+                      spacing={0}
+                      direction="row"
+                      justifyContent="space-between"
+                    >
+                      <Box
+                        display="flex"
+                        fontFamily="heading"
                         fontSize="md"
-                        pl="0"
                         textTransform="none"
                         fontWeight="400"
-                        // fontStyle="italic"
                         color="gray.500"
+                        alignItems="center"
                       >
-                        &#8198;&#8198;lbs
-                      </Text>
+                        {weighIn.weighDate.split("T")[0]}
+                      </Box>
+                      <Box
+                        fontSize="2xl"
+                        fontFamily="mono"
+                        fontWeight="500"
+                        color={weightColor}
+                        display="inline-flex"
+                        textShadow={weightShadow}
+                      >
+                        <Box>{weighIn.weight.toFixed(1)}</Box>
+                        <Box
+                          textColor="gray.500"
+                          fontWeight="400"
+                          fontSize="lg"
+                          my="auto"
+                          ml="1"
+                          fontFamily="heading"
+                        >
+                          lbs
+                        </Box>
+                      </Box>
                     </Stack>
-                    <Divider />
+                    {data.weighIns && k !== data.weighIns.length - 1 && (
+                      <Divider />
+                    )}
                   </ListItem>
                 );
               })}
           </List>
+          <Divider />
         </Grid>
       </Grid>
     </Layout>
