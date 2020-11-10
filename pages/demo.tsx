@@ -13,15 +13,14 @@ const DemoPage: React.FunctionComponent = () => (
         },
       }}
       rowGap={3}
+      mt="4"
     >
       <Grid px={["4", "4", "2", "2"]}>
         <Heading mt="4" size="lg">
-          Demo
+          Data Visualization
         </Heading>
       </Grid>
-      <Text px={["4", "4", "2", "2"]}>
-        This functionality hasn&apos;t been implemeneted yet.
-      </Text>
+      <Text px={["4", "4", "2", "2"]}>Coming soon!</Text>
     </Grid>
   </Layout>
 );

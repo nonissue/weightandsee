@@ -30,6 +30,7 @@ const AboutPage: React.FunctionComponent = () => {
           },
         }}
         rowGap={3}
+        mt="4"
       >
         <Grid px={["4", "4", "2", "2"]}>
           <Stack>

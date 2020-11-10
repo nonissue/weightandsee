@@ -2,10 +2,6 @@ import { useColorModeValue, Stack, Text, StackProps } from "@chakra-ui/core";
 
 // TODO: Accept stack props as {...props}
 
-// type Props = {
-//   weight: number;
-// };
-
 export const WeightTag: React.FunctionComponent<
   { weight: number } & StackProps
 > = ({ weight, ...chakraProps }) => {
@@ -28,20 +24,13 @@ export const WeightTag: React.FunctionComponent<
       borderBottomColor={weightBorderColor}
       {...chakraProps}
     >
-      <Text
-        // fontSize="sm"
-        fontWeight="400"
-        px={0}
-        fontFamily="mono"
-        color={weightColor}
-      >
+      <Text fontWeight="400" px={0} fontFamily="mono" color={weightColor}>
         {weight.toFixed(1)}
       </Text>
       <Text
         fontWeight="600"
         fontFamily="heading"
         fontSize="0.7em"
-        // lineHeight="2em"
         pt="0.2rem"
         align="center"
         color={lbsColor}

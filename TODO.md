@@ -9,21 +9,15 @@
 
 ## General
 
-- [ ] Scrollbar shift (fix)
 - [ ] Password
 - [ ] CRUD for entries
-- [x] Fix `favicon`
-  - [ ] Generated & loads in prod, but fuck, the pipeline requires a bunch of packages:
-    - [ ] `copy`, `rimraf`, `run-s`
-    - [ ] And it slows down builds significantly on vercel
-- [x] Remove `./env` file from git history
-- [x] Setup develop branch
+- [ ] Add check constraint for currentWeight in Postgres
+- [ ] Prisma: implement `prisma db push` for dev db
+- [ ] Prisma: programmatically switch between prod and dev DBs
 - [ ] Slim down `pages/weights/add.tsx`. Currently imports a tonne of stuff from chakra.
   - [ ] Could it use `getStaticProps`? UPDATE: trying it, only 'dynamic' content is `PersonList`
     - [ ] Still big (`235kb`), so many chakra comps
     - [ ] Info: https://bundlephobia.com/result?p=@chakra-ui/core@1.0.0-rc.8
-- [ ] Leverage theme `variants` (in `./theme.ts`)
-- [ ] Leverage layer styles (https://next.chakra-ui.com/docs/features/text-and-layer-styles#layer-style)
 - [x] Date getting messed up with timezone?
   - [x] Set start date hours to 00-00-00 and local to alberta
   - [x] Verify issue resolved? I think it is.
@@ -32,12 +26,25 @@
   - Form lets you specify whether or not to update individuals weights
   - The current weight is shown on the People page
 - [x] Fix menu line breaking on screen size between mobile and desktop? (480px - 540px) // FIXed I think: Show hamburger on sm & md sizes
+- [x] Remove `./env` file from git history
+- [x] Setup develop branch
+- [x] Fix `favicon`
+  - [ ] Generated & loads in prod, but fuck, the pipeline requires a bunch of packages:
+    - [ ] `copy`, `rimraf`, `run-s`
+    - [ ] And it slows down builds significantly on vercel
 
 ## Next
 
+- [ ] Scrollbar shift (fix)
 - [ ] Better datepicker (airbnb one is nice)
 - [ ] Charts
 - [ ] Testing
+  - [ ] https://www.prisma.io/blog/backend-prisma-typescript-orm-with-postgresql-rest-api-validation-dcba1ps7kip3
+  - [ ] https://github.com/willianantunes/nextjs-playground/blob/master/__tests__/integration/pages/api/health.spec.test.js
+  - [ ] https://dev.to/metamas/testing-next-js-api-routes-55g3
+  - [ ] https://kakuev.com/blog/testing-nextjs-api
+- [ ] Leverage theme `variants` (in `./theme.ts`)
+- [ ] Leverage layer styles (https://next.chakra-ui.com/docs/features/text-and-layer-styles#layer-style)
 
 ## Components
 
@@ -83,6 +90,12 @@
 - [x] Change date display format to YYYY-MM-DD (currently MM-DD-YYYY) (`toLocaleDateString('en-CA', { timeZone: 'Americas/Denver' })`)
 
 ## Graphs
+
+### Libaries
+
+- [ ] Nivo - good, lots of options, can customize in playground (https://nivo.rocks/line/)
+- [ ] Recharts - good, seems simpler
+- [ ] Victory - I like this too (Responsive OOB)
 
 ### Everyone
 
