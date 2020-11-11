@@ -30,10 +30,10 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   };
 };
 
-export const PersonPage: React.FunctionComponent<{ test: string }> = ({
-  test,
+export const PersonPage: React.FunctionComponent<{ data: string }> = ({
+  data,
 }) => {
-  const data: PersonPageProps = JSON.parse(test);
+  const personData: PersonPageProps = JSON.parse(data);
 
   const weightColor = useColorModeValue("gray.700", "gray.300");
   const weightShadow = useColorModeValue(
@@ -41,7 +41,7 @@ export const PersonPage: React.FunctionComponent<{ test: string }> = ({
     `2px 2px 0px hsla(0,0%,70%,0.2)`
   );
 
-  if (!data) {
+  if (!personData) {
     return (
       <Layout>
         <Grid templateColumns={`1fr min(65ch, 100%) 1fr`}>
@@ -90,10 +90,10 @@ export const PersonPage: React.FunctionComponent<{ test: string }> = ({
                 fontWeight="800"
                 letterSpacing="1px"
               >
-                {data.name}
+                {personData.name}
               </Heading>
             </Box>
-            {data.currentWeight && (
+            {personData.currentWeight && (
               <Box display="flex" alignItems="center">
                 <Box
                   align="center"
@@ -106,15 +106,15 @@ export const PersonPage: React.FunctionComponent<{ test: string }> = ({
                 >
                   Current:
                 </Box>
-                <WeightTag weight={data.currentWeight} />
+                <WeightTag weight={personData.currentWeight} />
               </Box>
             )}
           </Flex>
 
           <Divider />
           <List w={["100%", "100%", "100%", "100%"]} mx="auto">
-            {data.weighIns &&
-              data.weighIns?.map((weighIn, k) => {
+            {personData.weighIns &&
+              personData.weighIns?.map((weighIn, k) => {
                 return (
                   <ListItem key={weighIn.id}>
                     <Stack
@@ -155,9 +155,8 @@ export const PersonPage: React.FunctionComponent<{ test: string }> = ({
                         </Box>
                       </Box>
                     </Stack>
-                    {data.weighIns && k !== data.weighIns.length - 1 && (
-                      <Divider />
-                    )}
+                    {personData.weighIns &&
+                      k !== personData.weighIns.length - 1 && <Divider />}
                   </ListItem>
                 );
               })}

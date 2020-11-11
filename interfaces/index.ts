@@ -27,8 +27,8 @@ export type PersonPageProps = {
     person: Person;
     id: number;
     weighDate: string;
-  }[]
-}
+  }[];
+};
 
 // export type People = {
 //   people: Person[];
@@ -61,11 +61,22 @@ export type FormResult = {
 
 export type WeighIn = {
   weight: number;
-  person: Person;
+  personId: number;
   id: number;
   weighDate: Date;
-}
+};
 
 export type WeighIns = {
   weighIns: WeighIn[];
-}
+};
+
+export type WeighInWithPerson = {
+  weight: number;
+  person: Person;
+  id: number;
+  weighDate: Date;
+};
+
+export type WeighInsWithPerson = {
+  weighIns: WeighInWithPerson[];
+};

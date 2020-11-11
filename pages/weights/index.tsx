@@ -3,7 +3,7 @@ import { GetServerSideProps } from "next";
 // import { PrismaClient } from "@prisma/client";
 import { Grid, Heading, Divider, Text, Stack } from "@chakra-ui/core";
 
-import { WeighIns } from "../../interfaces";
+import { WeighInsWithPerson } from "../../interfaces";
 
 import { Layout } from "../../components/Layout";
 import { NextChakraLink } from "../../components/NextChakraLink";
@@ -59,7 +59,9 @@ export const getServerSideProps: GetServerSideProps = async () => {
   };
 };
 
-const WeightsPage: React.FunctionComponent<WeighIns> = ({ weighIns }) => {
+const WeightsPage: React.FunctionComponent<WeighInsWithPerson> = ({
+  weighIns,
+}) => {
   let lastDate: Date;
 
   if (weighIns.length === 0) {
