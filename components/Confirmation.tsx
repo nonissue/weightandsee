@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   AlertDialog,
   AlertDialogBody,
@@ -25,7 +25,7 @@ export const Confirmation: React.FunctionComponent<Props & ButtonProps> = ({
   ...props
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = React.useRef(null);
+  const cancelRef = useRef(null);
 
   return (
     <>

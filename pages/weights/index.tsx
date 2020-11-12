@@ -9,7 +9,7 @@ import { Layout } from "../../components/Layout";
 import { NextChakraLink } from "../../components/NextChakraLink";
 import { WeightTag } from "../../components/WeightTag";
 
-import db from "../../prisma/db";
+import db from "prisma";
 const prisma = db.getInstance().prisma;
 
 export const getServerSideProps: GetServerSideProps = async () => {

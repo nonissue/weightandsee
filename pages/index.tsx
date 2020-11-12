@@ -29,7 +29,7 @@ const IndexPage: React.FunctionComponent = () => {
   return (
     <Layout>
       <Grid maxW="min(65ch, 100%)" mx="auto" px={["4", "4", "2", "2"]} my="0">
-        <Stack spacing={3} my="4">
+        <Stack spacing={3} my="4" mt="8">
           <form onSubmit={(e) => handleSubmit(e)}>
             <Stack align="center" direction={["column", "row"]}>
               <FormControl id="email" isRequired>

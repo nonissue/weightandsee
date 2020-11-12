@@ -13,8 +13,8 @@ import {
   Box,
   useColorModeValue,
 } from "@chakra-ui/core";
-import { Layout, WeightTag } from "../../components";
-import { PersonPageProps } from "../../interfaces";
+import { Layout, WeightTag, NextChakraLink } from "components";
+import { PersonPageProps } from "interfaces";
 
 import db from "prisma";
 const prisma = db.getInstance().prisma;
@@ -26,7 +26,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   });
 
   return {
-    props: { test: JSON.stringify(result) },
+    props: { data: JSON.stringify(result) },
   };
 };
 
@@ -132,7 +132,9 @@ export const PersonPage: React.FunctionComponent<{ data: string }> = ({
                         color="gray.500"
                         alignItems="center"
                       >
-                        {weighIn.weighDate.split("T")[0]}
+                        <NextChakraLink href={`/weights/${weighIn.id}`}>
+                          {weighIn.weighDate.split("T")[0]}
+                        </NextChakraLink>
                       </Box>
                       <Box
                         fontSize="2xl"

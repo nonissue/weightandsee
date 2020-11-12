@@ -26,7 +26,7 @@ import { Participants, FormInputs, FormResult } from "../../interfaces";
 
 import "react-datepicker/dist/react-datepicker.css";
 
-import db from "../../prisma/db";
+import db from "prisma";
 const prisma = db.getInstance().prisma;
 
 type Person = {
