@@ -11,7 +11,11 @@ export const Footer: React.FunctionComponent = () => {
       px={["4", "4", "2", "2"]}
       textColor={textColor}
       mt="4"
-      mb="20"
+      mb="6"
+      // flexShrink={0}
+      flex="none"
+
+      // gridRow="3"
     >
       <Flex fontSize="xs" mb="2" fontFamily="mono" justifyContent="center">
         nonissue inc © 2020

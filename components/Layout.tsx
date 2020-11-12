@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/core";
+import { Box, Grid } from "@chakra-ui/core";
 import React, { ReactNode } from "react";
 
 import { Header } from "./Header";
@@ -13,10 +13,14 @@ type Props = {
 };
 
 export const Layout: React.FunctionComponent<Props> = ({ children }) => (
-  <Box>
+  // <Grid gridTemplateRows="1fr auto" minHeight="100%" height="100vh">
+  // <Box display="flex" minHeight="100vh" flexDirection="column">
+  <Box minHeight="100vh" display="flex" flexDirection="column">
     <Header />
 
-    {children}
+    <Box flex="1" height="100%">
+      {children}
+    </Box>
 
     <Footer />
   </Box>

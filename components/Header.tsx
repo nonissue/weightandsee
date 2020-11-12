@@ -23,13 +23,11 @@ export const Header: React.FunctionComponent = () => {
       </Head>
       <Box
         shadow={headerDs}
-        // mb="6"
+        flex="none"
         as="header"
         bg={headerBg}
         position="sticky"
         top="0"
-        // bg="hsla(0,0,10,0.9)"
-        // mb="12"
         textDecoration="initial"
         zIndex="1000"
         style={{
