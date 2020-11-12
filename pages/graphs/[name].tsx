@@ -13,9 +13,9 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { Layout } from "../../components/Layout";
 
-import { Person } from "../../interfaces";
+import { Layout } from "components";
+import { Person } from "interfaces";
 
 const prisma = db.getInstance().prisma;
 
