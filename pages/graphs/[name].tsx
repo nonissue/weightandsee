@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { GetServerSideProps } from "next";
-import db from "../../prisma/db";
+import db from "prisma";
 
-import { Heading, Text, Grid } from "@chakra-ui/core";
+import { Heading, Grid } from "@chakra-ui/core";
 import {
   LineChart,
   Line,
@@ -32,8 +33,10 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 };
 
 const CustomLabel = (props: any) => {
-  const { x, y, stroke, payload }: any = props;
+  const { x, y, payload }: any = props;
+
   console.log(props);
+
   return (
     <g transform={`translate(${x},${y})`}>
       <text

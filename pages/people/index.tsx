@@ -17,14 +17,13 @@ import { NextChakraLink } from "../../components/NextChakraLink";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   /*
+
   
   VERCEL_URL can be: 
   ""
   weightandsee.xyz
   deploy-url.weightandsee.xyz
   null?
-
-
   */
   let baseURL = null;
 

@@ -16,7 +16,7 @@ import {
 import { Layout, WeightTag } from "../../components";
 import { PersonPageProps } from "../../interfaces";
 
-import db from "../../prisma/db";
+import db from "prisma";
 const prisma = db.getInstance().prisma;
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
