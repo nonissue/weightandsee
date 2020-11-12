@@ -9,6 +9,7 @@
 
 ## General
 
+- [ ] Change body fonts
 - [ ] Password
 - [ ] CRUD for entries
 - [ ] Add check constraint for currentWeight in Postgres
