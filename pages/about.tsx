@@ -19,6 +19,7 @@ const AboutPage: React.FunctionComponent = () => {
   const linkColor = useColorModeValue("pink.400", "pink.300");
   const creditsText = useColorModeValue("gray.500", "gray.500");
   const listDecoration = useColorModeValue("gray.400", "gray.600");
+  const headerColor = useColorModeValue("pink.400", "pink.200");
 
   return (
     <Layout title="About | nonstarter">
@@ -30,11 +31,19 @@ const AboutPage: React.FunctionComponent = () => {
           },
         }}
         rowGap={3}
-        mt="4"
+        mt="6"
       >
         <Grid px={["4", "4", "2", "2"]}>
-          <Stack>
-            <Heading mt="4" mb="2" size="lg">
+          <Stack mb="4">
+            <Heading
+              size="xl"
+              fontWeight="725"
+              color={headerColor}
+              mb="2"
+              style={{
+                fontVariationSettings: `'MONO' 0, 'CRSV' 1, 'CASL' 0.15, 'slnt' 0`,
+              }}
+            >
               About
             </Heading>
             <Text fontSize="lg">
@@ -42,7 +51,7 @@ const AboutPage: React.FunctionComponent = () => {
               each other accountable.
             </Text>
 
-            <Text fontSize="lg" pt="4" fontWeight="500" fontFamily="heading">
+            <Text fontSize="xl" pt="4" fontWeight="500" fontFamily="heading">
               Credits
             </Text>
             <Box textColor={creditsText}>
@@ -50,37 +59,43 @@ const AboutPage: React.FunctionComponent = () => {
                 Made by:{" "}
                 <Link
                   href="https://nonissue.org"
-                  color={linkColor}
-                  fontWeight="700"
-                  textTransform="uppercase"
+                  // color={linkColor}
+                  variant="external"
+                  fontWeight="500"
+                  fontFamily="heading"
                 >
                   @nonissue
                 </Link>
               </Text>
-              <Text my="0" fontFamily="heading">
+              <Text my="0" fontFamily="body">
                 View source:&nbsp;
                 <Link
                   href="https://github.com/nonissue/weightandsee"
-                  color={linkColor}
-                  fontWeight="700"
-                  textTransform="uppercase"
+                  // color={linkColor}
+                  variant="external"
+                  fontWeight="500"
+                  fontFamily="heading"
+                  // style={{
+                  //   fontVariationSettings: `'MONO' 0, 'CRSV' 0, 'CASL' 1, 'slnt' 0`,
+                  // }}
+                  // textTransform="uppercase"
                 >
                   @github
                 </Link>
               </Text>
             </Box>
 
-            <Text fontSize="lg" pt="4" fontWeight="500" fontFamily="heading">
+            <Text fontSize="xl" pt="4" fontWeight="500" fontFamily="heading">
               Version
             </Text>
             <Text fontFamily="mono" fontSize="sm" color="gray.400">
               0.1.1 (beta)
             </Text>
 
-            <Text fontSize="lg" pt="4" fontWeight="500" fontFamily="heading">
+            <Text fontSize="xl" pt="4" fontWeight="500" fontFamily="heading">
               Technologies
             </Text>
-            <List mb="2" fontFamily="heading">
+            <List mb="2" fontFamily="body">
               <ListItem ml="1">
                 <ListIcon
                   as={Minus}

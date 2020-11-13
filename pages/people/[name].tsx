@@ -33,13 +33,39 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 export const PersonPage: React.FunctionComponent<{ data: string }> = ({
   data,
 }) => {
-  const personData: PersonPageProps = JSON.parse(data);
+  let personData: PersonPageProps;
+
+  try {
+    personData = JSON.parse(data);
+    if (personData.weighIns && personData.weighIns.length === 0) {
+      throw new DOMException(
+        "Error retrieving person's weigh-ins!",
+        "NotFoundError"
+      );
+    }
+  } catch (error) {
+    return (
+      <Layout>
+        <Grid maxW="min(65ch, 100%)" mx="auto" mt="8" px={["4", "4", "2", "2"]}>
+          <Heading mb="2">Error {error.name}</Heading>
+          <Heading size="sm">{error.message}</Heading>
+        </Grid>
+      </Layout>
+    );
+  }
+  // if (!data || !data["weighIns" as string]) {
+  //   r
+  //   );
+  // }
+
+  // const personData: PersonPageProps = JSON.parse(data);
 
   const weightColor = useColorModeValue("gray.700", "gray.300");
   const weightShadow = useColorModeValue(
     `2px 2px 1px hsla(0,0%,50%,0)`,
     `2px 2px 0px hsla(0,0%,70%,0.2)`
   );
+  const headerColor = useColorModeValue("pink.400", "pink.200");
 
   if (!personData) {
     return (
@@ -78,17 +104,20 @@ export const PersonPage: React.FunctionComponent<{ data: string }> = ({
       <Grid templateColumns={`1fr min(65ch, 100%) 1fr`} mt="4">
         <Grid column="2" my="4" px={["4", "4", "2", "2"]}>
           <Flex
-            mb="4"
+            mb="2"
             direction="row"
             justifyContent="space-between"
             alignItems="center"
           >
             <Box>
               <Heading
-                size="lg"
-                fontFamily="heading"
-                fontWeight="800"
-                letterSpacing="1px"
+                size="xl"
+                fontWeight="725"
+                color={headerColor}
+                mb="0"
+                style={{
+                  fontVariationSettings: `'MONO' 0, 'CRSV' 0.5, 'CASL' 0, 'slnt' 0`,
+                }}
               >
                 {personData.name}
               </Heading>

@@ -84,25 +84,26 @@ export const Header: React.FunctionComponent = () => {
             variants={{
               open: {
                 opacity: 1,
-                right: "0vw",
+                left: "0px",
                 top: "0",
-                // top: "0",
-                clipPath: `circle(${500 * 2}px at 100vw 10vh)`,
+                display: "block",
+                clipPath: `circle(${200 * 1.5}px at 0px 10vh)`,
                 transition: {
+                  delay: 0.3,
                   type: "spring",
                   stiffness: 30,
-                  // restDelta: 30,
-                  restSpeed: 20,
-                  // damping: 10,
+                  restSpeed: 2,
+                  // restSpeed: 2,
                 },
               },
               closed: {
                 opacity: 0,
+                display: "none",
                 // left: "50%",
                 top: "0vh",
-                right: "-100vw",
+                left: "0vw",
                 // top: "50%",
-                clipPath: "circle(50px at 100vw 0vh)",
+                clipPath: "circle(5px at 0vw 10vh)",
                 transition: {
                   delay: 0,
                   type: "spring",
@@ -112,27 +113,28 @@ export const Header: React.FunctionComponent = () => {
               },
             }}
             initial={false}
-            style={{
-              position: "absolute",
-              // height: "100vh",
-
-              marginLeft: "-16px",
-              // backdropFilter: "blur(15px)",
-              // WebkitBackdropFilter: "blur(15px)",
-            }}
+            style={
+              {
+                // position: "absolute",
+                // height: "100vh",
+                // marginLeft: "-16px",
+                // backdropFilter: "blur(15px)",
+                // WebkitBackdropFilter: "blur(15px)",
+              }
+            }
             // transition={{ duration: 0.5 }}
             animate={mobileNavShown ? "open" : "closed"}
           >
             <Stack
               pb={5}
-              spacing={2}
-              pl="4"
-              pt="4"
+              spacing={1}
+              // pl="4"
+              pt="0"
               fontWeight="500"
               fontSize="lg"
               bg={headerBg}
               // position="absolute"
-              height="100vh"
+              // height="100vh"
               style={{
                 backdropFilter: "blur(15px)",
                 WebkitBackdropFilter: "blur(15px)",

@@ -9,6 +9,9 @@
 
 ## General
 
+- [ ] Add startWeight
+- [ ] lol fancy mobile menu causes massive overscroll
+- [ ] change currentWeight to be a reference to a weighIn
 - [ ] Change body fonts
 - [ ] Password
 - [ ] CRUD for entries

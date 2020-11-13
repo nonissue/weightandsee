@@ -67,50 +67,64 @@ export const PeoplePage: React.FunctionComponent<{ data: string }> = ({
   data,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const peopleList: Person[] = data;
-  const nameColor = useColorModeValue("gray.700", "gray.300");
+  const nameColor = useColorModeValue("black", "gray.300");
+  const headerColor = useColorModeValue("pink.400", "pink.200");
 
   return (
     <Layout>
-      <Grid templateColumns={`1fr min(65ch, 100%) 1fr`} mt="4">
-        <Grid column="2" my="4" px={["4", "4", "2", "2"]}>
-          <VStack isInline mb="3">
-            <Heading size="lg" letterSpacing="-1px" fontWeight="700">
-              People
+      <Grid templateColumns={`1fr min(65ch, 100%) 1fr`} mt="6">
+        <Grid column="2" px={["4", "4", "2", "2"]}>
+          <Stack>
+            <Heading
+              size="xl"
+              fontWeight="725"
+              color={headerColor}
+              mb="2"
+              style={{
+                fontVariationSettings: `'MONO' 0, 'CRSV' 1, 'CASL' 0.15, 'slnt' 0`,
+              }}
+            >
+              Participants
             </Heading>
-          </VStack>
+          </Stack>
 
-          <List spacing={0} mt={0}>
-            <Divider borderWidth="1.5px" mt={1} />
+          <List spacing={1} mt={2}>
+            {/* <Divider borderWidth="1.5px" mt={1} /> */}
             {peopleList.map((person, k) => {
               return (
-                <ListItem m="0" p="0" key={person.id}>
+                <ListItem m="0" pb="0" key={person.id}>
                   <Stack
                     isInline
                     align="center"
                     spacing="0"
+                    mb="1"
                     justifyContent="space-between"
                   >
                     <NextChakraLink
-                      fontWeight="600"
-                      fontSize="2xl"
+                      fontWeight="400"
+                      fontSize={["lg", "xl"]}
                       mr="2"
                       color={nameColor}
                       href={`/people/${person.name}`}
                     >
                       {person.name}
                     </NextChakraLink>
-
                     {person.currentWeight !== undefined &&
                       person.currentWeight && (
                         <WeightTag weight={person.currentWeight} />
                       )}
+
+                    {!person.currentWeight && (
+                      // eslint-disable-next-line no-octal
+                      <WeightTag weight={0} />
+                    )}
                   </Stack>
-                  {k !== peopleList.length - 1 && <Divider />}
+                  {k !== peopleList.length - 1 && <Divider pb="0" />}
                 </ListItem>
               );
             })}
           </List>
-          <Divider borderWidth="1px" />
+          {/* <Divider borderWidth="1px" /> */}
         </Grid>
       </Grid>
     </Layout>

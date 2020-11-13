@@ -1,6 +1,5 @@
 import { GetServerSideProps } from "next/types";
 import {
-  Grid,
   Heading,
   Box,
   Stack,
@@ -28,13 +27,13 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 const WeighInPage: React.FunctionComponent<{ data: string }> = ({ data }) => {
   const weighInData = JSON.parse(data);
 
-  const actionsBg = useColorModeValue("gray.200", "gray.700");
-  const actionsShadow = useColorModeValue("sm", "base");
+  // const actionsBg = useColorModeValue("gray.200", "gray.700");
+  // const actionsShadow = useColorModeValue("sm", "base");
   const actionDeleteBorder = useColorModeValue(
     "hsla(0, 88%, 68%, 1)",
-    "hsla(0, 88%, 80%, 0.6)"
+    "hsla(0, 88%, 80%, 0.9)"
   );
-  const actionEditBorder = useColorModeValue("gray.400", "gray.700");
+  const actionEditBorder = useColorModeValue("gray.400", "gray.500");
 
   console.table(weighInData);
 
@@ -60,6 +59,7 @@ const WeighInPage: React.FunctionComponent<{ data: string }> = ({ data }) => {
             letterSpacing="1px"
             // mb="2"
             alignSelf="center"
+            // fontStyle="italic"
           >
             {weighInData.person.name}
           </Heading>
@@ -76,7 +76,7 @@ const WeighInPage: React.FunctionComponent<{ data: string }> = ({ data }) => {
             shadow="0 1px 2px 0.25px rgba(0,0,0,0.1)"
             // p="3"
 
-            // borderRadius="6px"
+            borderRadius="6px"
           >
             <Button
               colorScheme="gray"
@@ -96,7 +96,7 @@ const WeighInPage: React.FunctionComponent<{ data: string }> = ({ data }) => {
               // shadow="1px 1px 15px hsla(0, 0%, 0%, 0.2)"
               borderRightColor="transparent"
               // px="4"
-              borderRadius="0"
+              // borderRadius="0"
             >
               Edit
             </Button>
@@ -117,7 +117,7 @@ const WeighInPage: React.FunctionComponent<{ data: string }> = ({ data }) => {
               size="xs"
               // shadow="sm"
               // px="4"
-              borderRadius="0"
+              // borderRadius="0"
             >
               Delete
             </Button>
@@ -140,8 +140,10 @@ const WeighInPage: React.FunctionComponent<{ data: string }> = ({ data }) => {
             alignItems="center"
             justifyContent="space-between"
           >
-            <Box>Entry ID: </Box>
-            <Box fontFamily="heading">{weighInData.id}</Box>
+            <Box fontStyle="italic">Entry ID</Box>
+            <Box fontFamily="mono" textColor="black">
+              {weighInData.id}
+            </Box>
           </Box>
           <Divider />
           <Box
@@ -154,8 +156,10 @@ const WeighInPage: React.FunctionComponent<{ data: string }> = ({ data }) => {
             alignItems="center"
             justifyContent="space-between"
           >
-            <Box>Weigh Date:</Box>
-            <Box fontFamily="heading">
+            <Box fontStyle="italic" fontFamily="Inter" textColor="gray.700">
+              Weigh Date
+            </Box>
+            <Box fontFamily="mono" textColor="black">
               {weighInData.weighDate.split("T")[0]}
             </Box>
           </Box>
@@ -170,8 +174,8 @@ const WeighInPage: React.FunctionComponent<{ data: string }> = ({ data }) => {
             alignItems="center"
             justifyContent="space-between"
           >
-            <Box>Created:</Box>
-            <Box fontFamily="heading">
+            <Box fontStyle="italic">Created</Box>
+            <Box fontFamily="mono" textColor="black">
               {weighInData.createdAt.split("T")[0]}&nbsp;
               {weighInData.createdAt.split("T")[1].split(".")[0]}
             </Box>
@@ -187,8 +191,8 @@ const WeighInPage: React.FunctionComponent<{ data: string }> = ({ data }) => {
             alignItems="center"
             justifyContent="space-between"
           >
-            <Box>Updated:</Box>
-            <Box fontFamily="heading">
+            <Box fontStyle="italic">Updated</Box>
+            <Box fontFamily="mono" textColor="black">
               {weighInData.updatedAt.split("T")[0]}&nbsp;
               {weighInData.updatedAt.split("T")[1].split(".")[0]}
             </Box>

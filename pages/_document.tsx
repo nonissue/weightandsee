@@ -41,6 +41,11 @@ export default class Document extends NextDocument {
             href="https://fonts.googleapis.com/css2?family=Recursive:wght@300;400;500;600;700;800;850;900&display=swap"
             rel="stylesheet"
           />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Recursive:slnt,wght,CASL,CRSV,MONO@-15..0,300..1000,0..1,0..1,0..1&display=swap"
+            rel="stylesheet"
+          ></link>
+          <link rel="stylesheet" href="/fonts/inter/inter.css" />
           <script
             async
             src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}

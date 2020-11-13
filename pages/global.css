@@ -11,6 +11,22 @@ body {
   height: 100%;
 }
 
+/* :root {
+  --MONO: 0; 
+  --CASL: 1; 
+  --slnt: 0; 
+  --CRSV: 0; 
+} */
+/* 
+*,
+*:before,
+*:after {
+  font-variation-settings: "MONO" var(--MONO), "CASL" var(--CASL),
+    "slnt" var(--slnt), "CRSV" var(--CRSV);
+} */
+
+/* @import url("/fonts/inter/inter.css"); */
+
 /* body,
 #__next {
   display: flex;
