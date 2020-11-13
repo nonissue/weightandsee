@@ -2,6 +2,7 @@ import { extendTheme } from "@chakra-ui/core";
 import { mode } from "@chakra-ui/theme-tools";
 
 const sans = [
+  "Inter",
   "DM Sans",
   "-apple-system",
   "BlinkMacSystemFont",
@@ -64,7 +65,8 @@ export default extendTheme({
         }),
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         external: (props: any)  => ({
-          color: mode("purple.600", "purple.300")(props),
+          color: mode("gray.700", "blue.100")(props),
+          fontWeight: "400"
         }),
       },
     },

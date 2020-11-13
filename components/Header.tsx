@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { Box, Stack, Text, useColorModeValue } from "@chakra-ui/core";
+import { Box, Stack, Text, useColorModeValue, Fade } from "@chakra-ui/core";
 import { Nav, NavItems, NextChakraLink } from ".";
+
+import { motion } from "framer-motion";
 
 import Head from "next/head";
 
@@ -8,7 +10,7 @@ export const Header: React.FunctionComponent = () => {
   const headerColor = useColorModeValue("pink.400", "pink.300");
   // const headerBg = useColorModeValue("gray.50", "gray.800");
   const headerBg = useColorModeValue(
-    "hsla(210, 38%, 99%, 0.1)",
+    "hsla(210, 38%, 99%, 0.7)",
     "hsla(230, 21%, 15%, 0.4)"
   );
   const headerDs = useColorModeValue("md", "lg");
@@ -77,11 +79,71 @@ export const Header: React.FunctionComponent = () => {
               />
             </Box>
           </Stack>
-          {mobileNavShown && (
-            <Stack pb={5} spacing={2} fontWeight="bold">
+          {/* {mobileNavShown && ( */}
+          <motion.div
+            variants={{
+              open: {
+                opacity: 1,
+                right: "0vw",
+                top: "0",
+                // top: "0",
+                clipPath: `circle(${500 * 2}px at 100vw 10vh)`,
+                transition: {
+                  type: "spring",
+                  stiffness: 30,
+                  // restDelta: 30,
+                  restSpeed: 20,
+                  // damping: 10,
+                },
+              },
+              closed: {
+                opacity: 0,
+                // left: "50%",
+                top: "0vh",
+                right: "-100vw",
+                // top: "50%",
+                clipPath: "circle(50px at 100vw 0vh)",
+                transition: {
+                  delay: 0,
+                  type: "spring",
+                  stiffness: 30,
+                  damping: 5,
+                },
+              },
+            }}
+            initial={false}
+            style={{
+              position: "absolute",
+              // height: "100vh",
+
+              marginLeft: "-16px",
+              // backdropFilter: "blur(15px)",
+              // WebkitBackdropFilter: "blur(15px)",
+            }}
+            // transition={{ duration: 0.5 }}
+            animate={mobileNavShown ? "open" : "closed"}
+          >
+            <Stack
+              pb={5}
+              spacing={2}
+              pl="4"
+              pt="4"
+              fontWeight="500"
+              fontSize="lg"
+              bg={headerBg}
+              // position="absolute"
+              height="100vh"
+              style={{
+                backdropFilter: "blur(15px)",
+                WebkitBackdropFilter: "blur(15px)",
+              }}
+              // left="0"
+              width="100vw"
+            >
               <NavItems />
             </Stack>
-          )}
+          </motion.div>
+          {/* )} */}
         </Box>
       </Box>
     </>

@@ -3,9 +3,11 @@ import {
   Box,
   Stack,
   IconButton,
+  Fade,
   useColorModeValue,
 } from "@chakra-ui/core";
-import { Menu, InformationCircleOutline } from "heroicons-react";
+import { motion } from "framer-motion";
+import { Menu, InformationCircleOutline, X } from "heroicons-react";
 import { useBreakpointValue } from "@chakra-ui/media-query";
 import { NextChakraLink } from "./NextChakraLink";
 import { ColorModeToggle } from "./ColorModeToggle";
@@ -66,6 +68,7 @@ export const Nav: React.FunctionComponent<Props> = ({
                   icon={<InformationCircleOutline />}
                 />
               </NextChakraLink>
+
               <ColorModeToggle />
 
               <IconButton
@@ -73,7 +76,44 @@ export const Nav: React.FunctionComponent<Props> = ({
                 size="sm"
                 aria-label={`Menu`}
                 variant="ghost"
-                icon={<Menu />}
+                zIndex={1000}
+                icon={
+                  // mobileNavShown ? (
+                  <>
+                    <motion.div
+                      // in={mobileNavShown}
+                      animate={mobileNavShown ? "open" : "closed"}
+                      variants={{
+                        closed: { opacity: 0, display: "none" },
+                        open: { opacity: 1, display: "block" },
+                      }}
+                      // initial="closed"
+                      transition={{ duration: 0.3 }}
+                    >
+                      <X />
+                    </motion.div>
+
+                    <motion.div
+                      animate={mobileNavShown ? "open" : "closed"}
+                      variants={{
+                        closed: { opacity: 1, display: "block" },
+                        open: { opacity: 0, display: "none" },
+                      }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <Menu />
+                    </motion.div>
+                  </>
+                  // )
+                  // <>
+                  //   <Fade in={mobileNavShown} unmountOnExit>
+                  //     <X />
+                  //   </Fade>
+                  //   <Fade in={!mobileNavShown} unmountOnExit>
+                  //     <Menu />
+                  //   </Fade>
+                  // </>
+                }
                 onClick={() => {
                   setMobileNavShown(!mobileNavShown);
                 }}
@@ -84,7 +124,7 @@ export const Nav: React.FunctionComponent<Props> = ({
               isInline
               spacing={["4", "4", "4", "6"]}
               alignItems="center"
-              fontWeight="semibold"
+              fontWeight="600"
             >
               {!user ? (
                 <>
