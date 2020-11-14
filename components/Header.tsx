@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Stack, Text, useColorModeValue, Fade } from "@chakra-ui/core";
+import { Box, Stack, Text, useColorModeValue } from "@chakra-ui/core";
 import { Nav, NavItems, NextChakraLink } from ".";
 
 import { motion } from "framer-motion";
@@ -13,7 +13,7 @@ export const Header: React.FunctionComponent = () => {
     "hsla(210, 38%, 99%, 0.7)",
     "hsla(230, 21%, 15%, 0.4)"
   );
-  const headerDs = useColorModeValue("md", "lg");
+  const headerDs = useColorModeValue("sm", "lg");
   const [mobileNavShown, setMobileNavShown] = useState(false);
 
   return (
@@ -93,16 +93,13 @@ export const Header: React.FunctionComponent = () => {
                   type: "spring",
                   stiffness: 30,
                   restSpeed: 2,
-                  // restSpeed: 2,
                 },
               },
               closed: {
                 opacity: 0,
                 display: "none",
-                // left: "50%",
                 top: "0vh",
                 left: "0vw",
-                // top: "50%",
                 clipPath: "circle(5px at 0vw 10vh)",
                 transition: {
                   delay: 0,
@@ -113,16 +110,6 @@ export const Header: React.FunctionComponent = () => {
               },
             }}
             initial={false}
-            style={
-              {
-                // position: "absolute",
-                // height: "100vh",
-                // marginLeft: "-16px",
-                // backdropFilter: "blur(15px)",
-                // WebkitBackdropFilter: "blur(15px)",
-              }
-            }
-            // transition={{ duration: 0.5 }}
             animate={mobileNavShown ? "open" : "closed"}
           >
             <Stack

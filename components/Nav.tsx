@@ -3,7 +3,6 @@ import {
   Box,
   Stack,
   IconButton,
-  Fade,
   useColorModeValue,
 } from "@chakra-ui/core";
 import { motion } from "framer-motion";
@@ -139,7 +138,6 @@ export const Nav: React.FunctionComponent<Props> = ({
               <Stack isInline spacing={1}>
                 <NextChakraLink href="/about">
                   <IconButton
-                    // marginLeft="1"
                     size="sm"
                     aria-label={`About/Info`}
                     variant="ghost"

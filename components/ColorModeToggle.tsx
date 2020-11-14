@@ -21,7 +21,6 @@ export const ColorModeToggle: React.FunctionComponent = (
       variant="ghost"
       color="current"
       marginLeft="1 "
-      // ml="0"
       onClick={toggleColorMode}
       icon={<SwitchIcon width="20px" height="20px" viewBox="0 0 20 20" />}
       aria-label={`Switch to ${text} mode`}

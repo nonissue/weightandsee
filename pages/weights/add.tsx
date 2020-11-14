@@ -24,8 +24,6 @@ import {
 import { Confirmation, Layout } from "../../components";
 import { Participants, FormInputs, FormResult } from "../../interfaces";
 
-import "react-datepicker/dist/react-datepicker.css";
-
 import db from "prisma";
 const prisma = db.getInstance().prisma;
 
@@ -187,9 +185,14 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
                     onClick={() => {
                       setEntryCount(entryCount + 1);
                     }}
-                    colorScheme="pink"
+                    // colorScheme="pink"
                     variant="outline"
                     w="100%"
+                    size="sm"
+                    textColor="pink.400"
+                    fontWeight="800"
+                    fontSize="md"
+                    // borderRadius="px"
                   >
                     +
                   </Button>
@@ -198,7 +201,10 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
                       title="-"
                       action={confirmationCallback}
                       variant="outline"
-                      colorScheme="cyan"
+                      size="sm"
+                      textColor="red.400"
+                      fontWeight="900"
+                      fontSize="md"
                       w="100%"
                     />
                   )}
@@ -266,6 +272,7 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
                 colorScheme="blue"
                 type="submit"
                 mx="auto"
+                borderRadius="24px"
                 mt="4"
                 w={["100%", "50%"]}
               >

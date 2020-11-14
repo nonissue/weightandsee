@@ -65,7 +65,7 @@ export default extendTheme({
         }),
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         external: (props: any)  => ({
-          color: mode("gray.700", "blue.100")(props),
+          color: mode("blue.700", "blue.100")(props),
           fontWeight: "400"
         }),
       },

@@ -34,6 +34,7 @@ const WeighInPage: React.FunctionComponent<{ data: string }> = ({ data }) => {
     "hsla(0, 88%, 80%, 0.9)"
   );
   const actionEditBorder = useColorModeValue("gray.400", "gray.500");
+  const dataText = useColorModeValue("black", "white");
 
   console.table(weighInData);
 
@@ -80,12 +81,6 @@ const WeighInPage: React.FunctionComponent<{ data: string }> = ({ data }) => {
           >
             <Button
               colorScheme="gray"
-              // color={actionsColor}
-              // background="gray.00"
-              // border="1px"
-              // borderColor="gray.400"
-              // color="gray.800"
-              // variant="ghost"
               size="xs"
               px="4"
               pl="4"
@@ -102,46 +97,29 @@ const WeighInPage: React.FunctionComponent<{ data: string }> = ({ data }) => {
             </Button>
             <Button
               px="4"
-              // color={actionsColor}
               borderColor={actionDeleteBorder}
               colorScheme="red"
-              // variant="solid"
               border="1px"
               py="2"
-              // shadow="md"
-              // opacity="0.9"
-              // background="red.100"
-              // borderColor="gray.700"
-              // color="gray.800"
-              // variant="ghost"
               size="xs"
-              // shadow="sm"
-              // px="4"
-              // borderRadius="0"
             >
               Delete
             </Button>
           </ButtonGroup>
         </Box>
         {/* <Divider /> */}
-        <Stack
-          // isInline
-          spacing={1}
-          direction="column"
-          justifyContent="space-between"
-        >
+        <Stack spacing={1} direction="column" justifyContent="space-between">
           <Divider />
           <Box
             display="flex"
             fontSize="md"
             textTransform="none"
             fontWeight="400"
-            // color="gray.600"
             alignItems="center"
             justifyContent="space-between"
           >
             <Box fontStyle="italic">Entry ID</Box>
-            <Box fontFamily="mono" textColor="black">
+            <Box fontFamily="mono" textColor={dataText}>
               {weighInData.id}
             </Box>
           </Box>
@@ -156,10 +134,8 @@ const WeighInPage: React.FunctionComponent<{ data: string }> = ({ data }) => {
             alignItems="center"
             justifyContent="space-between"
           >
-            <Box fontStyle="italic" fontFamily="Inter" textColor="gray.700">
-              Weigh Date
-            </Box>
-            <Box fontFamily="mono" textColor="black">
+            <Box fontStyle="italic">Weigh Date</Box>
+            <Box fontFamily="mono" textColor={dataText}>
               {weighInData.weighDate.split("T")[0]}
             </Box>
           </Box>
@@ -170,12 +146,11 @@ const WeighInPage: React.FunctionComponent<{ data: string }> = ({ data }) => {
             fontSize="md"
             textTransform="none"
             fontWeight="400"
-            // color="gray.600"
             alignItems="center"
             justifyContent="space-between"
           >
             <Box fontStyle="italic">Created</Box>
-            <Box fontFamily="mono" textColor="black">
+            <Box fontFamily="mono" textColor={dataText}>
               {weighInData.createdAt.split("T")[0]}&nbsp;
               {weighInData.createdAt.split("T")[1].split(".")[0]}
             </Box>
@@ -192,7 +167,7 @@ const WeighInPage: React.FunctionComponent<{ data: string }> = ({ data }) => {
             justifyContent="space-between"
           >
             <Box fontStyle="italic">Updated</Box>
-            <Box fontFamily="mono" textColor="black">
+            <Box fontFamily="mono" textColor={dataText}>
               {weighInData.updatedAt.split("T")[0]}&nbsp;
               {weighInData.updatedAt.split("T")[1].split(".")[0]}
             </Box>

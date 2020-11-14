@@ -1,11 +1,15 @@
 .react-datepicker {
   font-family: unset;
   font-size: 0.9rem;
+  border-color: hsla(0, 0%, 10%, 1);
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 8px -1px,
+    rgba(0, 0, 0, 0.1) 0px 2px 2px -1px;
 }
 
 .react-datepicker-wrapper,
 .react-datepicker__input-container {
   display: block;
+  width: 100%;
 }
 
 .react-datepicker__tab-loop {
@@ -73,6 +77,19 @@
 .react-datepicker__header,
 .react-datepicker__time-container {
   border-color: #e2e8f0;
+
+  background: white;
+  border-bottom: 0px;
+}
+
+.react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle,
+.react-datepicker-popper[data-placement^="bottom"]
+  .react-datepicker__triangle::before {
+  border-bottom-color: hsl(0, 0%, 10%);
+}
+.react-datepicker-popper[data-placement^="bottom"]
+  .react-datepicker__triangle::before {
+  border-bottom-color: hsl(0, 0%, 10%);
 }
 
 .react-datepicker__current-month,

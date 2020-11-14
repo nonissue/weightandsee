@@ -10,9 +10,10 @@
 ## General
 
 - [ ] Add startWeight
-- [ ] lol fancy mobile menu causes massive overscroll
+- [ ] useSWR
+- [x] lol fancy mobile menu causes massive overscroll
 - [ ] change currentWeight to be a reference to a weighIn
-- [ ] Change body fonts
+- [x] Change body fonts EDIT: Inter
 - [ ] Password
 - [ ] CRUD for entries
 - [ ] Add check constraint for currentWeight in Postgres
