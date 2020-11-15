@@ -16,9 +16,9 @@ export default async (
   } else if (req.method === "POST") {
     return handlePOST(req, res);
   } else {
-    throw new Error(
-      `The HTTP ${req.method} method is not supported at this route.`
-    );
+    return res.status(500).json({
+      error: `The HTTP ${req.method} method is not supported at this route.`,
+    });
   }
 };
 
@@ -34,13 +34,23 @@ async function handleGET(res: NextApiResponse) {
   return res.status(200).json(result);
 }
 
+// this needs to be cleaned up
 async function handlePOST(req: NextApiRequest, res: NextApiResponse) {
   const { date, entries, updateCurrentWeight } = req.body;
 
-  if (updateCurrentWeight !== "true" && updateCurrentWeight !== "false") {
+  if (
+    !(
+      updateCurrentWeight === "true" ||
+      updateCurrentWeight === "false" ||
+      typeof updateCurrentWeight === "boolean"
+    )
+  ) {
     return res
       .status(400)
-      .json({ error: "updateCurrentWeight must be a boolean" });
+      .json({
+        error:
+          "updateCurrentWeight must be a boolean or string 'true' or 'false'",
+      });
   }
 
   if (entries.length === 0) {

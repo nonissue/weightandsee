@@ -1,65 +1,91 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { PrismaClient } from "@prisma/client";
-
 const prisma = new PrismaClient();
 
+import { WeighIn } from "interfaces";
+
 // DELETE /api/post/:id
-export default async function handle(req:  NextApiRequest, res: NextApiResponse): Promise<void> {
+export default async function handle(
+  req: NextApiRequest,
+  res: NextApiResponse
+): Promise<void> {
   const weighInId = req.query.id;
-  if (req.method === 'GET') {
-    handleGET(weighInId as string, res);
-  } else if (req.method === 'DELETE') {
-    handleDELETE(weighInId as string, res);
-  } else if (req.method === 'PUT') {
-    handlePUT(weighInId as string, req.body.data, res);
+  if (req.method === "GET") {
+    return handleGET(weighInId as string, res);
+  } else if (req.method === "DELETE") {
+    return handleDELETE(weighInId as string, res);
+  } else if (req.method === "PUT") {
+    return handlePUT(weighInId as string, req.body.data, res);
   } else {
     throw new Error(
       `The HTTP ${req.method} method is not supported at this route.`
     );
   }
-
-  // if (req.method === "DELETE") {
-  //   const weighIn = await prisma.weighIn.delete({
-  //     where: { id: Number(weighInId) },
-  //   });
-
-  //   res.json(weighIn);
-  // } else {
-  //   res.statusCode = 501;
-  //   throw new Error(
-  //     `The HTTP ${req.method} method is not supported at this route.`
-  //   );
-  // }
 }
 
 async function handleGET(weighInId: string, res: NextApiResponse) {
-  const weighIn = await prisma.weighIn.findOne({
-    where: { id: Number(weighInId) },
-    include: { person: true },
-  });
-
-  res.json(weighIn);
+  let result;
+  try {
+    result = await prisma.weighIn.findOne({
+      where: { id: Number(weighInId) },
+      include: { person: true },
+    });
+    if (result) {
+      return res.status(200).json(result);
+    } else {
+      return res.status(500).json({ error: "Error: Weigh-In not found" });
+    }
+  } catch (error) {
+    return res.status(500).json({ error });
+  } finally {
+    prisma.$disconnect();
+  }
 }
 
-async function handlePUT(weighInId: string, data: any, res: NextApiResponse) {
-  const weighIn = await prisma.weighIn.update({
-    where: {
-      id: Number(weighInId),
-    },
-    include: {
-      person: true,
-    },
-    data: {
-      ...data
-    },
-  });
-  res.json(weighIn);
+async function handlePUT(
+  weighInId: string,
+  data: WeighIn,
+  res: NextApiResponse
+) {
+  try {
+    const weighIn = await prisma.weighIn.update({
+      where: {
+        id: Number(weighInId),
+      },
+      include: {
+        person: true,
+      },
+      data: {
+        ...data,
+      },
+    });
+    return res.json(weighIn);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
 }
 
 async function handleDELETE(weighInId: string, res: NextApiResponse) {
-  const weighIn = await prisma.weighIn.delete({
-    where: { id: Number(weighInId) },
-  });
-  res.json(weighIn);
+  let result;
+  try {
+    result = await prisma.weighIn.delete({
+      where: { id: Number(weighInId) },
+    });
+    if (result) {
+      return res.status(200).json(result);
+    } else {
+      return res.status(404).json("weighIN not found");
+    }
+  } catch (error) {
+    // we know this is a prisma 'record not found' error
+    if (error.meta.details.indexOf("RecordNotFound") !== -1) {
+      console.error("Delete Error: Weigh-In not found");
+      return res
+        .status(404)
+        .json({ error: "Could not find weigh-in to delete" });
+    }
+    return res.status(500).json(error);
+  }
 }

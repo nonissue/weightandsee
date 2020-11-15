@@ -1,4 +1,5 @@
 import { GetServerSideProps } from "next/types";
+import { useRouter } from "next/router";
 import {
   Heading,
   Box,
@@ -8,11 +9,10 @@ import {
   useColorModeValue,
   ButtonGroup,
 } from "@chakra-ui/core";
-import { Layout } from "components";
+import { Layout, Confirmation } from "components";
 
 import db from "prisma";
 const prisma = db.getInstance().prisma;
-
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const result = await prisma.weighIn.findOne({
     where: { id: Number(params?.id) },
@@ -25,10 +25,9 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 };
 
 const WeighInPage: React.FunctionComponent<{ data: string }> = ({ data }) => {
+  const router = useRouter();
   const weighInData = JSON.parse(data);
 
-  // const actionsBg = useColorModeValue("gray.200", "gray.700");
-  // const actionsShadow = useColorModeValue("sm", "base");
   const actionDeleteBorder = useColorModeValue(
     "hsla(0, 88%, 68%, 1)",
     "hsla(0, 88%, 80%, 0.9)"
@@ -36,7 +35,22 @@ const WeighInPage: React.FunctionComponent<{ data: string }> = ({ data }) => {
   const actionEditBorder = useColorModeValue("gray.400", "gray.500");
   const dataText = useColorModeValue("black", "white");
 
-  console.table(weighInData);
+  const confirmationCallback = async () => {
+    console.log("Deleting weighIn: " + weighInData.id);
+
+    try {
+      // const prisma = db.getInstance().prisma;
+      // const result = await prisma.weighIn.delete({
+      //   where: { id: weighInData.id },
+      // });
+      // console.log(result);
+      router.push("/weights");
+    } catch (error) {
+      console.log("Error deleting...");
+    }
+  };
+
+  // console.table(weighInData);
 
   return (
     <Layout>
@@ -58,25 +72,15 @@ const WeighInPage: React.FunctionComponent<{ data: string }> = ({ data }) => {
             fontFamily="heading"
             fontWeight="600"
             letterSpacing="1px"
-            // mb="2"
             alignSelf="center"
-            // fontStyle="italic"
           >
             {weighInData.person.name}
           </Heading>
           <ButtonGroup
-            // isInline
             isAttached
-            // spacing="6"
-            // background={actionsBg}
-            // color={actionsColor}
             variant="outline"
-            // py="1"
-            // px="4"
             size="xs"
             shadow="0 1px 2px 0.25px rgba(0,0,0,0.1)"
-            // p="3"
-
             borderRadius="6px"
           >
             <Button
@@ -85,26 +89,22 @@ const WeighInPage: React.FunctionComponent<{ data: string }> = ({ data }) => {
               px="4"
               pl="4"
               py="2"
-              // borderRightColor="hsla(0, 0%, 10%, 0.075)"
-              // borderRightWidth="0px"
               borderColor={actionEditBorder}
-              // shadow="1px 1px 15px hsla(0, 0%, 0%, 0.2)"
               borderRightColor="transparent"
-              // px="4"
-              // borderRadius="0"
             >
               Edit
             </Button>
-            <Button
+            <Confirmation
+              title="Delete"
+              action={confirmationCallback}
               px="4"
+              description="Are you sure you want to remove this Weigh-In?"
               borderColor={actionDeleteBorder}
               colorScheme="red"
               border="1px"
               py="2"
               size="xs"
-            >
-              Delete
-            </Button>
+            />
           </ButtonGroup>
         </Box>
         {/* <Divider /> */}
@@ -130,7 +130,6 @@ const WeighInPage: React.FunctionComponent<{ data: string }> = ({ data }) => {
             fontSize="md"
             textTransform="none"
             fontWeight="400"
-            // color="gray.600"
             alignItems="center"
             justifyContent="space-between"
           >

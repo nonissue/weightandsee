@@ -64,6 +64,8 @@ export type WeighIn = {
   personId: number;
   id: number;
   weighDate: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 export type WeighIns = {

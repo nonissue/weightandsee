@@ -16,3 +16,8 @@
 - Dynamic form fields: https://codesandbox.io/s/6j1760jkjk
 - Proper json stringify: https://codesandbox.io/s/react-hook-form-v6-controller-append-prepepend-insert-7clz7?file=/src/index.js
 - Datepicker: https://codesandbox.io/s/react-hook-form-controller-079xx?file=/src/index.js
+
+
+## Fonts
+
+- Alegreya sans
