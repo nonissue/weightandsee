@@ -52,7 +52,7 @@ export const Confirmation: React.FunctionComponent<Props & ButtonProps> = ({
               : "Are you sure you want to remove an entry?"}
           </AlertDialogBody>
           <AlertDialogFooter>
-            <Button ref={cancelRef} onClick={onClose}>
+            <Button ref={cancelRef} onClick={onClose} size="md" variant="solid">
               No
             </Button>
             <Button
@@ -60,8 +60,10 @@ export const Confirmation: React.FunctionComponent<Props & ButtonProps> = ({
                 action();
                 onClose();
               }}
+              variant="solid"
               colorScheme="orange"
               ml={3}
+              size="md"
             >
               Yes
             </Button>

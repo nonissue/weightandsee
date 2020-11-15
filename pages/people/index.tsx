@@ -6,7 +6,6 @@ import {
   Grid,
   List,
   ListItem,
-  VStack,
   Divider,
   Stack,
   useColorModeValue,

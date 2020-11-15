@@ -1,4 +1,4 @@
-import { Box, Grid } from "@chakra-ui/core";
+import { Box } from "@chakra-ui/core";
 import React, { ReactNode } from "react";
 
 import { Header } from "./Header";

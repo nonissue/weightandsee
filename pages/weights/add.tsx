@@ -185,14 +185,12 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
                     onClick={() => {
                       setEntryCount(entryCount + 1);
                     }}
-                    // colorScheme="pink"
                     variant="outline"
                     w="100%"
                     size="sm"
                     textColor="pink.400"
                     fontWeight="800"
                     fontSize="md"
-                    // borderRadius="px"
                   >
                     +
                   </Button>

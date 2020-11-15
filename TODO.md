@@ -10,7 +10,8 @@
 ## General
 
 - [ ] Add startWeight
-- [ ] useSWR
+- [ ] Add PW
+- [ ] Add edit form
 - [x] lol fancy mobile menu causes massive overscroll
 - [ ] change currentWeight to be a reference to a weighIn
 - [x] Change body fonts EDIT: Inter
