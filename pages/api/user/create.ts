@@ -25,6 +25,7 @@ export default async function (
             email: userData.email,
             password: hash,
             role: userRole,
+            authMethod: "PASSWORD",
           },
         });
 

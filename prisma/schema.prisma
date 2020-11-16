@@ -7,8 +7,8 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
-  // previewFeatures = ["transactionApi"]
+  provider        = "prisma-client-js"
+  previewFeatures = ["transactionApi"]
 }
 
 enum Role {
@@ -17,8 +17,8 @@ enum Role {
 }
 
 enum AuthMethod {
-  USER
-  ADMIN
+  EMAIL
+  PASSWORD
 }
 
 model Person {
@@ -56,7 +56,7 @@ model User {
   role          Role       @default(USER)
   email         String?    @unique
   emailVerified DateTime?  @map(name: "email_verified")
-  authMethod    AuthMethod
+  authMethod    AuthMethod @default(PASSWORD)
   password      String?
   currentWeight Float?
   weighIns      WeighIn[]

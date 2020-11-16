@@ -7,7 +7,7 @@ import {
 } from "@chakra-ui/core";
 import { signOut, useSession } from "next-auth/client";
 import { motion } from "framer-motion";
-import { Menu, InformationCircleOutline, X } from "heroicons-react";
+import { Menu, InformationCircleOutline } from "heroicons-react";
 import { useBreakpointValue } from "@chakra-ui/media-query";
 import { NextChakraLink } from "./NextChakraLink";
 import { ColorModeToggle } from "./ColorModeToggle";
@@ -41,8 +41,7 @@ export const Nav: React.FunctionComponent<Props> = ({
   mobileNavShown,
   setMobileNavShown,
 }) => {
-  const [session, loading] = useSession();
-  console.log(session);
+  const [session] = useSession();
 
   // this is actually the opposite of what we expect?
   const showBurger = useBreakpointValue({
@@ -57,6 +56,9 @@ export const Nav: React.FunctionComponent<Props> = ({
 
   // showBurger => show burger button rather than full nav
   // mobileNavShown => burger clicked, show mobile nav items
+  // if (loading) {
+  //   return <h1>LOADING</h1>;
+  // }
 
   return (
     <>
@@ -83,20 +85,17 @@ export const Nav: React.FunctionComponent<Props> = ({
                 variant="ghost"
                 zIndex={1000}
                 icon={
-                  // mobileNavShown ? (
                   <>
-                    <motion.div
-                      // in={mobileNavShown}
+                    {/* <motion.div
                       animate={mobileNavShown ? "open" : "closed"}
                       variants={{
                         closed: { opacity: 0, display: "none" },
                         open: { opacity: 1, display: "block" },
                       }}
-                      // initial="closed"
                       transition={{ duration: 0.3 }}
                     >
                       <X />
-                    </motion.div>
+                    </motion.div> */}
 
                     <motion.div
                       animate={mobileNavShown ? "open" : "closed"}

@@ -34,15 +34,15 @@ export default class Document extends NextDocument {
             content="black-translucent"
           />
           <link
-            href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=DM+Serif+Display:ital@0;1&family=DM+Serif+Text:ital@0;1&display=swap"
+            href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=DM+Serif+Display:ital@0;1&family=DM+Serif+Text:ital@0;1&display=optional"
             rel="stylesheet"
           />
-          <link
-            href="https://fonts.googleapis.com/css2?family=Recursive:wght@300;400;500;600;700;800;850;900&display=swap"
+          {/* <link
+            href="https://fonts.googleapis.com/css2?family=Recursive:wght@300;400;500;600;700;800;850;900&display=block"
             rel="stylesheet"
-          />
+          /> */}
           <link
-            href="https://fonts.googleapis.com/css2?family=Recursive:slnt,wght,CASL,CRSV,MONO@-15..0,300..1000,0..1,0..1,0..1&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Recursive:slnt,wght,CASL,CRSV,MONO@-15..0,300..1000,0..1,0..1,0..1&display=optional"
             rel="stylesheet"
           ></link>
           <link rel="stylesheet" href="/fonts/inter/inter.css" />

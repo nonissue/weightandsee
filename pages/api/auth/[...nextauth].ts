@@ -44,19 +44,40 @@ const options = {
           where: { email: credentials.email },
         });
 
-        if (user && user.password) {
-          compare(credentials.password, user.password, async function (
-            err,
-            result
-          ) {
-            if (!err && result) {
-              return true;
-            }
-          });
-          return Promise.resolve(user);
+        let test = await compare(
+          credentials.password,
+          user?.password as string
+        );
+        console.log("bcrypt res " + test);
+
+        let result = await compare(
+          credentials.password,
+          user?.password as string
+        );
+
+        if (user) {
+          if (result) {
+            return Promise.resolve(user);
+          } else {
+            return Promise.resolve(null);
+          }
         } else {
           return Promise.resolve(null);
         }
+
+        // if (user && user.password) {
+        //   await compare(credentials.password, user.password, async function (
+        //     err,
+        //     result
+        //   ) {
+        //     if (!err && result) {
+        //       return true;
+        //     }
+        //   });
+        //   return Promise.resolve(user);
+        // } else {
+        //   return Promise.resolve(null);
+        // }
       },
     }),
   ],
@@ -73,10 +94,10 @@ const options = {
   callbacks: {
     jwt: async (
       token: any,
-      user: any,
-      account: any,
-      profile: any,
-      isNewUser: any
+      // user: any,
+      // account: any,
+      profile: any
+      // isNewUser: any
     ) => {
       if (!token.profile) token.profile = profile;
       return Promise.resolve(token);

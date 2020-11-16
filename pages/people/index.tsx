@@ -26,7 +26,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   */
   let baseURL = null;
 
-  console.log(process.env);
+  // console.log(process.env);
 
   // GOD, this sucked
   // Below is tested in every case EXCEPT for actual deploying to production...

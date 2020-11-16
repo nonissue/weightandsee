@@ -6,11 +6,21 @@
   - [x] https://github.com/prisma/prisma/issues/1983
   - [x] Tried to fix with prisma singleton
   - [x] Maybe copy blitz.js implementation
+- [ ] Weird width reflow in safari when loading, maybe only during dev?
+
+## Auth
+
+- [ ] handle user sign up errors
+- [ ] handle user sign in errors
+- [ ] Err, anypassword works?
+- [ ] 
+
+
 
 ## General
 
 - [ ] Add startWeight
-- [ ] Add PW
+- [x] Add PW
 - [ ] Add edit form
 - [x] lol fancy mobile menu causes massive overscroll
 - [ ] change currentWeight to be a reference to a weighIn
