@@ -15,9 +15,9 @@ export const Header: React.FunctionComponent = () => {
   );
   const headerDs = useColorModeValue("sm", "lg");
   const [mobileNavShown, setMobileNavShown] = useState(false);
-  const [loading] = useSession();
+  const [loading, session] = useSession();
 
-  if (loading) {
+  if (loading && !session) {
     return <h1>LOADING</h1>;
   }
 
