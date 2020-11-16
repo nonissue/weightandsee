@@ -44,6 +44,8 @@ const options = {
           where: { email: credentials.email },
         });
 
+        console.log("found user");
+
         let test = await compare(
           credentials.password,
           user?.password as string
@@ -55,8 +57,11 @@ const options = {
           user?.password as string
         );
 
+        console.log("pass verified");
+
         if (user) {
           if (result) {
+            console.log("signing in");
             return Promise.resolve(user);
           } else {
             return Promise.resolve(null);
@@ -81,8 +86,9 @@ const options = {
       },
     }),
   ],
+  debug: true,
   adapter: Adapters.Prisma.Adapter({ prisma }),
-  secret: process.env.SECRET,
+  // secret: process.env.JWT_SECRET,
   session: {
     jwt: true,
     maxAge: 60 * 60,
@@ -94,23 +100,38 @@ const options = {
   callbacks: {
     jwt: async (
       token: any,
-      // user: any,
-      // account: any,
-      profile: any
-      // isNewUser: any
+      user: any,
+      account: any,
+      profile: any,
+      isNewUser: any
     ) => {
-      if (!token.profile) token.profile = profile;
+      if (user) {
+        token.name = user.name;
+        token.user = user.id;
+        token.email = user.email;
+        token.role = user.role;
+      }
+      // if (!token.profile) token.profile = profile;
       return Promise.resolve(token);
     },
-    session: async (session: any, user: any) => {
-      //_sessionToken: any
-      session.user = user;
-      return Promise.resolve(session);
+    session: async (session: any, user: any, _token: any) => {
+      // session.user = user;
+      // return Promise.resolve(session);
+      console.log(session);
+      return Promise.resolve({
+        ...session,
+        user: {
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          id: user.user,
+        },
+      });
     },
   },
-  pages: {
-    newUser: "/people",
-  },
+  // pages: {
+  //   newUser: "/people",
+  // },
   // callbacks: {
   //   jwt: async (
   //     token: { user: any },

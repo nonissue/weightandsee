@@ -15,11 +15,15 @@ export const Header: React.FunctionComponent = () => {
   );
   const headerDs = useColorModeValue("sm", "lg");
   const [mobileNavShown, setMobileNavShown] = useState(false);
-  const [loading, session] = useSession();
+  // const loading = false;
+  const [session, loading] = useSession();
 
-  if (loading && !session) {
-    return <h1>LOADING</h1>;
+  if (session) {
+    console.log(session);
   }
+  // if (loading) {
+  //   return <h1>LOADING</h1>;
+  // }
 
   return (
     <>
@@ -45,16 +49,17 @@ export const Header: React.FunctionComponent = () => {
         }}
         className="nav-header"
       >
-        <motion.div
-          animate={loading ? "loading" : "loaded"}
-          initial="loading"
-          variants={{
-            loading: { opacity: 0 },
-            loaded: { opacity: 1 },
-          }}
-          transition={{ delay: 0, duration: 2 }}
-        >
-          <Box maxW="min(65ch, 100%)" mx="auto" px={["4", "4", "2", "2"]}>
+        <Box maxW="min(65ch, 100%)" mx="auto" px={["4", "4", "2", "2"]}>
+          <motion.div
+            // in={mobileNavShown}
+            animate={loading ? "loading" : "loaded"}
+            initial="loading"
+            variants={{
+              loading: { opacity: 0 },
+              loaded: { opacity: 1 },
+            }}
+            transition={{ delay: 0, duration: 2 }}
+          >
             <Stack
               isInline
               justifyContent="space-between"
@@ -151,8 +156,8 @@ export const Header: React.FunctionComponent = () => {
             )}
             {/* </motion.div> */}
             {/* )} */}
-          </Box>
-        </motion.div>
+          </motion.div>
+        </Box>
       </Box>
     </>
   );
