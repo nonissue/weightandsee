@@ -101,9 +101,9 @@ const options = {
     jwt: async (
       token: any,
       user: any,
-      account: any,
-      profile: any,
-      isNewUser: any
+      _account: any,
+      _profile: any,
+      _isNewUser: any
     ) => {
       if (user) {
         token.name = user.name;
@@ -114,7 +114,7 @@ const options = {
       // if (!token.profile) token.profile = profile;
       return Promise.resolve(token);
     },
-    session: async (session: any, user: any, _token: any) => {
+    session: async (session: any, user: any) => {
       // session.user = user;
       // return Promise.resolve(session);
       console.log(session);
