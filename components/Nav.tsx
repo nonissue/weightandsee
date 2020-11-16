@@ -5,6 +5,7 @@ import {
   IconButton,
   useColorModeValue,
 } from "@chakra-ui/core";
+import { signOut, useSession } from "next-auth/client";
 import { motion } from "framer-motion";
 import { Menu, InformationCircleOutline, X } from "heroicons-react";
 import { useBreakpointValue } from "@chakra-ui/media-query";
@@ -25,7 +26,10 @@ export const NavItems: React.FunctionComponent = () => {
       </NextChakraLink>
       <NextChakraLink href="/people">People</NextChakraLink>
       <NextChakraLink href="/weights">Weigh-Ins</NextChakraLink>
-      <NextChakraLink href="/graphs">Graphs</NextChakraLink>
+      {/* <NextChakraLink href="/graphs">Graphs</NextChakraLink> */}
+      <NextChakraLink href="" onClick={() => signOut()}>
+        Log Out
+      </NextChakraLink>
       {/* <NextChakraLink href="/about">About</NextChakraLink> */}
     </>
   );
@@ -37,6 +41,9 @@ export const Nav: React.FunctionComponent<Props> = ({
   mobileNavShown,
   setMobileNavShown,
 }) => {
+  const [session, loading] = useSession();
+  console.log(session);
+
   // this is actually the opposite of what we expect?
   const showBurger = useBreakpointValue({
     base: true,
@@ -47,7 +54,6 @@ export const Nav: React.FunctionComponent<Props> = ({
 
   // const logoutLinkColor = useColorModeValue("orange.500", "orange.200");
   const loginLinkColor = useColorModeValue("green.500", "green.200");
-  const user = true;
 
   // showBurger => show burger button rather than full nav
   // mobileNavShown => burger clicked, show mobile nav items
@@ -103,15 +109,6 @@ export const Nav: React.FunctionComponent<Props> = ({
                       <Menu />
                     </motion.div>
                   </>
-                  // )
-                  // <>
-                  //   <Fade in={mobileNavShown} unmountOnExit>
-                  //     <X />
-                  //   </Fade>
-                  //   <Fade in={!mobileNavShown} unmountOnExit>
-                  //     <Menu />
-                  //   </Fade>
-                  // </>
                 }
                 onClick={() => {
                   setMobileNavShown(!mobileNavShown);
@@ -125,16 +122,22 @@ export const Nav: React.FunctionComponent<Props> = ({
               alignItems="center"
               fontWeight="600"
             >
-              {!user ? (
+              {!session ? (
                 <>
-                  <NextChakraLink href="/demo" color={loginLinkColor}>
+                  <NextChakraLink
+                    href="/api/auth/signin"
+                    color={loginLinkColor}
+                  >
                     Login
+                  </NextChakraLink>
+                  <NextChakraLink href="/user/register" color={loginLinkColor}>
+                    Sign Up
                   </NextChakraLink>
                 </>
               ) : (
                 <NavItems />
               )}
-              ;
+
               <Stack isInline spacing={1}>
                 <NextChakraLink href="/about">
                   <IconButton

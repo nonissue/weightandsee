@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { Provider } from "next-auth/client";
+import { AppProps } from "next/app";
 import * as gtag from "../lib/gtag";
 
 /* eslint-disable @typescript-eslint/ban-types */
@@ -20,7 +22,7 @@ export interface AppRenderProps {
   cookies?: string;
 }
 
-const App: React.FunctionComponent<AppRenderProps> = ({
+const App: React.FunctionComponent<AppRenderProps & AppProps> = ({
   Component,
   pageProps,
   cookies,
@@ -37,9 +39,11 @@ const App: React.FunctionComponent<AppRenderProps> = ({
   }, [router.events]);
 
   return (
-    <Chakra cookies={cookies}>
-      <Component {...pageProps} />
-    </Chakra>
+    <Provider session={pageProps.session}>
+      <Chakra cookies={cookies}>
+        <Component {...pageProps} />
+      </Chakra>
+    </Provider>
   );
 };
 
