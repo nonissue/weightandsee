@@ -123,7 +123,6 @@ export const PeoplePage: React.FunctionComponent<{ data: string }> = ({
               );
             })}
           </List>
-          {/* <Divider borderWidth="1px" /> */}
         </Grid>
       </Grid>
     </Layout>

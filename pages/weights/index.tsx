@@ -93,9 +93,9 @@ const WeightsPage: React.FunctionComponent<WeighInsWithPerson> = ({
                 <Stack spacing={0} key={weighIn.id}>
                   {showDate && (
                     <>
-                      <Divider borderWidth="1.5px" mt={1} />
+                      <Divider borderWidth="0px" mt={1} />
                       <Text
-                        fontSize="xl"
+                        fontSize="md"
                         fontFamily="mono"
                         fontWeight="400"
                         textColor="gray.400"
@@ -114,17 +114,19 @@ const WeightsPage: React.FunctionComponent<WeighInsWithPerson> = ({
                     <NextChakraLink
                       href={`people/${weighIn.person.name}`}
                       mr="1"
-                      fontWeight="600"
-                      fontSize="2xl"
+                      fontWeight="400"
+                      fontSize="xl"
                     >
                       {weighIn.person.name}
                     </NextChakraLink>
-                    <WeightTag weight={weighIn.weight} />
+                    <NextChakraLink href={`/weights/${weighIn.id}`}>
+                      <WeightTag weight={weighIn.weight} />
+                    </NextChakraLink>
                   </Stack>
                 </Stack>
               );
             })}
-            <Divider borderWidth="1px" />
+            {/* <Divider borderWidth="1px" /> */}
           </Stack>
         </Grid>
       </Grid>

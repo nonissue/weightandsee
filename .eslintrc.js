@@ -29,8 +29,11 @@ module.exports = {
   settings: {
     "import/resolver": {
       typescript: {
-        directory: ".",
+        project: ".",
       },
+    },
+    react: {
+      version: "detect",
     },
   },
 };

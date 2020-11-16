@@ -39,11 +39,12 @@ const WeighInPage: React.FunctionComponent<{ data: string }> = ({ data }) => {
     console.log("Deleting weighIn: " + weighInData.id);
 
     try {
-      // const prisma = db.getInstance().prisma;
-      // const result = await prisma.weighIn.delete({
-      //   where: { id: weighInData.id },
-      // });
-      // console.log(result);
+      // call delete api
+      const result = await fetch(`/api/weigh-ins/${weighInData.id}`, {
+        method: "DELETE",
+      });
+      console.log(result);
+      // toast here to confirm deletion
       router.push("/weights");
     } catch (error) {
       console.log("Error deleting...");

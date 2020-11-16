@@ -1,3 +1,7 @@
 scripts/
 site-config.js
 next-sitemap.js
+.next
+public
+node_modules
+out
