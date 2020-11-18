@@ -7,12 +7,14 @@
   - [x] Tried to fix with prisma singleton
   - [x] Maybe copy blitz.js implementation
 - [ ] Weird width reflow in safari when loading, maybe only during dev?
+- [ ] share layout so things like menu dont rerender
+- [ ] mobile nav shouldnt shift page content
 
 ## Auth
 
 - [ ] handle user sign up errors
 - [ ] handle user sign in errors
-- [ ] Err, anypassword works?
+- [x] Err, anypassword works?
 - [ ] 
 
 
@@ -25,7 +27,7 @@
 - [x] lol fancy mobile menu causes massive overscroll
 - [ ] change currentWeight to be a reference to a weighIn
 - [x] Change body fonts EDIT: Inter
-- [ ] Password
+- [x] Password
 - [ ] CRUD for entries
 - [ ] Add check constraint for currentWeight in Postgres
 - [ ] Prisma: implement `prisma db push` for dev db

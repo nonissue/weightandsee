@@ -7,7 +7,7 @@ import {
 } from "@chakra-ui/core";
 import { signOut, useSession } from "next-auth/client";
 import { motion } from "framer-motion";
-import { Menu, InformationCircleOutline } from "heroicons-react";
+import { Menu, InformationCircleOutline, X } from "heroicons-react";
 import { useBreakpointValue } from "@chakra-ui/media-query";
 import { NextChakraLink } from "./NextChakraLink";
 import { ColorModeToggle } from "./ColorModeToggle";
@@ -52,13 +52,7 @@ export const Nav: React.FunctionComponent<Props> = ({
   });
 
   // const logoutLinkColor = useColorModeValue("orange.500", "orange.200");
-  const loginLinkColor = useColorModeValue("green.500", "green.200");
-
-  // showBurger => show burger button rather than full nav
-  // mobileNavShown => burger clicked, show mobile nav items
-  // if (loading) {
-  //   return <h1>LOADING</h1>;
-  // }
+  const loginLinkColor = useColorModeValue("pink.400", "pink.200");
 
   return (
     <>
@@ -86,7 +80,7 @@ export const Nav: React.FunctionComponent<Props> = ({
                 zIndex={1000}
                 icon={
                   <>
-                    {/* <motion.div
+                    <motion.div
                       animate={mobileNavShown ? "open" : "closed"}
                       variants={{
                         closed: { opacity: 0, display: "none" },
@@ -95,7 +89,7 @@ export const Nav: React.FunctionComponent<Props> = ({
                       transition={{ duration: 0.3 }}
                     >
                       <X />
-                    </motion.div> */}
+                    </motion.div>
 
                     <motion.div
                       animate={mobileNavShown ? "open" : "closed"}

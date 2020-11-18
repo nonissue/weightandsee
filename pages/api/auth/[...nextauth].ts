@@ -14,21 +14,6 @@ export default authHandler;
 
 const options = {
   providers: [
-    // Providers.GitHub({
-    //   clientId: process.env.GITHUB_ID,
-    //   clientSecret: process.env.GITHUB_SECRET,
-    // }),
-    Providers.Email({
-      server: {
-        host: process.env.SMTP_HOST as string,
-        port: Number(process.env.SMTP_PORT),
-        auth: {
-          user: process.env.SMTP_USER as string,
-          pass: process.env.SMTP_PASSWORD as string,
-        },
-      },
-      from: process.env.SMTP_FROM,
-    }),
     Providers.Credentials({
       name: "Credentials",
       credentials: {
@@ -69,21 +54,18 @@ const options = {
         } else {
           return Promise.resolve(null);
         }
-
-        // if (user && user.password) {
-        //   await compare(credentials.password, user.password, async function (
-        //     err,
-        //     result
-        //   ) {
-        //     if (!err && result) {
-        //       return true;
-        //     }
-        //   });
-        //   return Promise.resolve(user);
-        // } else {
-        //   return Promise.resolve(null);
-        // }
       },
+    }),
+    Providers.Email({
+      server: {
+        host: process.env.SMTP_HOST as string,
+        port: Number(process.env.SMTP_PORT),
+        auth: {
+          user: process.env.SMTP_USER as string,
+          pass: process.env.SMTP_PASSWORD as string,
+        },
+      },
+      from: process.env.SMTP_FROM,
     }),
   ],
   debug: true,
@@ -111,12 +93,10 @@ const options = {
         token.email = user.email;
         token.role = user.role;
       }
-      // if (!token.profile) token.profile = profile;
+
       return Promise.resolve(token);
     },
     session: async (session: any, user: any) => {
-      // session.user = user;
-      // return Promise.resolve(session);
       console.log(session);
       return Promise.resolve({
         ...session,

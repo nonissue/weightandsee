@@ -8,6 +8,7 @@ import Head from "next/head";
 
 export const Header: React.FunctionComponent = () => {
   const headerColor = useColorModeValue("pink.400", "pink.300");
+  const loginLinkColor = useColorModeValue("pink.400", "pink.200");
   // const headerBg = useColorModeValue("gray.50", "gray.800");
   const headerBg = useColorModeValue(
     "hsla(210, 38%, 99%, 0.7)",
@@ -21,9 +22,6 @@ export const Header: React.FunctionComponent = () => {
   if (session) {
     console.log(session);
   }
-  // if (loading) {
-  //   return <h1>LOADING</h1>;
-  // }
 
   return (
     <>
@@ -55,10 +53,10 @@ export const Header: React.FunctionComponent = () => {
             animate={loading ? "loading" : "loaded"}
             initial="loading"
             variants={{
-              loading: { opacity: 0 },
-              loaded: { opacity: 1 },
+              loading: { opacity: 0, y: "-100px" },
+              loaded: { opacity: 1, y: "0px" },
             }}
-            transition={{ delay: 0, duration: 2 }}
+            transition={{ delay: 0, duration: 0.5 }}
           >
             <Stack
               isInline
@@ -135,23 +133,43 @@ export const Header: React.FunctionComponent = () => {
             > */}
             {mobileNavShown && (
               <Stack
-                pb={5}
+                shadow={headerDs}
+                pb={3}
+                pt={2}
                 spacing={1}
-                // pl="4"
-                pt="0"
+                ml={["-4", "-4", "-2", "-2"]}
+                px={["4", "4", "2", "2"]}
+                position="absolute"
+                // pt="0"
+                className="nav-header"
                 fontWeight="500"
                 fontSize="lg"
                 bg={headerBg}
-                // position="absolute"
-                // height="100vh"
                 style={{
                   backdropFilter: "blur(15px)",
-                  WebkitBackdropFilter: "blur(15px)",
+                  WebkitBackdropFilter: "blur(12px)",
                 }}
                 // left="0"
                 width="100vw"
               >
-                <NavItems />
+                {!session ? (
+                  <>
+                    <NextChakraLink
+                      href="/api/auth/signin"
+                      color={loginLinkColor}
+                    >
+                      Login
+                    </NextChakraLink>
+                    <NextChakraLink
+                      href="/user/register"
+                      color={loginLinkColor}
+                    >
+                      Sign Up
+                    </NextChakraLink>
+                  </>
+                ) : (
+                  <NavItems />
+                )}
               </Stack>
             )}
             {/* </motion.div> */}

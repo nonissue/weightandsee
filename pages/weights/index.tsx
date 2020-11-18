@@ -1,13 +1,8 @@
 // Oh man, Chakra isRequired is way better than relying on form errors
 import { GetServerSideProps } from "next";
-// import { PrismaClient } from "@prisma/client";
 import { Grid, Heading, Divider, Text, Stack } from "@chakra-ui/core";
-
+import { Layout, NextChakraLink, WeightTag } from "../../components";
 import { WeighInsWithPerson } from "../../interfaces";
-
-import { Layout } from "../../components/Layout";
-import { NextChakraLink } from "../../components/NextChakraLink";
-import { WeightTag } from "../../components/WeightTag";
 
 import db from "prisma";
 const prisma = db.getInstance().prisma;
@@ -126,7 +121,6 @@ const WeightsPage: React.FunctionComponent<WeighInsWithPerson> = ({
                 </Stack>
               );
             })}
-            {/* <Divider borderWidth="1px" /> */}
           </Stack>
         </Grid>
       </Grid>

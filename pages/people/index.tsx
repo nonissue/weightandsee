@@ -1,18 +1,16 @@
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-
-import { Person } from "../../interfaces";
 import {
-  Heading,
+  Divider,
   Grid,
+  Heading,
   List,
   ListItem,
-  Divider,
   Stack,
   useColorModeValue,
 } from "@chakra-ui/core";
-import { Layout } from "../../components/Layout";
-import { WeightTag } from "../../components/WeightTag";
-import { NextChakraLink } from "../../components/NextChakraLink";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+
+import { Layout, NextChakraLink, WeightTag } from "../../components";
+import { Person } from "../../interfaces";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   /*

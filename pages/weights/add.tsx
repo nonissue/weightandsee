@@ -1,29 +1,25 @@
 // componentize some of this
-
-import { useState } from "react";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-// eslint-disable-next-line import/no-named-as-default
-import Router from "next/router";
-
-import { useForm, Controller } from "react-hook-form";
-import ReactDatePicker from "react-datepicker";
-
 import {
-  Grid,
   Box,
-  Input,
   Button,
-  Stack,
-  Select,
+  Checkbox,
   Divider,
   FormControl,
-  Checkbox,
+  Grid,
+  Input,
+  Select,
+  Stack,
   useColorModeValue,
 } from "@chakra-ui/core";
-
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import ReactDatePicker from "react-datepicker";
+import { Controller, useForm } from "react-hook-form";
 import { Confirmation, Layout } from "../../components";
-import { Participants, FormInputs, FormResult } from "../../interfaces";
+import { FormInputs, FormResult, Participants } from "../../interfaces";
 
+// eslint-disable-next-line import/no-named-as-default
 import db from "prisma";
 const prisma = db.getInstance().prisma;
 
@@ -74,6 +70,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 const CreateWeights: React.FunctionComponent<Participants> = ({
   people,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const router = useRouter();
   const { handleSubmit, errors, control } = useForm<FormInputs>();
   const [entryCount, setEntryCount] = useState(1);
 
@@ -95,7 +92,7 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
         body: JSON.stringify(data),
       });
 
-      await Router.push("/weights");
+      await router.push("/weights");
     } catch (e) {
       console.log(e);
     }
