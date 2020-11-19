@@ -1,13 +1,12 @@
 import { FormEvent, useState } from "react";
 import Head from "next/head";
-import { useRouter } from "next/router";
+
 import { signIn } from "next-auth/client";
 import { NextChakraLink, Layout } from "components";
 import { Button, Stack, FormLabel, Input } from "@chakra-ui/core";
 import { getBaseURL } from "lib/getBaseURL";
 
 export default function Register(): JSX.Element {
-  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

@@ -12,21 +12,17 @@ export const Header: React.FunctionComponent = () => {
   // const headerBg = useColorModeValue("gray.50", "gray.800");
   const headerBg = useColorModeValue(
     "hsla(210, 38%, 99%, 0.7)",
-    "hsla(230, 21%, 15%, 0.4)"
+    "hsla(230, 21%, 15%, 0.6)"
   );
   const mobileNavBg = useColorModeValue(
-    "hsla(210, 38%, 99%, 0)",
-    "hsla(230, 21%, 17%, 0)"
+    "hsla(210, 38%, 99%, 0.1)",
+    "hsla(230, 21%, 15%, 0.7)"
   );
   const headerDs = useColorModeValue("xl", "lg");
   const navDs = useColorModeValue("lg", "xl");
   const [mobileNavShown, setMobileNavShown] = useState(false);
   // const loading = false;
   const [session, loading] = useSession();
-
-  if (session) {
-    console.log(session);
-  }
 
   return (
     <>
@@ -48,7 +44,7 @@ export const Header: React.FunctionComponent = () => {
         // opacity={loading ? "0.1" : "0.9"}
         style={{
           backdropFilter: "blur(15px)",
-          WebkitBackdropFilter: "blur(15px)",
+          WebkitBackdropFilter: "blur(25px)",
         }}
         className="nav-header"
       >
@@ -104,18 +100,18 @@ export const Header: React.FunctionComponent = () => {
               </Box>
             </Stack>
             {/* {mobileNavShown && ( */}
-            {/* <motion.div
+            <motion.div
               variants={{
                 open: {
                   opacity: 1,
                   left: "0px",
                   top: "0",
                   display: "block",
-                  clipPath: `circle(${200 * 1.5}px at 0px 10vh)`,
+                  clipPath: `circle(${300 * 1.5}px at 0px 10vh)`,
                   transition: {
-                    delay: 0.3,
+                    delay: 0,
                     type: "spring",
-                    stiffness: 30,
+                    stiffness: 40,
                     restSpeed: 2,
                   },
                 },
@@ -124,7 +120,7 @@ export const Header: React.FunctionComponent = () => {
                   display: "none",
                   top: "0vh",
                   left: "0vw",
-                  clipPath: "circle(5px at 0vw 10vh)",
+                  clipPath: "circle(25px at 0vw 10vh)",
                   transition: {
                     delay: 0,
                     type: "spring",
@@ -135,8 +131,8 @@ export const Header: React.FunctionComponent = () => {
               }}
               initial={false}
               animate={mobileNavShown ? "open" : "closed"}
-            > */}
-            {mobileNavShown && (
+            >
+              {/* {mobileNavShown && ( */}
               <Stack
                 shadow={navDs}
                 pb={4}
@@ -148,15 +144,12 @@ export const Header: React.FunctionComponent = () => {
                 className="nav-header"
                 zIndex="-1"
                 fontWeight="500"
-                // align="center"
-                // borderBottom="1px"
                 fontSize="lg"
                 bg={mobileNavBg}
                 style={{
                   backdropFilter: "blur(15px)",
-                  WebkitBackdropFilter: "blur(20px)",
+                  WebkitBackdropFilter: "blur(25px)",
                 }}
-                // left="0"
                 width="100vw"
               >
                 {!session ? (
@@ -178,8 +171,8 @@ export const Header: React.FunctionComponent = () => {
                   <NavItems />
                 )}
               </Stack>
-            )}
-            {/* </motion.div> */}
+            </motion.div>
+            {/* )} */}
             {/* )} */}
           </motion.div>
         </Box>
