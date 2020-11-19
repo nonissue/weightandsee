@@ -3,9 +3,6 @@ import { GetServerSideProps } from "next";
 
 export const ensureAuthenticated: GetServerSideProps = async (context) => {
   const session = await getSession(context);
-  console.log(context);
-  console.log(context.req.headers);
-  console.log("context.resolved " + context.resolvedUrl);
 
   const { res } = context;
 

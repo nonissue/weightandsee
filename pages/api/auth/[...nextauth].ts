@@ -29,24 +29,18 @@ const options = {
           where: { email: credentials.email },
         });
 
-        console.log("found user");
-
         let test = await compare(
           credentials.password,
           user?.password as string
         );
-        console.log("bcrypt res " + test);
 
         let result = await compare(
           credentials.password,
           user?.password as string
         );
 
-        console.log("pass verified");
-
         if (user) {
           if (result) {
-            console.log("signing in");
             return Promise.resolve(user);
           } else {
             return Promise.resolve(null);
@@ -97,7 +91,6 @@ const options = {
       return Promise.resolve(token);
     },
     session: async (session: any, user: any) => {
-      console.log(session);
       return Promise.resolve({
         ...session,
         user: {
@@ -108,11 +101,11 @@ const options = {
         },
       });
     },
-    // redirect: async (url: any, baseUrl: any) => {
-    //   return url.startsWith(baseUrl)
-    //     ? Promise.resolve(url)
-    //     : Promise.resolve(baseUrl);
-    // },
+    redirect: async (url: any, baseUrl: any) => {
+      return url.startsWith(baseUrl)
+        ? Promise.resolve(url)
+        : Promise.resolve(baseUrl);
+    },
   },
   pages: {
     newUser: "/people",
