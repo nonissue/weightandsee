@@ -4,6 +4,7 @@ import {
   Stack,
   IconButton,
   useColorModeValue,
+  Link,
 } from "@chakra-ui/core";
 import { signOut, useSession } from "next-auth/client";
 import { motion } from "framer-motion";
@@ -19,6 +20,7 @@ type Props = {
 
 export const NavItems: React.FunctionComponent = () => {
   const loginLinkColor = useColorModeValue("pink.500", "pink.200");
+  const logoutLinkColor = useColorModeValue("pink.600", "pink.400");
   return (
     <>
       <NextChakraLink href="/weights/add" color={loginLinkColor}>
@@ -27,9 +29,14 @@ export const NavItems: React.FunctionComponent = () => {
       <NextChakraLink href="/people">People</NextChakraLink>
       <NextChakraLink href="/weights">Weigh-Ins</NextChakraLink>
       {/* <NextChakraLink href="/graphs">Graphs</NextChakraLink> */}
-      <NextChakraLink href="" onClick={() => signOut()}>
-        Log Out
-      </NextChakraLink>
+      <Link
+        // variant="ghost"
+        onClick={() => signOut()}
+        textColor={logoutLinkColor}
+        // fontWeight="600"
+      >
+        Sign Out
+      </Link>
       {/* <NextChakraLink href="/about">About</NextChakraLink> */}
     </>
   );

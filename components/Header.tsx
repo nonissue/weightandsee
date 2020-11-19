@@ -14,7 +14,12 @@ export const Header: React.FunctionComponent = () => {
     "hsla(210, 38%, 99%, 0.7)",
     "hsla(230, 21%, 15%, 0.4)"
   );
-  const headerDs = useColorModeValue("sm", "lg");
+  const mobileNavBg = useColorModeValue(
+    "hsla(210, 38%, 99%, 0)",
+    "hsla(230, 21%, 17%, 0)"
+  );
+  const headerDs = useColorModeValue("xl", "lg");
+  const navDs = useColorModeValue("lg", "xl");
   const [mobileNavShown, setMobileNavShown] = useState(false);
   // const loading = false;
   const [session, loading] = useSession();
@@ -133,21 +138,23 @@ export const Header: React.FunctionComponent = () => {
             > */}
             {mobileNavShown && (
               <Stack
-                shadow={headerDs}
-                pb={3}
-                pt={2}
-                spacing={1}
+                shadow={navDs}
+                pb={4}
+                pt={4}
+                spacing={3}
                 ml={["-4", "-4", "-2", "-2"]}
                 px={["4", "4", "2", "2"]}
                 position="absolute"
-                // pt="0"
                 className="nav-header"
+                zIndex="-1"
                 fontWeight="500"
+                // align="center"
+                // borderBottom="1px"
                 fontSize="lg"
-                bg={headerBg}
+                bg={mobileNavBg}
                 style={{
                   backdropFilter: "blur(15px)",
-                  WebkitBackdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(20px)",
                 }}
                 // left="0"
                 width="100vw"

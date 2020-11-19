@@ -45,12 +45,10 @@ async function handlePOST(req: NextApiRequest, res: NextApiResponse) {
       typeof updateCurrentWeight === "boolean"
     )
   ) {
-    return res
-      .status(400)
-      .json({
-        error:
-          "updateCurrentWeight must be a boolean or string 'true' or 'false'",
-      });
+    return res.status(400).json({
+      error:
+        "updateCurrentWeight must be a boolean or string 'true' or 'false'",
+    });
   }
 
   if (entries.length === 0) {
@@ -67,9 +65,9 @@ async function handlePOST(req: NextApiRequest, res: NextApiResponse) {
             typeof entry.weight === "string"
               ? parseFloat(entry.weight)
               : entry.weight,
-          person: { connect: { name: entry.name } },
+          user: { connect: { name: entry.name } },
         },
-        include: { person: true },
+        include: { user: true },
       });
     });
 
@@ -89,7 +87,7 @@ async function handlePOST(req: NextApiRequest, res: NextApiResponse) {
       const updateCurrentWeights = entries
         .filter((entry: Entry) => !!entry)
         .map((entry: Entry) => {
-          return prisma.person.update({
+          return prisma.user.update({
             where: { name: entry.name },
             data: {
               currentWeight:

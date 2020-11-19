@@ -82,3 +82,13 @@ export type WeighInWithPerson = {
 export type WeighInsWithPerson = {
   weighIns: WeighInWithPerson[];
 };
+
+export type Session = {
+  user: {
+    name: string;
+    email: string;
+    role: string;
+    id: number;
+  };
+  expires: string;
+};

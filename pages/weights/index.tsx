@@ -1,63 +1,85 @@
 // Oh man, Chakra isRequired is way better than relying on form errors
 import { GetServerSideProps } from "next";
-import { Grid, Heading, Divider, Text, Stack } from "@chakra-ui/core";
+import { getSession } from "next-auth/client";
+import { ensureAuthenticated } from "lib/guards/ensureAuthenticated";
+import { Grid, Heading, Divider, Text, Stack, Box } from "@chakra-ui/core";
 import { Layout, NextChakraLink, WeightTag } from "../../components";
-import { WeighInsWithPerson } from "../../interfaces";
+import { WeighInsWithPerson, Session } from "../../interfaces";
 
 import db from "prisma";
 const prisma = db.getInstance().prisma;
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  await ensureAuthenticated(context);
+  const session = await getSession(context);
+
   let data;
-  try {
-    data = await prisma.weighIn.findMany({
-      select: {
-        id: true,
-        weighDate: true,
-        weight: true,
-        person: {
-          select: { name: true },
-        },
-      },
-      orderBy: { weighDate: "desc" },
-    });
-  } catch (e) {
-    console.log("Error fetching entries");
-    console.log(e);
-  }
-
   let parsedData = null;
-  try {
-    parsedData = await data?.map((item) => {
-      return {
-        ...item,
-        weighDate: item.weighDate.toLocaleDateString("en-CA", {
-          timeZone: "America/Denver",
-        }),
-      };
-    });
-  } catch (e) {
-    console.log("Error parsing date");
-    console.log(e);
+  if (session) {
+    try {
+      data = await prisma.weighIn.findMany({
+        where: {
+          person: {
+            name: {
+              not: undefined,
+            },
+          },
+        },
+        select: {
+          id: true,
+          weighDate: true,
+          weight: true,
+          person: {
+            select: { name: true },
+          },
+          user: {
+            select: { name: true },
+          },
+        },
+        orderBy: { weighDate: "desc" },
+      });
+    } catch (e) {
+      console.log("Error fetching entries");
+      console.log(e);
+    }
+
+    try {
+      parsedData = await data?.map((item) => {
+        return {
+          ...item,
+          weighDate: item.weighDate.toLocaleDateString("en-CA", {
+            timeZone: "America/Denver",
+          }),
+        };
+      });
+    } catch (e) {
+      console.log("Error parsing date");
+      console.log(e);
+    }
   }
 
-  // if we return date, we have to stringify the data, and then type the props as string
-  // which sucks
-  //
-  // we could verify the result from prisma is the right type
-  // stringify it, parse it on the other end, and check the data parsing result is correct type
-  // Or:
-  // - We can change schema for db to use just string for the weighDate, and change form to submit a string
-  // - We can parse the response from prisma and convert all date objects to strings
   return {
-    props: { weighIns: parsedData },
+    props: { weighIns: parsedData, session },
   };
 };
 
-const WeightsPage: React.FunctionComponent<WeighInsWithPerson> = ({
-  weighIns,
-}) => {
+const WeightsPage: React.FunctionComponent<
+  WeighInsWithPerson & { session: Session }
+> = ({ weighIns, session }) => {
   let lastDate: Date;
+
+  if (!session) {
+    return (
+      <Layout>
+        <Box maxW="min(65ch, 100%)" mx="auto" px={["4", "4", "2", "2"]}>
+          <Heading size="md" mt="6" mb="4">
+            Unauthorized
+          </Heading>
+          <Box>You need to be signed in to view this page</Box>
+        </Box>
+      </Layout>
+    );
+  }
 
   if (weighIns.length === 0) {
     return (
