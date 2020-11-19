@@ -30,12 +30,13 @@ export const NavItems: React.FunctionComponent = () => {
       <NextChakraLink href="/weights">Weigh-Ins</NextChakraLink>
       {/* <NextChakraLink href="/graphs">Graphs</NextChakraLink> */}
       <Link
+        // wordBreak="keep-all"
         // variant="ghost"
+        display="block"
         onClick={() => signOut()}
         textColor={logoutLinkColor}
-        // fontWeight="600"
       >
-        Sign Out
+        Sign&nbsp;Out
       </Link>
       {/* <NextChakraLink href="/about">About</NextChakraLink> */}
     </>
@@ -128,7 +129,7 @@ export const Nav: React.FunctionComponent<Props> = ({
                     href="/api/auth/signin"
                     color={loginLinkColor}
                   >
-                    Login
+                    Sign In
                   </NextChakraLink>
                   <NextChakraLink href="/user/register" color={loginLinkColor}>
                     Sign Up

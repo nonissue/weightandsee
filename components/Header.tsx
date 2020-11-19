@@ -11,14 +11,14 @@ export const Header: React.FunctionComponent = () => {
   const loginLinkColor = useColorModeValue("pink.400", "pink.200");
   // const headerBg = useColorModeValue("gray.50", "gray.800");
   const headerBg = useColorModeValue(
-    "hsla(210, 38%, 99%, 0.7)",
-    "hsla(230, 21%, 15%, 0.6)"
+    "hsla(210, 38%, 95%, 0.7)",
+    "hsla(230, 21%, 24%, 0.2)"
   );
   const mobileNavBg = useColorModeValue(
     "hsla(210, 38%, 99%, 0.1)",
     "hsla(230, 21%, 15%, 0.7)"
   );
-  const headerDs = useColorModeValue("xl", "lg");
+  const headerDs = useColorModeValue("sm", "xl");
   const navDs = useColorModeValue("lg", "xl");
   const [mobileNavShown, setMobileNavShown] = useState(false);
   // const loading = false;
@@ -67,7 +67,7 @@ export const Header: React.FunctionComponent = () => {
             >
               <Box>
                 <NextChakraLink
-                  href="/"
+                  href="/weights"
                   _hover={{
                     color: headerColor,
                   }}
@@ -100,7 +100,7 @@ export const Header: React.FunctionComponent = () => {
               </Box>
             </Stack>
             {/* {mobileNavShown && ( */}
-            <motion.div
+            {/* <motion.div
               variants={{
                 open: {
                   opacity: 1,
@@ -131,8 +131,8 @@ export const Header: React.FunctionComponent = () => {
               }}
               initial={false}
               animate={mobileNavShown ? "open" : "closed"}
-            >
-              {/* {mobileNavShown && ( */}
+            > */}
+            {mobileNavShown && (
               <Stack
                 shadow={navDs}
                 pb={4}
@@ -141,11 +141,11 @@ export const Header: React.FunctionComponent = () => {
                 ml={["-4", "-4", "-2", "-2"]}
                 px={["4", "4", "2", "2"]}
                 position="absolute"
-                className="nav-header"
-                zIndex="-1"
+                // zIndex="-1"
                 fontWeight="500"
                 fontSize="lg"
                 bg={mobileNavBg}
+                className="mobile-nav"
                 style={{
                   backdropFilter: "blur(15px)",
                   WebkitBackdropFilter: "blur(25px)",
@@ -158,7 +158,7 @@ export const Header: React.FunctionComponent = () => {
                       href="/api/auth/signin"
                       color={loginLinkColor}
                     >
-                      Login
+                      Sign In
                     </NextChakraLink>
                     <NextChakraLink
                       href="/user/register"
@@ -171,8 +171,8 @@ export const Header: React.FunctionComponent = () => {
                   <NavItems />
                 )}
               </Stack>
-            </motion.div>
-            {/* )} */}
+              // </motion.div>
+            )}
             {/* )} */}
           </motion.div>
         </Box>

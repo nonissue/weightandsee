@@ -32,17 +32,18 @@ const AboutPage: React.FunctionComponent = () => {
           },
         }}
         rowGap={3}
-        mt="6"
+        mt="8"
       >
         <Grid px={["4", "4", "2", "2"]}>
           <Stack mb="4">
             <Heading
               size="xl"
               fontWeight="725"
+              fontFamily="Recursive"
               color={headerColor}
               mb="2"
               style={{
-                fontVariationSettings: `'MONO' 0, 'CRSV' 1, 'CASL' 0.15, 'slnt' 0`,
+                fontVariationSettings: `"MONO" 0, "CRSV" 1, "CASL" 0.15, "slnt" 0`,
               }}
             >
               About
