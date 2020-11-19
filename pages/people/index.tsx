@@ -8,14 +8,14 @@ import {
   useColorModeValue,
 } from "@chakra-ui/core";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-
+import { ensureAuthenticated } from "lib/guards/ensureAuthenticated";
 import { Layout, NextChakraLink, WeightTag } from "../../components";
 import { Person } from "../../interfaces";
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  /*
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  await ensureAuthenticated(context);
 
-  
+  /*
   VERCEL_URL can be: 
   ""
   weightandsee.xyz
@@ -50,7 +50,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
     baseURL = "https://dev.weightandsee.xyz";
   }
 
-  console.log(`${baseURL}/api/people`);
+  // console.log(`${baseURL}/api/people`);
 
   const result = await fetch(`${baseURL}/api/people`);
   const people = await result.json();

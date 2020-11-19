@@ -6,14 +6,17 @@ import {
   Divider,
   FormControl,
   Grid,
+  Heading,
   Input,
   Select,
   Stack,
   useColorModeValue,
 } from "@chakra-ui/core";
+import { useState } from "react";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { getSession } from "next-auth/client";
+import { ensureAuthenticated } from "lib/guards/ensureAuthenticated";
 import ReactDatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
 import { Confirmation, Layout } from "../../components";
@@ -34,49 +37,39 @@ function createArrayWithNumbers(length: number) {
 }
 
 // When form submitted, verify that no entries duplicated
-// export const getStaticProps: GetStaticProps = async () => {
-//   const people = await prisma.person.findMany({
-//     // select: { name: true, nickName: true },
-//     select: {
-//       id: true,
-//       name: true,
-//       nickName: true,
-//     },
-//     orderBy: { name: "asc" },
-//   });
-
-//   return {
-//     props: { people },
-//   };
-// };
 
 // When form submitted, verify that no entries duplicated
-export const getServerSideProps: GetServerSideProps = async () => {
-  const people = await prisma.person.findMany({
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getSession(context);
+  await ensureAuthenticated(context);
+
+  let people = null;
+
+  people = await prisma.user.findMany({
     // select: { name: true, nickName: true },
     select: {
       id: true,
       name: true,
-      nickName: true,
+      // nickName: true,
     },
     orderBy: { name: "asc" },
   });
 
   return {
-    props: { people },
+    props: { people, session },
   };
 };
 
 const CreateWeights: React.FunctionComponent<Participants> = ({
   people,
+  session,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
   const { handleSubmit, errors, control } = useForm<FormInputs>();
   const [entryCount, setEntryCount] = useState(1);
+  const formBorderColor = useColorModeValue("gray.200", "gray.700");
 
   const startDate = new Date();
-
-  const formBorderColor = useColorModeValue("gray.200", "gray.700");
 
   const confirmationCallback = () => {
     setEntryCount(entryCount - 1);
@@ -97,6 +90,19 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
       console.log(e);
     }
   };
+
+  if (!session) {
+    return (
+      <Layout>
+        <Box maxW="min(65ch, 100%)" mx="auto" px={["4", "4", "2", "2"]}>
+          <Heading size="md" mt="6" mb="4">
+            Unauthorized
+          </Heading>
+          <Box>You need to be signed in to view this page</Box>
+        </Box>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>

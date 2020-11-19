@@ -108,10 +108,18 @@ const options = {
         },
       });
     },
+    // redirect: async (url: any, baseUrl: any) => {
+    //   return url.startsWith(baseUrl)
+    //     ? Promise.resolve(url)
+    //     : Promise.resolve(baseUrl);
+    // },
   },
-  // pages: {
-  //   newUser: "/people",
-  // },
+  pages: {
+    newUser: "/people",
+    signIn: "/user/signin",
+    // signOut: "/user"
+    // error: "/user/signin",
+  },
   // callbacks: {
   //   jwt: async (
   //     token: { user: any },

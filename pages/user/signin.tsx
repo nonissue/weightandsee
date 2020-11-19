@@ -4,33 +4,27 @@ import { useRouter } from "next/router";
 import { signIn } from "next-auth/client";
 import { NextChakraLink, Layout } from "components";
 import { Button, Stack, FormLabel, Input } from "@chakra-ui/core";
-import { getBaseURL } from "lib/getBaseURL";
 
-export default function Register(): JSX.Element {
+export default function SignIn(): JSX.Element {
   const router = useRouter();
-  const [name, setName] = useState("");
+  const targetUrl = router.query;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const baseURL = getBaseURL();
-  console.log(baseURL);
 
-  async function handleRegister(e: FormEvent) {
+  console.log(targetUrl);
+
+  async function handleSignin(e: FormEvent) {
     e.preventDefault();
-    try {
-      const res = await fetch(`/api/user/create`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
-      });
 
+    try {
       signIn("credentials", {
         email: email,
         password: password,
-        callbackUrl: `${baseURL}/people`,
+        callbackUrl: `${targetUrl.callbackUrl}`,
       });
 
       // router.push("/people");
-      return res;
+      // return res;
     } catch (error) {
       console.log(error);
     }
@@ -39,10 +33,9 @@ export default function Register(): JSX.Element {
   return (
     <Layout>
       <Head>
-        <title>Weight&See Register</title>
-      </Head>{" "}
-      {/* <Box> */}
-      <form onSubmit={handleRegister}>
+        <title>Next + Prisma</title>
+      </Head>
+      <form onSubmit={handleSignin}>
         <Stack
           maxW="min(65ch, 100%)"
           mx="auto"
@@ -50,16 +43,6 @@ export default function Register(): JSX.Element {
           px={["4", "4", "2", "2"]}
           spacing={5}
         >
-          <div>
-            <FormLabel htmlFor="name">Name</FormLabel>
-            <Input
-              type="name"
-              name="name"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
           <div>
             <FormLabel htmlFor="name">Email</FormLabel>
             <Input
@@ -83,7 +66,7 @@ export default function Register(): JSX.Element {
 
           <Stack isInline>
             <Button type="submit" colorScheme="pink" w="75%">
-              Register
+              Sign In
             </Button>
             <NextChakraLink href="/" w="25%">
               <Button type="submit" w="100%" variant="outline">

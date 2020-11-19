@@ -14,14 +14,17 @@ import {
   useColorModeValue,
 } from "@chakra-ui/core";
 import { Layout, WeightTag, NextChakraLink } from "components";
+import { ensureAuthenticated } from "lib/guards/ensureAuthenticated";
 import { PersonPageProps } from "interfaces";
 
 import db from "prisma";
 const prisma = db.getInstance().prisma;
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  await ensureAuthenticated(context);
+
   const result = await prisma.person.findOne({
-    where: { name: params?.name as string },
+    where: { name: context.params?.name as string },
     include: { weighIns: { orderBy: { weighDate: "desc" } } },
   });
 

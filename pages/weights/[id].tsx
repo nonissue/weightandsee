@@ -9,13 +9,17 @@ import {
   useColorModeValue,
   ButtonGroup,
 } from "@chakra-ui/core";
+import { ensureAuthenticated } from "lib/guards/ensureAuthenticated";
 import { Layout, Confirmation } from "components";
 
 import db from "prisma";
 const prisma = db.getInstance().prisma;
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  await ensureAuthenticated(context);
+
   const result = await prisma.weighIn.findOne({
-    where: { id: Number(params?.id) },
+    where: { id: Number(context.params?.id) },
     include: { person: true },
   });
 
