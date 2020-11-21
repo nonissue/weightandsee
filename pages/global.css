@@ -1,73 +1,38 @@
-/* because firefox sucks and doesn't support backdrop filter */
+/* firefox workarounds */
 @-moz-document url-prefix() {
   .nav-header {
     /* background: hsla(230, 40%, 15%, 0.7) !important; */
-    background: hsla(230, 21%, 20%, 0.8) !important;
+    background: hsla(230, 21%, 20%, 0.9) !important;
     color: #fff;
   }
   .mobile-nav {
     background: hsla(230, 21%, 20%, 0.95) !important;
+  }
+  .nav-header a {
+    color: #eee;
 
-    /* background-image: linear-gradient(
-      hsla(230, 20%, 40%, 0.97),
-      
-      hsla(230, 10%, 30%, 0.97)
-    ) !important; */
-    /* background-blend-mode: multiply !important; */
-    /* background-image: linear-gradient(
-      hsla(230, 10%, 40%, 0.9),
-      hsla(230, 10%, 50%, 0.7)
-    ) !important; */
-    /* background-blend-mode: screen !important; */
-    /* color: #fff; */
-    /* z-index: 1000; */
+    /* color: transparent; */
+  }
+  .nav-header button {
+    mix-blend-mode: difference;
+    filter: invert(0.1);
+  }
+  .nav-header button:hover {
+    /* color: hsla(230, 21%, 20%, 0.9); */
+
+    /* filter: invert(1); */
+    color: rgb(0, 0, 0);
+    mix-blend-mode: difference;
+    /* background: inherit; */
+    /* background-clip: text; */
+    box-shadow: 0 1px 2px 0.5px rgba(0, 0, 0, 0.1);
   }
   .mobile-nav a {
     color: #fff;
   }
-  /* .nav-headers::before {
-    background: hsla(230, 20%, 30%, 0.1);
-    position: absolute;
-    z-index: -5;
-    height: 100%;
-    width: 100%;
-    content: "";
-  } */
-  /* :root,
-  body,
-  h1 {
-    --mono: "MONO" 0;
-    --casl: "CASL" 0;
-    --slnt: "slnt" -7.8;
-    --CRSV: "CRSV" 0.5;
- font-variation-settings: var(--mono), var(--casl), var(--slnt), var(--CRSV); 
-  } */
 }
 
 html,
 body {
   height: 100%;
 }
-
-/* :root {
-  --MONO: 0; 
-  --CASL: 1; 
-  --slnt: 0; 
-  --CRSV: 0; 
-} */
-/* 
-*,
-*:before,
-*:after {
-  font-variation-settings: "MONO" var(--MONO), "CASL" var(--CASL),
-    "slnt" var(--slnt), "CRSV" var(--CRSV);
-} */
-
-/* @import url("/fonts/inter/inter.css"); */
-
-/* body,
-#__next {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-} */
