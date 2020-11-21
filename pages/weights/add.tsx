@@ -65,15 +65,68 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
   session,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
-  const { handleSubmit, errors, control } = useForm<FormInputs>();
+  const { handleSubmit, errors, control, watch, setValue } = useForm<
+    FormInputs
+  >();
   const [entryCount, setEntryCount] = useState(1);
   const formBorderColor = useColorModeValue("gray.200", "gray.700");
+  // const [selected, setSelected] = useState<string[]>([]);
 
   const startDate = new Date();
+
+  const watched = watch("entries");
+  // console.log(watched);
 
   const confirmationCallback = () => {
     setEntryCount(entryCount - 1);
   };
+
+  const getPeople = () => {
+    // return people.filter(
+    //   (person: { id: number; name: string }) => watched.forEach((selected) => (selected.name !== person.name))
+    // );
+    const selected = watched?.map((entry) => entry.name);
+    if (selected) {
+      const filteredPeople = people.filter(
+        (person: { id: number; name: string }) =>
+          (selected as any).indexOf(person.name) === -1
+      );
+      console.log(filteredPeople);
+      return filteredPeople;
+    } else {
+      return people;
+    }
+
+    // return people.filter((person: { id: number; name: string }) => {
+    //   return watched.some((entry) => {
+    //     console.log(entry.name);
+    //     return (entry.name as unknown) !== person.name;
+    //   });
+    // });
+
+    // } else {
+    //   return people;
+    // }
+    // return people.filter((person: { id: number; name: string }) => {
+    //   if (watched && watched.length !== 0) {
+    //     return watched.some((entry) => {
+    //       console.log(entry.name);
+    //       return (entry.name as unknown) !== person.name;
+    //     });
+    //   } else {
+    //     return person;
+    //   }
+    // });
+  };
+  // const result = watched?.map((entry) => entry.name);
+  // console.log(result);
+
+  // console.log(result.indexOf("Andy"));
+  // console.log(result.indexOf("Roker"));
+
+  // watched.p((entry) => entry.name )
+  // people.map((person: { id: number; name: string }) => person.name);
+  // watched.forEach((entry) => console.log(entry.name));
 
   const onSubmit = async (data: FormResult) => {
     console.log(data);
@@ -131,8 +184,35 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
                       isInvalid={errors.entries?.[i]?.name ? true : false}
                       errorBorderColor="red.300"
                       rules={{ required: true }}
+                      // render={({ onChange, value }) => (
+                      //   <Select
+                      //   // onChange={(e) =>
+                      //   //   // onChange(console.log(e.target.value));
+                      //   //   setValue(`$entries.[${i}].name`, value)
+                      //   // }
+                      //   // value={value}
+                      //   >
+                      //     {getPeople().map((p: Person) => {
+                      //       return (
+                      //         <option key={p.id} value={p.name}>
+                      //           {p.name}
+                      //         </option>
+                      //       );
+
+                      //       // }
+                      //     })}
+                      //   </Select>
+                      // )}
+                      // onBlur={(e: any) => {
+                      //   console.log(e.target.value);
+                      //   console.log("change");
+                      // }}
+                      // onChange={(e: any) => {
+                      //   console.log(e.target.value);
+                      //   console.log("change");
+                      // }}
                     >
-                      {people.map((p: Person) => {
+                      {getPeople().map((p: Person) => {
                         return (
                           <option key={p.id} value={p.name}>
                             {p.name}
