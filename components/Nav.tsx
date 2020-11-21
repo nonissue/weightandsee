@@ -70,7 +70,7 @@ export const Nav: React.FunctionComponent<Props> = ({
             <Flex justifyContent="flex-end" alignItems="center" width="100%">
               <NextChakraLink href="/about">
                 <IconButton
-                  marginLeft="1"
+                  marginX="1"
                   size="sm"
                   aria-label={`About/Info`}
                   variant="ghost"
@@ -81,7 +81,7 @@ export const Nav: React.FunctionComponent<Props> = ({
               <ColorModeToggle />
 
               <IconButton
-                marginLeft="1"
+                marginX="1"
                 size="sm"
                 aria-label={`Menu`}
                 variant="ghost"
