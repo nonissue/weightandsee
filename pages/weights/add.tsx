@@ -82,9 +82,6 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
   };
 
   const getPeople = () => {
-    // return people.filter(
-    //   (person: { id: number; name: string }) => watched.forEach((selected) => (selected.name !== person.name))
-    // );
     const selected = watched?.map((entry) => entry.name);
     if (selected) {
       const filteredPeople = people.filter(
@@ -96,37 +93,7 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
     } else {
       return people;
     }
-
-    // return people.filter((person: { id: number; name: string }) => {
-    //   return watched.some((entry) => {
-    //     console.log(entry.name);
-    //     return (entry.name as unknown) !== person.name;
-    //   });
-    // });
-
-    // } else {
-    //   return people;
-    // }
-    // return people.filter((person: { id: number; name: string }) => {
-    //   if (watched && watched.length !== 0) {
-    //     return watched.some((entry) => {
-    //       console.log(entry.name);
-    //       return (entry.name as unknown) !== person.name;
-    //     });
-    //   } else {
-    //     return person;
-    //   }
-    // });
   };
-  // const result = watched?.map((entry) => entry.name);
-  // console.log(result);
-
-  // console.log(result.indexOf("Andy"));
-  // console.log(result.indexOf("Roker"));
-
-  // watched.p((entry) => entry.name )
-  // people.map((person: { id: number; name: string }) => person.name);
-  // watched.forEach((entry) => console.log(entry.name));
 
   const onSubmit = async (data: FormResult) => {
     console.log(data);
@@ -143,6 +110,9 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
       console.log(e);
     }
   };
+
+  const [test, setTest] = useState("Roker");
+  // let test = "Roker";
 
   if (!session) {
     return (
@@ -180,6 +150,7 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
                       as={Select}
                       control={control}
                       placeholder="Select Person"
+                      // defaultValue=
                       defaultValue=""
                       isInvalid={errors.entries?.[i]?.name ? true : false}
                       errorBorderColor="red.300"
@@ -212,9 +183,13 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
                       //   console.log("change");
                       // }}
                     >
-                      {getPeople().map((p: Person) => {
+                      {people.map((p: Person) => {
                         return (
-                          <option key={p.id} value={p.name}>
+                          <option
+                            key={p.id}
+                            value={p.name}
+                            // selected={p.name === "Andy"}
+                          >
                             {p.name}
                           </option>
                         );
@@ -267,6 +242,7 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
                   <Button
                     onClick={() => {
                       setEntryCount(entryCount + 1);
+                      setTest("Dev");
                     }}
                     variant="outline"
                     w="100%"

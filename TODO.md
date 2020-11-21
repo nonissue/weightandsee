@@ -22,6 +22,7 @@
 ## General
 
 - [ ] Add startWeight
+- [ ] Add profile menu item / functionality
 - [x] Add PW
 - [ ] Add edit form
 - [x] lol fancy mobile menu causes massive overscroll
