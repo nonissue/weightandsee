@@ -1,8 +1,8 @@
 // Oh man, Chakra isRequired is way better than relying on form errors
 import { GetServerSideProps } from "next";
-// import { getSession } from "next-auth/client";
-// import { ensureAuthenticated } from "lib/guards/ensureAuthenticated";
-import { isAuth } from "lib/helpers/auth";
+import { getSession } from "next-auth/client";
+import { ensureAuthenticated } from "lib/guards/ensureAuthenticated";
+// import { isAuth } from "lib/helpers/auth";
 import { Grid, Heading, Divider, Text, Stack, Box } from "@chakra-ui/core";
 import { Layout, NextChakraLink, WeightTag } from "../../components";
 import { WeighInsWithUser, Session } from "../../interfaces";
@@ -11,9 +11,10 @@ import db from "prisma";
 const prisma = db.getInstance().prisma;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  // await ensureAuthenticated(context);
-  const session = await isAuth(context);
-  // const session = await getSession(context);
+  await ensureAuthenticated(context);
+  const session = await getSession(context);
+
+  // const session = await isAuth(context);
 
   let data;
   let parsedData = null;

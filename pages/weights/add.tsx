@@ -40,8 +40,8 @@ function createArrayWithNumbers(length: number) {
 
 // When form submitted, verify that no entries duplicated
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await getSession(context);
   await ensureAuthenticated(context);
+  const session = await getSession(context);
 
   let people = null;
 

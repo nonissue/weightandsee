@@ -9,17 +9,21 @@ import {
   useColorModeValue,
   ButtonGroup,
 } from "@chakra-ui/core";
-// import { ensureAuthenticated } from "lib/guards/ensureAuthenticated";
+import { ensureAuthenticated } from "lib/guards/ensureAuthenticated";
+import { getSession } from "next-auth/client";
+
 import { Session } from "interfaces";
 import { Layout, Confirmation } from "components";
-import { isAuth } from "lib/helpers/auth";
+// import { isAuth } from "lib/helpers/auth";
 
 import db from "prisma";
 const prisma = db.getInstance().prisma;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  // await ensureAuthenticated(context);
-  const session = await isAuth(context);
+  await ensureAuthenticated(context);
+  const session = await getSession(context);
+
+  // const session = await isAuth(context);
 
   const result = await prisma.weighIn.findOne({
     where: { id: Number(context.params?.id) },
