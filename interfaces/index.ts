@@ -79,6 +79,17 @@ export type WeighInWithPerson = {
   weighDate: Date;
 };
 
+export type WeighInWithUser = {
+  weight: number;
+  user: Person;
+  id: number;
+  weighDate: Date;
+};
+
+export type WeighInsWithUser = {
+  weighIns: WeighInWithUser[];
+};
+
 export type WeighInsWithPerson = {
   weighIns: WeighInWithPerson[];
 };

@@ -18,20 +18,26 @@ type Props = {
   setMobileNavShown: (bool: boolean) => void;
 };
 
-export const NavItems: React.FunctionComponent = () => {
+type NavItemsProps = {
+  isAdmin?: boolean;
+};
+
+export const NavItems: React.FunctionComponent<NavItemsProps> = ({
+  isAdmin,
+}) => {
   const loginLinkColor = useColorModeValue("pink.500", "pink.200");
   const logoutLinkColor = useColorModeValue("pink.600", "pink.400");
   return (
     <>
-      <NextChakraLink href="/weights/add" color={loginLinkColor}>
-        + Add
-      </NextChakraLink>
+      {isAdmin && (
+        <NextChakraLink href="/weights/add" color={loginLinkColor}>
+          + Add
+        </NextChakraLink>
+      )}
       <NextChakraLink href="/people">People</NextChakraLink>
       <NextChakraLink href="/weights">Weigh-Ins</NextChakraLink>
       {/* <NextChakraLink href="/graphs">Graphs</NextChakraLink> */}
       <Link
-        // wordBreak="keep-all"
-        // variant="ghost"
         display="block"
         onClick={() => signOut()}
         textColor={logoutLinkColor}
@@ -49,8 +55,11 @@ export const Nav: React.FunctionComponent<Props> = ({
   mobileNavShown,
   setMobileNavShown,
 }) => {
-  const [session] = useSession();
+  // next-auth session.user type is wrong
+  // so have to set this as any?
+  const [session]: any = useSession();
 
+  // console.log(session?.user.role);
   // this is actually the opposite of what we expect?
   const showBurger = useBreakpointValue({
     base: true,
@@ -136,7 +145,9 @@ export const Nav: React.FunctionComponent<Props> = ({
                   </NextChakraLink>
                 </>
               ) : (
-                <NavItems />
+                <NavItems
+                  isAdmin={(session.user?.role as string) === "ADMIN"}
+                />
               )}
 
               <Stack isInline spacing={1}>

@@ -78,7 +78,7 @@ const options = {
     ) => {
       if (user) {
         token.name = user.name;
-        token.user = user.id;
+        token.id = user.id;
         token.email = user.email;
         token.role = user.role;
       }
@@ -86,15 +86,20 @@ const options = {
       return Promise.resolve(token);
     },
     session: async (session: any, user: any) => {
-      return Promise.resolve({
-        ...session,
-        user: {
-          name: user.name,
-          email: user.email,
-          role: user.role,
-          id: user.user,
-        },
-      });
+      // console.log(session);
+      // console.log(user);
+
+      session.user = user;
+      return Promise.resolve(session);
+      // return Promise.resolve({
+      //   ...session,
+      //   user: {
+      //     name: user.name,
+      //     email: user.email,
+      //     role: user.role,
+      //     id: user.user,
+      //   },
+      // });
     },
     redirect: async (url: any, baseUrl: any) => {
       return url.startsWith(baseUrl)

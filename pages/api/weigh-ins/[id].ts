@@ -29,7 +29,7 @@ async function handleGET(weighInId: string, res: NextApiResponse) {
   try {
     result = await prisma.weighIn.findOne({
       where: { id: Number(weighInId) },
-      include: { person: true },
+      include: { user: true },
     });
     if (result) {
       return res.status(200).json(result);

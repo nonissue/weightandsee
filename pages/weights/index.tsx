@@ -1,17 +1,19 @@
 // Oh man, Chakra isRequired is way better than relying on form errors
 import { GetServerSideProps } from "next";
-import { getSession } from "next-auth/client";
-import { ensureAuthenticated } from "lib/guards/ensureAuthenticated";
+// import { getSession } from "next-auth/client";
+// import { ensureAuthenticated } from "lib/guards/ensureAuthenticated";
+import { isAuth } from "lib/helpers/auth";
 import { Grid, Heading, Divider, Text, Stack, Box } from "@chakra-ui/core";
 import { Layout, NextChakraLink, WeightTag } from "../../components";
-import { WeighInsWithPerson, Session } from "../../interfaces";
+import { WeighInsWithUser, Session } from "../../interfaces";
 
 import db from "prisma";
 const prisma = db.getInstance().prisma;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  await ensureAuthenticated(context);
-  const session = await getSession(context);
+  // await ensureAuthenticated(context);
+  const session = await isAuth(context);
+  // const session = await getSession(context);
 
   let data;
   let parsedData = null;
@@ -19,7 +21,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     try {
       data = await prisma.weighIn.findMany({
         where: {
-          person: {
+          user: {
             name: {
               not: undefined,
             },
@@ -29,9 +31,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
           id: true,
           weighDate: true,
           weight: true,
-          person: {
-            select: { name: true },
-          },
+          // person: {
+          //   select: { name: true },
+          // },
           user: {
             select: { name: true },
           },
@@ -64,7 +66,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 const WeightsPage: React.FunctionComponent<
-  WeighInsWithPerson & { session: Session }
+  WeighInsWithUser & { session: Session }
 > = ({ weighIns, session }) => {
   let lastDate: Date;
 
@@ -80,6 +82,8 @@ const WeightsPage: React.FunctionComponent<
       </Layout>
     );
   }
+
+  // console.log(session);
 
   if (weighIns.length === 0) {
     return (
@@ -129,12 +133,12 @@ const WeightsPage: React.FunctionComponent<
                     justifyContent="space-between"
                   >
                     <NextChakraLink
-                      href={`people/${weighIn.person.name}`}
+                      href={`people/${weighIn.user.name}`}
                       mr="1"
                       fontWeight="400"
                       fontSize="xl"
                     >
-                      {weighIn.person.name}
+                      {weighIn.user.name}
                     </NextChakraLink>
                     <NextChakraLink href={`/weights/${weighIn.id}`}>
                       <WeightTag weight={weighIn.weight} />

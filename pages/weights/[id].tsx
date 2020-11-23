@@ -9,33 +9,41 @@ import {
   useColorModeValue,
   ButtonGroup,
 } from "@chakra-ui/core";
-import { ensureAuthenticated } from "lib/guards/ensureAuthenticated";
+// import { ensureAuthenticated } from "lib/guards/ensureAuthenticated";
+import { Session } from "interfaces";
 import { Layout, Confirmation } from "components";
+import { isAuth } from "lib/helpers/auth";
 
 import db from "prisma";
 const prisma = db.getInstance().prisma;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  await ensureAuthenticated(context);
+  // await ensureAuthenticated(context);
+  const session = await isAuth(context);
 
   const result = await prisma.weighIn.findOne({
     where: { id: Number(context.params?.id) },
-    include: { person: true },
+    include: { user: true },
   });
 
   return {
-    props: { data: JSON.stringify(result) },
+    props: { data: JSON.stringify(result), session },
   };
 };
 
-const WeighInPage: React.FunctionComponent<{ data: string }> = ({ data }) => {
+const WeighInPage: React.FunctionComponent<
+  { data: string } & { session: Session }
+> = ({ data, session }) => {
   const router = useRouter();
   const weighInData = JSON.parse(data);
+
+  const showEdit = false;
 
   const actionDeleteBorder = useColorModeValue(
     "hsla(0, 88%, 68%, 1)",
     "hsla(0, 88%, 80%, 0.9)"
   );
+
   const actionEditBorder = useColorModeValue("gray.400", "gray.500");
   const dataText = useColorModeValue("black", "white");
 
@@ -54,8 +62,6 @@ const WeighInPage: React.FunctionComponent<{ data: string }> = ({ data }) => {
       console.log("Error deleting...");
     }
   };
-
-  // console.table(weighInData);
 
   return (
     <Layout>
@@ -79,38 +85,42 @@ const WeighInPage: React.FunctionComponent<{ data: string }> = ({ data }) => {
             letterSpacing="1px"
             alignSelf="center"
           >
-            {weighInData.person.name}
+            {weighInData.user.name}
           </Heading>
-          <ButtonGroup
-            isAttached
-            variant="outline"
-            size="xs"
-            shadow="0 1px 2px 0.25px rgba(0,0,0,0.1)"
-            borderRadius="6px"
-          >
-            <Button
-              colorScheme="gray"
+          {session.user.role === "ADMIN" && (
+            <ButtonGroup
+              isAttached
+              variant="outline"
               size="xs"
-              px="4"
-              pl="4"
-              py="2"
-              borderColor={actionEditBorder}
-              borderRightColor="transparent"
+              shadow="0 1px 2px 0.25px rgba(0,0,0,0.1)"
+              borderRadius="6px"
             >
-              Edit
-            </Button>
-            <Confirmation
-              title="Delete"
-              action={confirmationCallback}
-              px="4"
-              description="Are you sure you want to remove this Weigh-In?"
-              borderColor={actionDeleteBorder}
-              colorScheme="red"
-              border="1px"
-              py="2"
-              size="xs"
-            />
-          </ButtonGroup>
+              {showEdit && (
+                <Button
+                  colorScheme="gray"
+                  size="xs"
+                  px="4"
+                  pl="4"
+                  py="2"
+                  borderColor={actionEditBorder}
+                  borderRightColor="transparent"
+                >
+                  Edit
+                </Button>
+              )}
+              <Confirmation
+                title="Delete"
+                action={confirmationCallback}
+                px="4"
+                description="Are you sure you want to remove this Weigh-In?"
+                borderColor={actionDeleteBorder}
+                colorScheme="red"
+                border="1px"
+                py="2"
+                size="xs"
+              />
+            </ButtonGroup>
+          )}
         </Box>
         {/* <Divider /> */}
         <Stack spacing={1} direction="column" justifyContent="space-between">

@@ -15,7 +15,7 @@ export default async function handler(
   let test;
   try {
     res.statusCode = 200;
-    test = await prisma.person.findMany({
+    test = await prisma.user.findMany({
       orderBy: { name: "asc" },
       include: { weighIns: true },
     });

@@ -20,7 +20,7 @@ import { Person } from "interfaces";
 const prisma = db.getInstance().prisma;
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const result = await prisma.person.findOne({
+  const result = await prisma.user.findOne({
     where: { name: params?.name as string },
     include: { weighIns: { orderBy: { weighDate: "asc" } } },
   });

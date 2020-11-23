@@ -21,7 +21,7 @@ export const Header: React.FunctionComponent = () => {
   const headerDs = useColorModeValue("sm", "xl");
   const navDs = useColorModeValue("lg", "xl");
   const [mobileNavShown, setMobileNavShown] = useState(false);
-  // const loading = false;
+
   const [session, loading] = useSession();
 
   return (
@@ -50,7 +50,6 @@ export const Header: React.FunctionComponent = () => {
       >
         <Box maxW="min(65ch, 100%)" mx="auto" px={["4", "4", "2", "2"]}>
           <motion.div
-            // in={mobileNavShown}
             animate={loading ? "loading" : "loaded"}
             initial="loading"
             variants={{

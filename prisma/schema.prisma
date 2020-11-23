@@ -50,17 +50,18 @@ model WeighIn {
 }
 
 model User {
-  id            Int        @id @default(autoincrement())
-  createdAt     DateTime   @default(now()) @map(name: "created_at")
-  updatedAt     DateTime   @default(now()) @map(name: "updated_at")
-  name          String     @unique
-  role          Role       @default(USER)
-  email         String?    @unique
-  emailVerified DateTime?  @map(name: "email_verified")
-  authMethod    AuthMethod @default(PASSWORD)
+  id            Int       @id @default(autoincrement())
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  updatedAt     DateTime  @default(now()) @map(name: "updated_at")
+  name          String    @unique
+  nickName      String?   @unique
+  role          Role      @default(USER)
+  email         String?   @unique
+  emailVerified DateTime? @map(name: "email_verified")
   password      String?
   currentWeight Float?
   weighIns      WeighIn[]
+  startWeight   Float?
 
   @@map(name: "users")
 }

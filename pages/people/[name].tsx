@@ -23,7 +23,7 @@ const prisma = db.getInstance().prisma;
 export const getServerSideProps: GetServerSideProps = async (context) => {
   await ensureAuthenticated(context);
 
-  const result = await prisma.person.findOne({
+  const result = await prisma.user.findOne({
     where: { name: context.params?.name as string },
     include: { weighIns: { orderBy: { weighDate: "desc" } } },
   });
