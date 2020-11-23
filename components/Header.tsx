@@ -22,7 +22,7 @@ export const Header: React.FunctionComponent = () => {
   const navDs = useColorModeValue("lg", "xl");
   const [mobileNavShown, setMobileNavShown] = useState(false);
 
-  const [session, loading] = useSession();
+  const [session, loading]: any = useSession();
 
   return (
     <>
@@ -167,7 +167,9 @@ export const Header: React.FunctionComponent = () => {
                     </NextChakraLink>
                   </>
                 ) : (
-                  <NavItems />
+                  <NavItems
+                    isAdmin={(session.user?.role as unknown) === "ADMIN"}
+                  />
                 )}
               </Stack>
               // </motion.div>
