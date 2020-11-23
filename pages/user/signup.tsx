@@ -25,7 +25,7 @@ export default function Register(): JSX.Element {
   async function handleRegister(e: FormEvent) {
     e.preventDefault();
     try {
-      const res = await fetch(`/api/user/create`, {
+      const res = await fetch(`/api/user/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
