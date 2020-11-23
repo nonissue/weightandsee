@@ -19,7 +19,7 @@ type Props = {
 };
 
 type NavItemsProps = {
-  isAdmin?: boolean;
+  isAdmin?: boolean; // show add link
 };
 
 export const NavItems: React.FunctionComponent<NavItemsProps> = ({
@@ -140,7 +140,7 @@ export const Nav: React.FunctionComponent<Props> = ({
                   >
                     Sign In
                   </NextChakraLink>
-                  <NextChakraLink href="/user/register" color={loginLinkColor}>
+                  <NextChakraLink href="/user/signup" color={loginLinkColor}>
                     Sign Up
                   </NextChakraLink>
                 </>
