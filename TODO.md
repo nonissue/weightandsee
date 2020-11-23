@@ -19,9 +19,12 @@
 ## General
 
 - [ ] Add startWeight
+- [ ] User profile page
 - [ ] Add profile menu item / functionality
+- [ ] Migrate `people` -> `user` without dataloss
 - [x] Add PW
 - [ ] Add edit form
+- [x] Only show add for admin
 - [x] lol fancy mobile menu causes massive overscroll
 - [ ] change currentWeight to be a reference to a weighIn
 - [x] Change body fonts EDIT: Inter
@@ -74,7 +77,7 @@
 - [ ] Add User
 - [ ] Edit User
 - [ ] Delete user
-- [ ] Heading component
+- [ ] Text Heading component
 - [x] User List
 - [x] Move to postgres
 - [x] Person List
