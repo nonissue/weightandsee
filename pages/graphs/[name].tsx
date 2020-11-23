@@ -14,14 +14,25 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
+// import { getSession } from "next-auth/client";
+import { ensureAuthenticated } from "lib/guards/ensureAuthenticated";
+
 import { Layout } from "components";
 import { Person } from "interfaces";
 
 const prisma = db.getInstance().prisma;
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const result = await prisma.user.findOne({
-    where: { name: params?.name as string },
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  await ensureAuthenticated(context);
+  // const session = await getSession(context);
+
+  const result = await prisma.user.findFirst({
+    where: {
+      name: {
+        equals: context.params?.name as string,
+        mode: "insensitive",
+      },
+    },
     include: { weighIns: { orderBy: { weighDate: "asc" } } },
   });
 

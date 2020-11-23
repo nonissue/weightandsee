@@ -23,10 +23,18 @@ const prisma = db.getInstance().prisma;
 export const getServerSideProps: GetServerSideProps = async (context) => {
   await ensureAuthenticated(context);
 
-  const result = await prisma.user.findOne({
-    where: { name: context.params?.name as string },
+  // findFirst instead of findOne so we can use case insensitive filtering
+  const result = await prisma.user.findFirst({
+    where: {
+      name: {
+        equals: context.params?.name as string,
+        mode: "insensitive",
+      },
+    },
     include: { weighIns: { orderBy: { weighDate: "desc" } } },
   });
+
+  console.log(result);
 
   return {
     props: { data: JSON.stringify(result) },
@@ -40,12 +48,12 @@ export const PersonPage: React.FunctionComponent<{ data: string }> = ({
 
   try {
     personData = JSON.parse(data);
-    if (personData.weighIns && personData.weighIns.length === 0) {
-      throw new DOMException(
-        "Error retrieving person's weigh-ins!",
-        "NotFoundError"
-      );
-    }
+    // if (personData.weighIns && personData.weighIns.length === 0) {
+    //   throw new DOMException(
+    //     "Error retrieving person's weigh-ins!",
+    //     "NotFoundError"
+    //   );
+    // }
   } catch (error) {
     return (
       <Layout>
@@ -56,17 +64,11 @@ export const PersonPage: React.FunctionComponent<{ data: string }> = ({
       </Layout>
     );
   }
-  // if (!data || !data["weighIns" as string]) {
-  //   r
-  //   );
-  // }
-
-  // const personData: PersonPageProps = JSON.parse(data);
 
   const weightColor = useColorModeValue("gray.700", "gray.300");
   const weightShadow = useColorModeValue(
-    `2px 2px 1px hsla(0,0%,50%,0)`,
-    `2px 2px 0px hsla(0,0%,70%,0.2)`
+    `2px 2px 1px hsla(0,0%,70%,0.2)`,
+    `2px 2px 1px hsla(0,0%,70%,0.2)`
   );
   const headerColor = useColorModeValue("pink.400", "pink.200");
 
@@ -145,7 +147,7 @@ export const PersonPage: React.FunctionComponent<{ data: string }> = ({
 
           <Divider />
           <List w={["100%", "100%", "100%", "100%"]} mx="auto">
-            {personData.weighIns &&
+            {personData.weighIns && personData.weighIns.length !== 0 ? (
               personData.weighIns?.map((weighIn, k) => {
                 return (
                   <ListItem key={weighIn.id}>
@@ -193,7 +195,10 @@ export const PersonPage: React.FunctionComponent<{ data: string }> = ({
                       k !== personData.weighIns.length - 1 && <Divider />}
                   </ListItem>
                 );
-              })}
+              })
+            ) : (
+              <Box my="4">This user has no weigh-ins yet!</Box>
+            )}
           </List>
           <Divider />
         </Grid>
