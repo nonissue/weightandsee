@@ -21,7 +21,7 @@ const IndexPage: React.FunctionComponent = () => {
   router.push("/weights");
   const handleSubmit = (event: FormEvent) => {
     // alert('A name was submitted: ' + this.state.value);
-    // event.preventDefault();
+    event.preventDefault();
     router.push("/weights");
     // alert("Logging in");
   };
