@@ -25,6 +25,7 @@ module.exports = {
     "react/react-in-jsx-scope": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "jsx-a11y/anchor-is-valid": "off",
+    "@typescript-eslint/no-unused-vars": ["error"],
   },
   settings: {
     "import/resolver": {
@@ -35,5 +36,11 @@ module.exports = {
     react: {
       version: "detect",
     },
+    files: ["**/*.ts", "**/*.tsx"],
   },
+  // overrrides: [
+  //   {
+  //     files: ["**/*.ts", "**/*.tsx"],
+  //   },
+  // ],
 };

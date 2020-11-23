@@ -29,11 +29,6 @@ const options = {
           where: { email: credentials.email },
         });
 
-        let test = await compare(
-          credentials.password,
-          user?.password as string
-        );
-
         let result = await compare(
           credentials.password,
           user?.password as string

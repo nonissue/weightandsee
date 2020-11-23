@@ -28,6 +28,7 @@ const App: React.FunctionComponent<AppRenderProps & AppProps> = ({
   cookies,
 }) => {
   const router = useRouter();
+
   useEffect(() => {
     const handleRouteChange = (url: string) => {
       gtag.pageview(url);

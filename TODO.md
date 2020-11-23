@@ -15,9 +15,6 @@
 - [ ] handle user sign up errors
 - [ ] handle user sign in errors
 - [x] Err, anypassword works?
-- [ ] 
-
-
 
 ## General
 
@@ -77,6 +74,7 @@
 - [ ] Add User
 - [ ] Edit User
 - [ ] Delete user
+- [ ] Heading component
 - [x] User List
 - [x] Move to postgres
 - [x] Person List
