@@ -11,7 +11,7 @@ import { Layout, NextChakraLink } from "components";
 import { getBaseURL } from "lib/getBaseURL";
 // import { ensureAuthenticated } from "lib/guards/ensureAuthenticated";
 import { GetServerSideProps } from "next";
-import { signIn, getSession } from "next-auth/client";
+import { getSession } from "next-auth/client";
 import Head from "next/head";
 import { FormEvent, useState } from "react";
 
