@@ -1,4 +1,9 @@
 import { GetServerSideProps } from "next";
+import { ensureAuthenticated } from "lib/guards/ensureAuthenticated";
+import { PersonPageProps } from "interfaces";
+
+import db from "prisma";
+const prisma = db.getInstance().prisma;
 
 import {
   Heading,
@@ -14,11 +19,6 @@ import {
   useColorModeValue,
 } from "@chakra-ui/core";
 import { Layout, WeightTag, NextChakraLink } from "components";
-import { ensureAuthenticated } from "lib/guards/ensureAuthenticated";
-import { PersonPageProps } from "interfaces";
-
-import db from "prisma";
-const prisma = db.getInstance().prisma;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   await ensureAuthenticated(context);
@@ -67,7 +67,7 @@ export const PersonPage: React.FunctionComponent<{ data: string }> = ({
 
   const weightColor = useColorModeValue("gray.700", "gray.300");
   const weightShadow = useColorModeValue(
-    `2px 2px 1px hsla(0,0%,70%,0.2)`,
+    `2px 2px 1px hsla(0,0%,70%,0)`,
     `2px 2px 1px hsla(0,0%,70%,0.2)`
   );
   const headerColor = useColorModeValue("pink.400", "pink.200");
@@ -172,7 +172,10 @@ export const PersonPage: React.FunctionComponent<{ data: string }> = ({
                       </Box>
                       <Box
                         fontSize="2xl"
-                        fontFamily="mono"
+                        fontFamily="heading"
+                        style={{
+                          fontVariationSettings: `'MONO' 1, 'CASL' 0, 'CRSV' 0`,
+                        }}
                         fontWeight="500"
                         color={weightColor}
                         display="inline-flex"

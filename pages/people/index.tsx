@@ -98,7 +98,7 @@ export const PeoplePage: React.FunctionComponent<{ data: string }> = ({
                     justifyContent="space-between"
                   >
                     <NextChakraLink
-                      fontWeight="400"
+                      fontWeight="500"
                       fontSize={["lg", "xl"]}
                       mr="2"
                       color={nameColor}

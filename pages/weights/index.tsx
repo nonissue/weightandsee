@@ -84,7 +84,7 @@ const WeightsPage: React.FunctionComponent<
     );
   }
 
-  // console.log(session);
+  console.log(session);
 
   if (weighIns.length === 0) {
     return (
@@ -141,8 +141,11 @@ const WeightsPage: React.FunctionComponent<
                     >
                       {weighIn.user.name}
                     </NextChakraLink>
-                    <NextChakraLink href={`/weights/${weighIn.id}`}>
-                      <WeightTag weight={weighIn.weight} />
+                    <NextChakraLink
+                      href={`/weights/${weighIn.id}`}
+                      _hover={{ textDecoration: "none" }}
+                    >
+                      <WeightTag weight={weighIn.weight} isLink />
                     </NextChakraLink>
                   </Stack>
                 </Stack>

@@ -89,7 +89,7 @@ const WeighInPage: React.FunctionComponent<
             letterSpacing="1px"
             alignSelf="center"
           >
-            {weighInData.user.name}
+            Weigh-In
           </Heading>
           {session.user.role === "ADMIN" && (
             <ButtonGroup
@@ -137,6 +137,20 @@ const WeighInPage: React.FunctionComponent<
             alignItems="center"
             justifyContent="space-between"
           >
+            <Box fontStyle="italic">Person</Box>
+            <Box fontFamily="mono" textColor={dataText}>
+              {weighInData.user.name}
+            </Box>
+          </Box>
+          <Divider />
+          <Box
+            display="flex"
+            fontSize="md"
+            textTransform="none"
+            fontWeight="400"
+            alignItems="center"
+            justifyContent="space-between"
+          >
             <Box fontStyle="italic">Entry ID</Box>
             <Box fontFamily="mono" textColor={dataText}>
               {weighInData.id}
@@ -153,7 +167,7 @@ const WeighInPage: React.FunctionComponent<
             justifyContent="space-between"
           >
             <Box fontStyle="italic">Weigh Date</Box>
-            <Box fontFamily="mono" textColor={dataText}>
+            <Box fontFamily="mono" whiteSpace="nowrap" textColor={dataText}>
               {weighInData.weighDate.split("T")[0]}
             </Box>
           </Box>
