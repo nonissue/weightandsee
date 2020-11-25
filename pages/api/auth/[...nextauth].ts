@@ -109,7 +109,7 @@ const options = {
   },
   pages: {
     newUser: "/people",
-    signIn: "/user/signin",
+    // signIn: "/user/signin",
     // signOut: "/user"
     // error: "/user/signin",
   },

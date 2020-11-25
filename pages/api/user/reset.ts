@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { hash } from "bcryptjs";
+import { hash } from "bcrypt";
 
 export default async function (
   req: NextApiRequest,

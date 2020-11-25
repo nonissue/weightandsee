@@ -15,6 +15,7 @@
 - [ ] handle user sign up errors
 - [ ] handle user sign in errors
 - [x] Err, anypassword works?
+- [ ] RESET PASSWORD
 
 ## General
 
