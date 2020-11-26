@@ -65,33 +65,34 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
   session,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
-  const { handleSubmit, errors, control } = useForm<FormInputs>();
+  const { handleSubmit, errors, control, watch } = useForm<FormInputs>();
   const [entryCount, setEntryCount] = useState(1);
   const formBorderColor = useColorModeValue("gray.200", "gray.700");
   // const [selected, setSelected] = useState<string[]>([]);
 
   const startDate = new Date();
 
-  // const watched = watch("entries");
-  // console.log(watched);
+  const watched = watch("entries");
+
+  console.log(watched);
 
   const confirmationCallback = () => {
     setEntryCount(entryCount - 1);
   };
 
-  // const getPeople = () => {
-  //   const selected = watched?.map((entry) => entry.name);
-  //   if (selected) {
-  //     const filteredPeople = people.filter(
-  //       (person: { id: number; name: string }) =>
-  //         (selected as any).indexOf(person.name) === -1
-  //     );
-  //     console.log(filteredPeople);
-  //     return filteredPeople;
-  //   } else {
-  //     return people;
-  //   }
-  // };
+  const getPeople = () => {
+    const selected = watched?.map((entry) => entry.name);
+    if (selected) {
+      const filteredPeople = people.filter(
+        (person: { id: number; name: string }) =>
+          (selected as any).indexOf(person.name) === -1
+      );
+      // console.log(filteredPeople);
+      return filteredPeople;
+    } else {
+      return people;
+    }
+  };
 
   const onSubmit = async (data: FormResult) => {
     console.log(data);
@@ -145,32 +146,30 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
                   <FormControl id="person">
                     <Controller
                       name={`entries.[${i}].name`}
-                      as={Select}
+                      // as={Select}
                       control={control}
                       placeholder="Select Person"
                       defaultValue=""
                       isInvalid={errors.entries?.[i]?.name ? true : false}
                       errorBorderColor="red.300"
                       rules={{ required: true }}
-                      // render={({ onChange, value }) => (
-                      //   <Select
-                      //   // onChange={(e) =>
-                      //   //   // onChange(console.log(e.target.value));
-                      //   //   setValue(`$entries.[${i}].name`, value)
-                      //   // }
-                      //   // value={value}
-                      //   >
-                      //     {getPeople().map((p: Person) => {
-                      //       return (
-                      //         <option key={p.id} value={p.name}>
-                      //           {p.name}
-                      //         </option>
-                      //       );
-
-                      //       // }
-                      //     })}
-                      //   </Select>
-                      // )}
+                      render={({ value, onChange, onBlur }) => (
+                        <Select
+                          onChange={(e) => onChange(e.target.value)}
+                          onBlur={onBlur}
+                          value={value}
+                          placeholder={value ? value : "Select Person"}
+                        >
+                          {getPeople().map((p: Person) => {
+                            return (
+                              <option key={p.id} value={p.name}>
+                                {p.name}
+                              </option>
+                            );
+                          })}
+                        </Select>
+                        // )}
+                      )}
                       // onBlur={(e: any) => {
                       //   console.log(e.target.value);
                       //   console.log("change");
@@ -179,15 +178,15 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
                       //   console.log(e.target.value);
                       //   console.log("change");
                       // }}
-                    >
-                      {people.map((p: Person) => {
-                        return (
-                          <option key={p.id} value={p.name}>
-                            {p.name}
-                          </option>
-                        );
-                      })}
-                    </Controller>
+                    />
+                    {/* // {people.map((p: Person) => {
+                      //   return (
+                      //     <option key={p.id} value={p.name}>
+                      //       {p.name}
+                      //     </option>
+                      //   );
+                      // })}
+                    // </Controller> */}
                   </FormControl>
                   {errors.entries?.[i]?.name && false && (
                     <Box

@@ -16,6 +16,7 @@
 - [ ] handle user sign in errors
 - [x] Err, anypassword works?
 - [ ] RESET PASSWORD
+  - [ ] Can use email sign in to send email, then user can change password on profile page
 
 ## General
 
