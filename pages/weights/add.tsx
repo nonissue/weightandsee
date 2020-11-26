@@ -9,6 +9,11 @@ import {
   Heading,
   Input,
   Select,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
   Stack,
   useColorModeValue,
 } from "@chakra-ui/core";
@@ -65,7 +70,9 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
   session,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
-  const { handleSubmit, errors, control, watch } = useForm<FormInputs>();
+  const { handleSubmit, errors, control, watch, setValue } = useForm<
+    FormInputs
+  >();
   const [entryCount, setEntryCount] = useState(1);
   const formBorderColor = useColorModeValue("gray.200", "gray.700");
   // const [selected, setSelected] = useState<string[]>([]);
@@ -204,6 +211,7 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
                       name={`entries.[${i}].weight`}
                       control={control}
                       as={Input}
+                      inputMode="decimal"
                       placeholder="Weight (lbs)"
                       defaultValue=""
                       isInvalid={errors.entries?.[i]?.weight ? true : false}
@@ -229,36 +237,9 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
                 justifyContent="space"
                 alignContent="center"
                 display="flex"
+                // spacing="1"
               >
-                <Stack direction="row" w={["100%"]}>
-                  <Button
-                    onClick={() => {
-                      setEntryCount(entryCount + 1);
-                    }}
-                    variant="outline"
-                    w="100%"
-                    size="sm"
-                    textColor="pink.400"
-                    fontWeight="800"
-                    fontSize="md"
-                  >
-                    +
-                  </Button>
-                  {entryCount !== 1 && (
-                    <Confirmation
-                      title="-"
-                      action={confirmationCallback}
-                      variant="outline"
-                      size="sm"
-                      textColor="red.400"
-                      fontWeight="900"
-                      fontSize="md"
-                      w="100%"
-                    />
-                  )}
-                </Stack>
-
-                <Box w="100%">
+                <Stack w="100%" direction="column">
                   <Controller
                     control={control}
                     name="date"
@@ -285,35 +266,75 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
                       Required
                     </Box>
                   )}
-                </Box>
-                <FormControl
-                  display="flex"
+                </Stack>
+                <Stack
+                  direction="row"
+                  spacing="1"
                   justifyContent="center"
                   alignItems="center"
-                  p={["1", "0"]}
-                  py={["1", "1"]}
-                  px={["1", "1"]}
                 >
-                  <Controller
-                    control={control}
-                    name="updateCurrentWeight"
-                    defaultValue={true}
-                    render={({ onChange, onBlur }) => (
-                      <Checkbox
-                        onBlur={onBlur}
-                        onChange={(e) => {
-                          onChange(e.target.checked);
-                        }}
-                        my={["1", "1"]}
-                        mx={["0", "0"]}
-                        defaultIsChecked
-                      >
-                        Update Profile Weight
-                      </Checkbox>
-                    )}
-                  />
-                </FormControl>
+                  <Button
+                    onClick={() => {
+                      setEntryCount(entryCount + 1);
+                    }}
+                    variant="outline"
+                    // borderRadius="4em"
+                    // w="100%"
+                    // size="sm"
+                    textColor={useColorModeValue("green.400", "green.200")}
+                    fontWeight="600"
+                    // fontSize="2xl"
+                    p="0"
+                    fontSize="1.5em"
+                    lineHeight="2.2rem"
+                    alignItems="unset"
+                  >
+                    +
+                  </Button>
+                  {entryCount !== 1 && (
+                    <Confirmation
+                      title="-"
+                      action={confirmationCallback}
+                      variant="outline"
+                      // borderRadius="2em"
+                      // size="sm"
+                      textColor="red.400"
+                      fontWeight="600"
+                      fontSize="2em"
+                      lineHeight="2.3rem"
+                      alignItems="unset"
+                      // w="100%"
+                    />
+                  )}
+                </Stack>
               </Stack>
+              <FormControl
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                p={["1", "0"]}
+                py={["1", "1"]}
+                px={["1", "1"]}
+              >
+                <Controller
+                  control={control}
+                  name="updateCurrentWeight"
+                  defaultValue={true}
+                  render={({ onChange, onBlur }) => (
+                    <Checkbox
+                      onBlur={onBlur}
+                      onChange={(e) => {
+                        onChange(e.target.checked);
+                      }}
+                      my={["1", "1"]}
+                      mx={["0", "0"]}
+                      defaultIsChecked
+                    >
+                      Update Profile Weight
+                    </Checkbox>
+                  )}
+                />
+              </FormControl>
             </Stack>
             <Box display="flex">
               <Button

@@ -29,7 +29,7 @@ export const Confirmation: React.FunctionComponent<Props & ButtonProps> = ({
 
   return (
     <>
-      <Button onClick={onOpen} {...props}>
+      <Button p="0" onClick={onOpen} {...props}>
         {title}
       </Button>
       <AlertDialog
