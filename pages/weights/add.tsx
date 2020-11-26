@@ -8,15 +8,12 @@ import {
   Grid,
   Heading,
   Input,
+  InputGroup,
+  InputRightAddon,
   Select,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
   Stack,
   useColorModeValue,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { useState } from "react";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useRouter } from "next/router";
@@ -48,14 +45,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   await ensureAuthenticated(context);
   const session = await getSession(context);
 
-  let people = null;
+  let people = undefined;
 
   people = await prisma.user.findMany({
-    // select: { name: true, nickName: true },
     select: {
       id: true,
       name: true,
-      // nickName: true,
     },
     orderBy: { name: "asc" },
   });
@@ -70,9 +65,7 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
   session,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
-  const { handleSubmit, errors, control, watch, setValue } = useForm<
-    FormInputs
-  >();
+  const { handleSubmit, errors, control, watch } = useForm<FormInputs>();
   const [entryCount, setEntryCount] = useState(1);
   const formBorderColor = useColorModeValue("gray.200", "gray.700");
   // const [selected, setSelected] = useState<string[]>([]);
@@ -94,7 +87,7 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
         (person: { id: number; name: string }) =>
           (selected as any).indexOf(person.name) === -1
       );
-      // console.log(filteredPeople);
+
       return filteredPeople;
     } else {
       return people;
@@ -148,45 +141,53 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
         >
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={2}>
-              {createArrayWithNumbers(entryCount).map((i) => (
-                <Stack spacing={2} key={i}>
-                  <FormControl id="person">
-                    <Controller
-                      name={`entries.[${i}].name`}
-                      // as={Select}
-                      control={control}
-                      placeholder="Select Person"
-                      defaultValue=""
-                      isInvalid={errors.entries?.[i]?.name ? true : false}
-                      errorBorderColor="red.300"
-                      rules={{ required: true }}
-                      render={({ value, onChange, onBlur }) => (
-                        <Select
-                          onChange={(e) => onChange(e.target.value)}
-                          onBlur={onBlur}
-                          value={value}
-                          placeholder={value ? value : "Select Person"}
-                        >
-                          {getPeople().map((p: Person) => {
-                            return (
-                              <option key={p.id} value={p.name}>
-                                {p.name}
-                              </option>
-                            );
-                          })}
-                        </Select>
-                        // )}
-                      )}
-                      // onBlur={(e: any) => {
-                      //   console.log(e.target.value);
-                      //   console.log("change");
-                      // }}
-                      // onChange={(e: any) => {
-                      //   console.log(e.target.value);
-                      //   console.log("change");
-                      // }}
-                    />
-                    {/* // {people.map((p: Person) => {
+              {createArrayWithNumbers(entryCount).map((i) => {
+                // otherwise first item in array is empty
+                const index = i - 1;
+
+                return (
+                  <Stack spacing={2} key={index}>
+                    <FormControl id="person">
+                      <Controller
+                        name={`entries.[${index}].name`}
+                        // as={Select}
+                        control={control}
+                        // placeholder="Select Person"
+                        defaultValue=""
+                        // isInvalid={errors.entries?.[i]?.name ? true : false}
+                        errorBorderColor="red.300"
+                        rules={{ required: true }}
+                        render={({ value, onChange, onBlur }) => (
+                          <Select
+                            onChange={(e) => onChange(e.target.value)}
+                            onBlur={onBlur}
+                            value={value ? value : undefined}
+                            placeholder={value ? value : "Select Person"}
+                            isInvalid={
+                              errors.entries?.[index]?.name ? true : false
+                            }
+                            // isInvalid={value === "Select Person"}
+                          >
+                            {getPeople().map((p: Person) => {
+                              return (
+                                <option key={p.id} value={p.name}>
+                                  {p.name}
+                                </option>
+                              );
+                            })}
+                          </Select>
+                          // )}
+                        )}
+                        // onBlur={(e: any) => {
+                        //   console.log(e.target.value);
+                        //   console.log("change");
+                        // }}
+                        // onChange={(e: any) => {
+                        //   console.log(e.target.value);
+                        //   console.log("change");
+                        // }}
+                      />
+                      {/* // {people.map((p: Person) => {
                       //   return (
                       //     <option key={p.id} value={p.name}>
                       //       {p.name}
@@ -194,30 +195,8 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
                       //   );
                       // })}
                     // </Controller> */}
-                  </FormControl>
-                  {errors.entries?.[i]?.name && false && (
-                    <Box
-                      fontFamily="mono"
-                      fontSize="xs"
-                      textColor="red.400"
-                      pl="1"
-                    >
-                      Required
-                    </Box>
-                  )}
-
-                  <FormControl id="person">
-                    <Controller
-                      name={`entries.[${i}].weight`}
-                      control={control}
-                      as={Input}
-                      inputMode="decimal"
-                      placeholder="Weight (lbs)"
-                      defaultValue=""
-                      isInvalid={errors.entries?.[i]?.weight ? true : false}
-                      rules={{ required: true, min: 2 }}
-                    />
-                    {errors.entries?.[i]?.weight && false && (
+                    </FormControl>
+                    {errors.entries?.[index]?.name && false && (
                       <Box
                         fontFamily="mono"
                         fontSize="xs"
@@ -227,10 +206,50 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
                         Required
                       </Box>
                     )}
-                  </FormControl>
-                  <Divider display={["block", "none"]} />
-                </Stack>
-              ))}
+
+                    <FormControl id="person">
+                      <Controller
+                        name={`entries.[${index}].weight`}
+                        control={control}
+                        // as={Input}
+                        // inputMode="decimal"
+                        // placeholder="Weight (lbs)"
+                        defaultValue=""
+                        // isInvalid={errors.entries?.[i]?.weight ? true : false}
+                        rules={{ required: true, min: 2 }}
+                        render={(props: any) => (
+                          <InputGroup>
+                            <Input
+                              value={props.value}
+                              onChange={props.onChange}
+                              placeholder="200.0"
+                              isInvalid={
+                                errors.entries?.[index]?.weight ? true : false
+                              }
+                            />
+                            <InputRightAddon
+                              // eslint-disable-next-line react/no-children-prop
+                              children="lbs"
+                              pointerEvents="none"
+                            />
+                          </InputGroup>
+                        )}
+                      />
+                      {errors.entries?.[index]?.weight && false && (
+                        <Box
+                          fontFamily="mono"
+                          fontSize="xs"
+                          textColor="red.400"
+                          pl="1"
+                        >
+                          Required
+                        </Box>
+                      )}
+                    </FormControl>
+                    <Divider display={["block", "none"]} />
+                  </Stack>
+                );
+              })}
 
               <Stack
                 direction={["column", "column", "row", "row"]}
