@@ -10,7 +10,7 @@ import {
   Input,
   Heading,
   useColorModeValue,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { getBaseURL } from "lib/getBaseURL";
 
 export default function ResetPassword(): JSX.Element {

@@ -1,4 +1,4 @@
-import { useColorModeValue, Stack, Text, StackProps } from "@chakra-ui/core";
+import { useColorModeValue, Stack, Text, StackProps } from "@chakra-ui/react";
 
 // TODO: Accept stack props as {...props}
 

@@ -1,4 +1,4 @@
-import { extendTheme } from "@chakra-ui/core";
+import { extendTheme } from "@chakra-ui/react";
 import { mode } from "@chakra-ui/theme-tools";
 
 const sans = [
@@ -39,7 +39,6 @@ const mono = [
   "monospace",
 ].join(",");
 
-
 const customHeading = [
   "Recursive",
   "-apple-system",
@@ -64,9 +63,9 @@ export default extendTheme({
           color: mode("blue.700", "blue.300")(props),
         }),
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        external: (props: any)  => ({
+        external: (props: any) => ({
           color: mode("blue.700", "blue.100")(props),
-          fontWeight: "400"
+          fontWeight: "400",
         }),
       },
     },

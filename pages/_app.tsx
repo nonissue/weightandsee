@@ -3,6 +3,8 @@ import { useRouter } from "next/router";
 import { Provider } from "next-auth/client";
 import { AppProps } from "next/app";
 import * as gtag from "../lib/gtag";
+import { AnimatePresence, motion } from "framer-motion";
+import { Box, BoxProps } from "@chakra-ui/react";
 
 /* eslint-disable @typescript-eslint/ban-types */
 import { Chakra } from "../Chakra";
@@ -21,6 +23,8 @@ export interface AppRenderProps {
   router: NextRouter;
   cookies?: string;
 }
+
+const MotionBox = motion.custom<BoxProps & React.ReactNode>(Box);
 
 const App: React.FunctionComponent<AppRenderProps & AppProps> = ({
   Component,
@@ -42,7 +46,23 @@ const App: React.FunctionComponent<AppRenderProps & AppProps> = ({
   return (
     <Provider session={pageProps.session}>
       <Chakra cookies={cookies}>
-        <Component {...pageProps} />
+        <AnimatePresence exitBeforeEnter>
+          <MotionBox
+            // as="main"
+            animate="enter"
+            exit="exit"
+            // flexGrow={1}
+            initial="initial"
+            key={router.route}
+            variants={{
+              initial: { opacity: 0, y: 80 },
+              enter: { opacity: 1, y: 0 },
+              exit: { opacity: 0, y: 30 },
+            }}
+          >
+            <Component {...pageProps} />
+          </MotionBox>
+        </AnimatePresence>
       </Chakra>
     </Provider>
   );

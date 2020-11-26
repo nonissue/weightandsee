@@ -10,7 +10,7 @@ import {
   Link,
   useColorModeValue,
   SimpleGrid,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 
 import { Layout } from "../components";
 

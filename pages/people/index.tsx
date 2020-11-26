@@ -6,7 +6,7 @@ import {
   ListItem,
   Stack,
   useColorModeValue,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { ensureAuthenticated } from "lib/guards/ensureAuthenticated";
 import { Layout, NextChakraLink, WeightTag } from "../../components";

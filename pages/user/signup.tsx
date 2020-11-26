@@ -2,7 +2,7 @@ import { FormEvent, useState } from "react";
 import Head from "next/head";
 
 import { signIn } from "next-auth/client";
-import { NextChakraLink, Layout } from "components";
+import { Layout } from "components";
 import {
   Button,
   Stack,
@@ -10,7 +10,7 @@ import {
   Input,
   Heading,
   useColorModeValue,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { getBaseURL } from "lib/getBaseURL";
 
 export default function Register(): JSX.Element {
@@ -19,6 +19,7 @@ export default function Register(): JSX.Element {
   const [password, setPassword] = useState("");
   const baseURL = getBaseURL();
   const headerColor = useColorModeValue("pink.400", "pink.200");
+  const formBorderColor = useColorModeValue("gray.200", "gray.700");
 
   console.log(baseURL);
 
@@ -52,11 +53,17 @@ export default function Register(): JSX.Element {
       {/* <Box> */}
       <form onSubmit={handleRegister}>
         <Stack
-          maxW="min(65ch, 100%)"
+          maxW="min(40ch, 100%)"
           mx="auto"
           mt="8"
-          px={["4", "4", "2", "2"]}
-          spacing={5}
+          border={["0px", "1px"]}
+          // border="1px"
+          // background="gray.700"
+          borderRadius={["0px", "6px"]}
+          borderColor={[formBorderColor, formBorderColor]}
+          // p="8"
+          p={["4", "4", "4", "4"]}
+          spacing={3}
         >
           <Heading
             size="xl"
@@ -70,17 +77,23 @@ export default function Register(): JSX.Element {
             Sign Up
           </Heading>
           <div>
-            <FormLabel htmlFor="name">Name</FormLabel>
+            <FormLabel htmlFor="name" mb="1">
+              Name
+            </FormLabel>
             <Input
               type="name"
               name="name"
               id="name"
               value={name}
+              // background="gray.600"
+              variant="filled"
               onChange={(e) => setName(e.target.value)}
             />
           </div>
           <div>
-            <FormLabel htmlFor="name">Email</FormLabel>
+            <FormLabel htmlFor="name" mb="1">
+              Email
+            </FormLabel>
             <Input
               type="email"
               name="email"
@@ -90,7 +103,9 @@ export default function Register(): JSX.Element {
             />
           </div>
           <div>
-            <FormLabel htmlFor="name">Password</FormLabel>
+            <FormLabel htmlFor="name" mb="1">
+              Password
+            </FormLabel>
             <Input
               type="password"
               name="password"
@@ -100,16 +115,13 @@ export default function Register(): JSX.Element {
             />
           </div>
 
-          <Stack isInline>
-            <Button type="submit" colorScheme="pink" w="75%">
-              Register
+          {/* <Flex w="100%" justifyContent="center"> */}
+          <div>
+            <Button type="submit" colorScheme="pink" mt="3" w="100%">
+              Sign Up
             </Button>
-            <NextChakraLink href="/" w="25%">
-              <Button type="submit" w="100%" variant="outline">
-                Cancel
-              </Button>
-            </NextChakraLink>
-          </Stack>
+          </div>
+          {/* </Flex> */}
         </Stack>
       </form>
     </Layout>

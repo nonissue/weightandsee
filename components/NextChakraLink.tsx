@@ -1,13 +1,16 @@
 import {
   Link as ChakraLink,
-  LinkProps as ChakraLinkProps
-} from "@chakra-ui/core";
+  LinkProps as ChakraLinkProps,
+  BoxProps,
+} from "@chakra-ui/react";
 import { LinkProps as NextLinkProps } from "next/dist/client/link";
 import NextLink from "next/link";
 import { PropsWithChildren } from "react";
 
+// _hover prop doesn't exist in LinkProps, but works
+// so BoxProps are provided as well
 export type NextChakraLinkProps = PropsWithChildren<
-  NextLinkProps & Omit<ChakraLinkProps, "as">
+  NextLinkProps & Omit<ChakraLinkProps, "as"> & BoxProps
 >;
 
 //  Has to be a new component because both chakra and next share the `as` keyword

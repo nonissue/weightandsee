@@ -2,7 +2,7 @@ import { FormEvent, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/client";
-import { NextChakraLink, Layout } from "components";
+import { Layout } from "components";
 import {
   Button,
   Stack,
@@ -10,7 +10,7 @@ import {
   Input,
   Heading,
   useColorModeValue,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 
 export default function SignIn(): JSX.Element {
   const router = useRouter();
@@ -49,7 +49,7 @@ export default function SignIn(): JSX.Element {
           mx="auto"
           mt="8"
           px={["4", "4", "2", "2"]}
-          spacing={5}
+          spacing={3}
         >
           <Heading
             size="xl"
@@ -84,16 +84,11 @@ export default function SignIn(): JSX.Element {
             />
           </div>
 
-          <Stack isInline>
-            <Button type="submit" colorScheme="pink" w="75%">
+          <div>
+            <Button type="submit" colorScheme="pink" mt="5" w="100%">
               Sign In
             </Button>
-            <NextChakraLink href="/" w="25%">
-              <Button type="submit" w="100%" variant="outline">
-                Cancel
-              </Button>
-            </NextChakraLink>
-          </Stack>
+          </div>
         </Stack>
       </form>
     </Layout>

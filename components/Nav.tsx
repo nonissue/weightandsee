@@ -5,7 +5,7 @@ import {
   IconButton,
   useColorModeValue,
   Link,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { signOut, useSession } from "next-auth/client";
 import { motion } from "framer-motion";
 import { Menu, InformationCircleOutline, X } from "heroicons-react";

@@ -3,7 +3,7 @@ import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
 import { ensureAuthenticated } from "lib/guards/ensureAuthenticated";
 // import { isAuth } from "lib/helpers/auth";
-import { Grid, Heading, Divider, Text, Stack, Box } from "@chakra-ui/core";
+import { Grid, Heading, Divider, Text, Stack, Box } from "@chakra-ui/react";
 import { Layout, NextChakraLink, WeightTag } from "../../components";
 import { WeighInsWithUser, Session } from "../../interfaces";
 

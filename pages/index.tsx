@@ -7,7 +7,7 @@ import {
   FormLabel,
   FormErrorMessage,
   FormHelperText,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { FormEvent } from "react";
 import { useRouter } from "next/router";
 

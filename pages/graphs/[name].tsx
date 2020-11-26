@@ -2,7 +2,7 @@
 import { GetServerSideProps } from "next";
 import db from "prisma";
 
-import { Heading, Grid } from "@chakra-ui/core";
+import { Heading, Grid } from "@chakra-ui/react";
 import {
   LineChart,
   Line,

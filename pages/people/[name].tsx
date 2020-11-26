@@ -17,7 +17,7 @@ import {
   Flex,
   Box,
   useColorModeValue,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { Layout, WeightTag, NextChakraLink } from "components";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {

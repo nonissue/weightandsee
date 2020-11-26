@@ -8,7 +8,7 @@ import {
   Button,
   useColorModeValue,
   ButtonGroup,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { ensureAuthenticated } from "lib/guards/ensureAuthenticated";
 import { getSession } from "next-auth/client";
 

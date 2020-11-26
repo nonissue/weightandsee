@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Stack, Text, useColorModeValue } from "@chakra-ui/core";
+import { Box, Stack, Text, useColorModeValue } from "@chakra-ui/react";
 import { Nav, NavItems, NextChakraLink } from ".";
 import { useSession } from "next-auth/client";
 import { motion } from "framer-motion";
@@ -9,7 +9,7 @@ import Head from "next/head";
 export const Header: React.FunctionComponent = () => {
   const headerColor = useColorModeValue("pink.400", "pink.300");
   const loginLinkColor = useColorModeValue("pink.400", "pink.200");
-  // const headerBg = useColorModeValue("gray.50", "gray.800");
+
   const headerBg = useColorModeValue(
     "hsla(210, 38%, 95%, 0.7)",
     "hsla(230, 21%, 24%, 0.2)"
@@ -41,7 +41,6 @@ export const Header: React.FunctionComponent = () => {
         top="0"
         textDecoration="initial"
         zIndex="1000"
-        // opacity={loading ? "0.1" : "0.9"}
         style={{
           backdropFilter: "blur(15px)",
           WebkitBackdropFilter: "blur(25px)",
@@ -56,7 +55,7 @@ export const Header: React.FunctionComponent = () => {
               loading: { opacity: 0, y: "-100px" },
               loaded: { opacity: 1, y: "0px" },
             }}
-            transition={{ delay: 0, duration: 0.5 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
           >
             <Stack
               isInline
@@ -159,10 +158,7 @@ export const Header: React.FunctionComponent = () => {
                     >
                       Sign In
                     </NextChakraLink>
-                    <NextChakraLink
-                      href="/user/register"
-                      color={loginLinkColor}
-                    >
+                    <NextChakraLink href="/user/signup" color={loginLinkColor}>
                       Sign Up
                     </NextChakraLink>
                   </>

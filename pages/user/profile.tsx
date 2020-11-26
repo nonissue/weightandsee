@@ -5,7 +5,7 @@ import {
   Input,
   Stack,
   useColorModeValue,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { Layout, NextChakraLink } from "components";
 
 import { getBaseURL } from "lib/getBaseURL";
