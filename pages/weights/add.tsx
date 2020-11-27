@@ -11,18 +11,19 @@ import {
   InputGroup,
   InputRightAddon,
   Select,
+  Flex,
   Stack,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import { getSession } from "next-auth/client";
+import { getSession, Session } from "next-auth/client";
 import { ensureAuthenticated } from "lib/guards/ensureAuthenticated";
 import ReactDatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
 import { Confirmation, Layout } from "../../components";
-import { FormInputs, FormResult, Participants } from "../../interfaces";
+import { FormInputs, FormResult } from "../../interfaces";
 
 // eslint-disable-next-line import/no-named-as-default
 import db from "prisma";
@@ -31,7 +32,6 @@ const prisma = db.getInstance().prisma;
 type Person = {
   id: number;
   name: string;
-  nickName: string;
 };
 
 function createArrayWithNumbers(length: number) {
@@ -45,9 +45,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   await ensureAuthenticated(context);
   const session = await getSession(context);
 
-  let people = undefined;
-
-  people = await prisma.user.findMany({
+  const people: Person[] = await prisma.user.findMany({
     select: {
       id: true,
       name: true,
@@ -60,28 +58,41 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-const CreateWeights: React.FunctionComponent<Participants> = ({
-  people,
-  session,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const CreateWeights: React.FunctionComponent<{
+  people: Person[];
+  session: Session;
+}> = ({ people, session }) => {
+  //: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
   const { handleSubmit, errors, control, watch } = useForm<FormInputs>();
   const [entryCount, setEntryCount] = useState(1);
-  const formBorderColor = useColorModeValue("gray.200", "gray.700");
+  const startDate = new Date();
+  const watched = watch("entries");
+  // const test: Person[] = Object.values(watched);
+  // console.log(Object.values(watched));
+  // console.log(test?.map((e) => e.name));
+  // console.log(test);
+  // console.log(people);
+  // console.log(typeof people);
+
+  const formBorderColor = useColorModeValue("gray.100", "gray.700");
+  const headerColor = useColorModeValue("pink.400", "pink.200");
   // const [selected, setSelected] = useState<string[]>([]);
 
-  const startDate = new Date();
-
-  const watched = watch("entries");
-
-  console.log(watched);
+  // console.log(watched);
 
   const confirmationCallback = () => {
     setEntryCount(entryCount - 1);
   };
 
   const getPeople = () => {
+    // const selected =
+    //   watched &&
+    //   Object.entries(watched).map((_entry, index) => {
+    //     return watched[index];
+    //   });
     const selected = watched?.map((entry) => entry.name);
+
     if (selected) {
       const filteredPeople = people.filter(
         (person: { id: number; name: string }) =>
@@ -131,14 +142,69 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
       <Grid templateColumns={`1fr min(65ch, 100%) 1fr`} border="0px">
         <Grid
           column="2"
-          my="4"
-          mx={["4", "4", "2", "2"]}
-          p="4"
-          border="1px"
-          borderRadius="10px"
-          shadow="sm"
-          borderColor={formBorderColor}
+          my="8"
+          mx={["0", "2"]}
+          px={["4", "4", "4", "4"]}
+          py="4"
+          border={["0px", "1px"]}
+          shadow={useColorModeValue("sm", "lg")}
+          borderRadius={["8px", "8px"]}
+          borderColor={[formBorderColor, formBorderColor]}
         >
+          <Flex
+            flexDirection={["row", "row", "row", "row"]}
+            justifyContent="space-between"
+            alignContent="center"
+            mb="4"
+          >
+            <Heading
+              size="lg"
+              fontWeight="725"
+              fontFamily="Recursive"
+              color={headerColor}
+              // mb="2"
+              style={{
+                fontVariationSettings: `"MONO" 0, "CRSV" 1, "CASL" 0.15, "slnt" 0`,
+              }}
+            >
+              Weigh-In
+            </Heading>
+
+            <Stack
+              direction="row"
+              spacing="1"
+              // w="100%"
+              // justifyContent="center"
+              alignItems="center"
+            >
+              <Button
+                w="100%"
+                onClick={() => {
+                  setEntryCount(entryCount + 1);
+                }}
+                variant="outline"
+                size="xs"
+              >
+                + Entry
+              </Button>
+              {entryCount !== 1 && (
+                <Confirmation
+                  title="- Entry"
+                  action={confirmationCallback}
+                  variant="outline"
+                  // colorScheme="yellow"
+                  // shadow="sm"
+                  w="100%"
+                  // borderRadius="2em"
+                  // size="sm"
+                  size="xs"
+                  textColor="red.400"
+                  // fontWeight="600"
+                  // w="100%"
+                />
+              )}
+            </Stack>
+          </Flex>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={2}>
               {createArrayWithNumbers(entryCount).map((i) => {
@@ -146,96 +212,49 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
                 const index = i - 1;
 
                 return (
-                  <Stack spacing={2} key={index}>
-                    <FormControl id="person">
-                      <Controller
-                        name={`entries.[${index}].name`}
-                        // as={Select}
-                        control={control}
-                        // placeholder="Select Person"
-                        defaultValue=""
-                        // isInvalid={errors.entries?.[i]?.name ? true : false}
-                        errorBorderColor="red.300"
-                        rules={{ required: true }}
-                        render={({ value, onChange, onBlur }) => (
-                          <Select
-                            onChange={(e) => onChange(e.target.value)}
-                            onBlur={onBlur}
-                            value={value ? value : undefined}
-                            placeholder={value ? value : "Select Person"}
-                            isInvalid={
-                              errors.entries?.[index]?.name ? true : false
-                            }
-                            // isInvalid={value === "Select Person"}
-                          >
-                            {getPeople().map((p: Person) => {
-                              return (
-                                <option key={p.id} value={p.name}>
-                                  {p.name}
-                                </option>
-                              );
-                            })}
-                          </Select>
-                          // )}
-                        )}
-                        // onBlur={(e: any) => {
-                        //   console.log(e.target.value);
-                        //   console.log("change");
-                        // }}
-                        // onChange={(e: any) => {
-                        //   console.log(e.target.value);
-                        //   console.log("change");
-                        // }}
-                      />
-                      {/* // {people.map((p: Person) => {
-                      //   return (
-                      //     <option key={p.id} value={p.name}>
-                      //       {p.name}
-                      //     </option>
-                      //   );
-                      // })}
-                    // </Controller> */}
-                    </FormControl>
-                    {errors.entries?.[index]?.name && false && (
-                      <Box
-                        fontFamily="mono"
-                        fontSize="xs"
-                        textColor="red.400"
-                        pl="1"
-                      >
-                        Required
-                      </Box>
-                    )}
-
-                    <FormControl id="person">
-                      <Controller
-                        name={`entries.[${index}].weight`}
-                        control={control}
-                        // as={Input}
-                        // inputMode="decimal"
-                        // placeholder="Weight (lbs)"
-                        defaultValue=""
-                        // isInvalid={errors.entries?.[i]?.weight ? true : false}
-                        rules={{ required: true, min: 2 }}
-                        render={(props: any) => (
-                          <InputGroup>
-                            <Input
-                              value={props.value}
-                              onChange={props.onChange}
-                              placeholder="200.0"
+                  <div key={index}>
+                    <Stack
+                      spacing={2}
+                      // display="flex"
+                      // flexDirection={["column", "row"]}
+                      // isInline={[true, false]}
+                      direction={["column", "row"]}
+                      w="100%"
+                      key={index}
+                    >
+                      <FormControl id="person" w="100%">
+                        <Controller
+                          name={`entries.[${index}].name`}
+                          // as={Select}
+                          control={control}
+                          // placeholder="Select Person"
+                          defaultValue=""
+                          // isInvalid={errors.entries?.[i]?.name ? true : false}
+                          errorBorderColor="red.300"
+                          rules={{ required: true }}
+                          render={({ value, onChange, onBlur }) => (
+                            <Select
+                              onChange={(e) => onChange(e.target.value)}
+                              onBlur={onBlur}
+                              value={value ? value : undefined}
+                              placeholder={value ? value : "Select Person"}
                               isInvalid={
-                                errors.entries?.[index]?.weight ? true : false
+                                errors.entries?.[index]?.name ? true : false
                               }
-                            />
-                            <InputRightAddon
-                              // eslint-disable-next-line react/no-children-prop
-                              children="lbs"
-                              pointerEvents="none"
-                            />
-                          </InputGroup>
-                        )}
-                      />
-                      {errors.entries?.[index]?.weight && false && (
+                              // isInvalid={value === "Select Person"}
+                            >
+                              {getPeople().map((p: Person) => {
+                                return (
+                                  <option key={p.id} value={p.name}>
+                                    {p.name}
+                                  </option>
+                                );
+                              })}
+                            </Select>
+                          )}
+                        />
+                      </FormControl>
+                      {errors.entries?.[index]?.name && false && (
                         <Box
                           fontFamily="mono"
                           fontSize="xs"
@@ -245,18 +264,53 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
                           Required
                         </Box>
                       )}
-                    </FormControl>
-                    <Divider display={["block", "none"]} />
-                  </Stack>
+
+                      <FormControl id="person">
+                        <Controller
+                          name={`entries.[${index}].weight`}
+                          control={control}
+                          defaultValue=""
+                          rules={{ required: true, min: 2 }}
+                          render={(props: any) => (
+                            <InputGroup w="100%">
+                              <Input
+                                value={props.value}
+                                onChange={props.onChange}
+                                placeholder="200.0"
+                                isInvalid={
+                                  errors.entries?.[index]?.weight ? true : false
+                                }
+                              />
+                              <InputRightAddon
+                                // eslint-disable-next-line react/no-children-prop
+                                children="lbs"
+                                pointerEvents="none"
+                              />
+                            </InputGroup>
+                          )}
+                        />
+                        {errors.entries?.[index]?.weight && false && (
+                          <Box
+                            fontFamily="mono"
+                            fontSize="xs"
+                            textColor="red.400"
+                            pl="1"
+                          >
+                            Required
+                          </Box>
+                        )}
+                      </FormControl>
+                    </Stack>
+                    <Divider pt="2" display={["block", "block"]} />
+                  </div>
                 );
               })}
 
               <Stack
-                direction={["column", "column", "row", "row"]}
-                justifyContent="space"
+                direction={["column", "row", "row", "row"]}
+                // justifyContent="space"
                 alignContent="center"
                 display="flex"
-                // spacing="1"
               >
                 <Stack w="100%" direction="column">
                   <Controller
@@ -286,85 +340,46 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
                     </Box>
                   )}
                 </Stack>
-                <Stack
-                  direction="row"
-                  spacing="1"
+                <FormControl
+                  display="flex"
                   justifyContent="center"
                   alignItems="center"
+                  p={["1", "0"]}
+                  py={["1", "1"]}
+                  px={["1", "1"]}
                 >
-                  <Button
-                    onClick={() => {
-                      setEntryCount(entryCount + 1);
-                    }}
-                    variant="outline"
-                    // borderRadius="4em"
-                    // w="100%"
-                    // size="sm"
-                    textColor={useColorModeValue("green.400", "green.200")}
-                    fontWeight="600"
-                    // fontSize="2xl"
-                    p="0"
-                    fontSize="1.5em"
-                    lineHeight="2.2rem"
-                    alignItems="unset"
-                  >
-                    +
-                  </Button>
-                  {entryCount !== 1 && (
-                    <Confirmation
-                      title="-"
-                      action={confirmationCallback}
-                      variant="outline"
-                      // borderRadius="2em"
-                      // size="sm"
-                      textColor="red.400"
-                      fontWeight="600"
-                      fontSize="2em"
-                      lineHeight="2.3rem"
-                      alignItems="unset"
-                      // w="100%"
-                    />
-                  )}
-                </Stack>
+                  <Controller
+                    control={control}
+                    name="updateCurrentWeight"
+                    defaultValue={true}
+                    render={({ onChange, onBlur }) => (
+                      <Checkbox
+                        onBlur={onBlur}
+                        onChange={(e) => {
+                          onChange(e.target.checked);
+                        }}
+                        my={["1", "1"]}
+                        colorScheme="pink"
+                        mx={["0", "0"]}
+                        defaultIsChecked
+                      >
+                        Update Profile Weight
+                      </Checkbox>
+                    )}
+                  />
+                </FormControl>
               </Stack>
-              <FormControl
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                p={["1", "0"]}
-                py={["1", "1"]}
-                px={["1", "1"]}
-              >
-                <Controller
-                  control={control}
-                  name="updateCurrentWeight"
-                  defaultValue={true}
-                  render={({ onChange, onBlur }) => (
-                    <Checkbox
-                      onBlur={onBlur}
-                      onChange={(e) => {
-                        onChange(e.target.checked);
-                      }}
-                      my={["1", "1"]}
-                      mx={["0", "0"]}
-                      defaultIsChecked
-                    >
-                      Update Profile Weight
-                    </Checkbox>
-                  )}
-                />
-              </FormControl>
             </Stack>
             <Box display="flex">
               <Button
-                colorScheme="blue"
+                colorScheme="pink"
                 type="submit"
                 mx="auto"
-                borderRadius="24px"
+                // borderRadius="24px"
                 mt="4"
-                w={["100%", "50%"]}
+                w={["100%", "100%"]}
               >
-                Submit
+                Submit Weigh-In
               </Button>
             </Box>
           </form>
