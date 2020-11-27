@@ -29,7 +29,7 @@ export const Confirmation: React.FunctionComponent<Props & ButtonProps> = ({
 
   return (
     <>
-      <Button p="0" onClick={onOpen} {...props}>
+      <Button onClick={onOpen} {...props}>
         {title}
       </Button>
       <AlertDialog
@@ -61,7 +61,7 @@ export const Confirmation: React.FunctionComponent<Props & ButtonProps> = ({
                 onClose();
               }}
               variant="solid"
-              colorScheme="orange"
+              colorScheme="red"
               ml={3}
               size="md"
             >

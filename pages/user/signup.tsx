@@ -86,7 +86,6 @@ export default function Register(): JSX.Element {
               id="name"
               value={name}
               // background="gray.600"
-              variant="filled"
               onChange={(e) => setName(e.target.value)}
             />
           </div>

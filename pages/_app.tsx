@@ -51,7 +51,6 @@ const App: React.FunctionComponent<AppRenderProps & AppProps> = ({
             // as="main"
             animate="enter"
             exit="exit"
-            // flexGrow={1}
             initial="initial"
             key={router.route}
             variants={{

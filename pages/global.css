@@ -2,33 +2,31 @@
 @-moz-document url-prefix() {
   .nav-header {
     /* background: hsla(230, 40%, 15%, 0.7) !important; */
-    background: hsla(230, 21%, 20%, 0.9) !important;
-    color: #fff;
+    background: hsla(231, 31%, 15%, 0.9) !important;
+    /* background: unset !important; */
+    color: #eee;
+    background-size: 200%;
   }
   .mobile-nav {
-    background: hsla(230, 21%, 20%, 0.95) !important;
+    /* background: hsla(230, 21%, 20%, 0.95) !important; */
+    transition: all 3s ease-out !important;
   }
   .nav-header a {
     color: #eee;
-
-    /* color: transparent; */
+    transition: all 0s ease-out !important;
   }
   .nav-header button {
-    mix-blend-mode: difference;
-    filter: invert(0.1);
+    /* mix-blend-mode: difference; */
+    /* filter: invert(0.1); */
+    transition: all 0.25s ease-out !important;
   }
   .nav-header button:hover {
-    /* color: hsla(230, 21%, 20%, 0.9); */
-
-    /* filter: invert(1); */
     color: rgb(0, 0, 0);
-    mix-blend-mode: difference;
-    /* background: inherit; */
-    /* background-clip: text; */
-    box-shadow: 0 1px 2px 0.5px rgba(0, 0, 0, 0.1);
+    background: hsla(0, 0%, 100%, 1);
   }
   .mobile-nav a {
     color: #fff;
+    /* transition: all 0s ease-out !important; */
   }
 }
 
