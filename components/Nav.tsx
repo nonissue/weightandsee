@@ -5,11 +5,12 @@ import {
   IconButton,
   useColorModeValue,
   Link,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { signOut, useSession } from "next-auth/client";
 import { motion } from "framer-motion";
 import { Menu, InformationCircleOutline, X } from "heroicons-react";
-import { useBreakpointValue } from "@chakra-ui/media-query";
+
 import { NextChakraLink } from "./NextChakraLink";
 import { ColorModeToggle } from "./ColorModeToggle";
 
@@ -27,6 +28,7 @@ export const NavItems: React.FunctionComponent<NavItemsProps> = ({
 }) => {
   const loginLinkColor = useColorModeValue("pink.500", "pink.200");
   const logoutLinkColor = useColorModeValue("pink.600", "pink.400");
+
   return (
     <>
       {isAdmin && (
@@ -84,11 +86,10 @@ export const Nav: React.FunctionComponent<Props> = ({
                   aria-label={`About/Info`}
                   variant="ghost"
                   icon={<InformationCircleOutline />}
-                />
+                ></IconButton>
               </NextChakraLink>
 
               <ColorModeToggle />
-
               <IconButton
                 marginX="1"
                 size="sm"
@@ -123,7 +124,7 @@ export const Nav: React.FunctionComponent<Props> = ({
                 onClick={() => {
                   setMobileNavShown(!mobileNavShown);
                 }}
-              />
+              ></IconButton>
             </Flex>
           ) : (
             <Stack
@@ -135,13 +136,13 @@ export const Nav: React.FunctionComponent<Props> = ({
               {!session ? (
                 <>
                   <NextChakraLink
-                    href="/api/auth/signin"
+                    href="/api/auth/signin!"
                     color={loginLinkColor}
                   >
                     Sign In
                   </NextChakraLink>
                   <NextChakraLink href="/user/signup" color={loginLinkColor}>
-                    Sign Up
+                    Sign Up!
                   </NextChakraLink>
                 </>
               ) : (
@@ -157,7 +158,7 @@ export const Nav: React.FunctionComponent<Props> = ({
                     aria-label={`About/Info`}
                     variant="ghost"
                     icon={<InformationCircleOutline />}
-                  />
+                  ></IconButton>
                 </NextChakraLink>
                 <ColorModeToggle />
               </Stack>

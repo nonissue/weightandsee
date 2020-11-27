@@ -90,12 +90,12 @@ export const Header: React.FunctionComponent = () => {
                   </Stack>
                 </NextChakraLink>
               </Box>
-              <Box>
-                <Nav
-                  mobileNavShown={mobileNavShown}
-                  setMobileNavShown={setMobileNavShown}
-                />
-              </Box>
+              {/* <Box> */}
+              <Nav
+                mobileNavShown={mobileNavShown}
+                setMobileNavShown={setMobileNavShown}
+              />
+              {/* </Box> */}
             </Stack>
             {/* {mobileNavShown && ( */}
             {/* <motion.div
@@ -139,7 +139,6 @@ export const Header: React.FunctionComponent = () => {
                 ml={["-4", "-4", "-2", "-2"]}
                 px={["4", "4", "2", "2"]}
                 position="absolute"
-                // zIndex="-1"
                 fontWeight="500"
                 fontSize="lg"
                 bg={mobileNavBg}

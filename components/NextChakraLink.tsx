@@ -2,6 +2,7 @@ import {
   Link as ChakraLink,
   LinkProps as ChakraLinkProps,
   BoxProps,
+  Box,
 } from "@chakra-ui/react";
 import { LinkProps as NextLinkProps } from "next/dist/client/link";
 import NextLink from "next/link";
@@ -25,16 +26,18 @@ export const NextChakraLink: React.FunctionComponent<NextChakraLinkProps> = ({
   ...chakraProps
 }: NextChakraLinkProps) => {
   return (
-    <NextLink
-      passHref={true}
-      href={href}
-      as={as}
-      replace={replace}
-      scroll={scroll}
-      shallow={shallow}
-      prefetch={prefetch}
-    >
-      <ChakraLink {...chakraProps}>{children}</ChakraLink>
-    </NextLink>
+    <Box>
+      <NextLink
+        passHref={true}
+        href={href}
+        as={as}
+        replace={replace}
+        scroll={scroll}
+        shallow={shallow}
+        prefetch={prefetch}
+      >
+        <ChakraLink {...chakraProps}>{children}</ChakraLink>
+      </NextLink>
+    </Box>
   );
 };

@@ -9,6 +9,9 @@
 - [ ] Weird width reflow in safari when loading, maybe only during dev?
 - [ ] share layout so things like menu dont rerender
 - [ ] mobile nav shouldnt shift page content
+- [ ] Nav issue:
+  - [ ] https://github.com/chakra-ui/chakra-ui/issues/2615
+  - [ ] https://github.com/chakra-ui/chakra-ui/issues/2601
 
 ## Auth
 
