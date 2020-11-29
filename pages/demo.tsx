@@ -1,7 +1,6 @@
 import { Heading, Text, Grid } from "@chakra-ui/react";
 
 import { Layout } from "../components/Layout";
-// import { NextChakraLink } from "../components/NextChakraLink";
 
 const DemoPage: React.FunctionComponent = () => (
   <Layout title="About | nonstarter">

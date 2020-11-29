@@ -32,9 +32,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
           id: true,
           weighDate: true,
           weight: true,
-          // person: {
-          //   select: { name: true },
-          // },
           user: {
             select: { name: true },
           },
@@ -83,8 +80,6 @@ const WeightsPage: React.FunctionComponent<
       </Layout>
     );
   }
-
-  console.log(session);
 
   if (weighIns.length === 0) {
     return (

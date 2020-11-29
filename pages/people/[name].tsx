@@ -34,8 +34,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     include: { weighIns: { orderBy: { weighDate: "desc" } } },
   });
 
-  console.log(result);
-
   return {
     props: { data: JSON.stringify(result) },
   };
@@ -48,12 +46,6 @@ export const PersonPage: React.FunctionComponent<{ data: string }> = ({
 
   try {
     personData = JSON.parse(data);
-    // if (personData.weighIns && personData.weighIns.length === 0) {
-    //   throw new DOMException(
-    //     "Error retrieving person's weigh-ins!",
-    //     "NotFoundError"
-    //   );
-    // }
   } catch (error) {
     return (
       <Layout>
@@ -66,6 +58,7 @@ export const PersonPage: React.FunctionComponent<{ data: string }> = ({
   }
 
   const weightColor = useColorModeValue("gray.700", "gray.300");
+
   const weightShadow = useColorModeValue(
     `2px 2px 1px hsla(0,0%,70%,0)`,
     `2px 2px 1px hsla(0,0%,70%,0.2)`
@@ -114,19 +107,57 @@ export const PersonPage: React.FunctionComponent<{ data: string }> = ({
             justifyContent="space-between"
             alignItems="center"
           >
-            <Box>
+            <Box
+              display="flex"
+              flexDirection={["column", "row"]}
+              // alignItems="center"
+            >
               <Heading
+                // mb={["2", "0"]}
                 size="xl"
                 fontWeight="725"
                 color={headerColor}
-                mb="0"
                 style={{
                   fontVariationSettings: `'MONO' 0, 'CRSV' 0.5, 'CASL' 0, 'slnt' 0`,
                 }}
               >
                 {personData.name}
               </Heading>
+              {personData.weighIns?.length !== 0 && (
+                <Box
+                  mt={["2", "0"]}
+                  fontWeight="700"
+                  textTransform="uppercase"
+                  fontSize="xs"
+                  letterSpacing="0.05em"
+                  display={["flex", "flex"]}
+                  alignItems="center"
+                >
+                  <NextChakraLink
+                    href={`/graphs/${personData.name}`}
+                    _hover={{
+                      textDecoration: "none",
+                      color: useColorModeValue("pink.600", "pink.300"),
+                    }}
+                    mr={["2", "2"]}
+                    ml={["0", "2"]}
+                  >
+                    Graphs
+                  </NextChakraLink>
+                  <NextChakraLink
+                    href={`/graphs/${personData.name}`}
+                    _hover={{
+                      textDecoration: "none",
+                      color: useColorModeValue("gray.600", "red.200"),
+                    }}
+                    color={useColorModeValue("red.700", "red.400")}
+                  >
+                    Delete
+                  </NextChakraLink>
+                </Box>
+              )}
             </Box>
+
             {personData.currentWeight && (
               <Box display="flex" alignItems="center">
                 <Box

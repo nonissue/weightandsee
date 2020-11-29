@@ -9,7 +9,7 @@ import {
 import { Layout, NextChakraLink } from "components";
 
 import { getBaseURL } from "lib/getBaseURL";
-// import { ensureAuthenticated } from "lib/guards/ensureAuthenticated";
+
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
 import Head from "next/head";
@@ -47,8 +47,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     // include: { weighIns: { orderBy: { weighDate: "desc" } } },
   });
 
-  console.log(result);
-
   return {
     props: { data: JSON.stringify(result) },
   };
@@ -57,11 +55,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 export const Profile: React.FunctionComponent<{ data: string }> = ({
   data,
 }) => {
-  let userData: any;
+  let userData: any; // TODO: Validate we have a user here
 
   try {
     userData = JSON.parse(data);
-    console.log(userData);
+    // console.log(userData);
   } catch (error) {
     console.log(error);
   }
@@ -107,8 +105,7 @@ export const Profile: React.FunctionComponent<{ data: string }> = ({
     <Layout>
       <Head>
         <title>Weight&See Register</title>
-      </Head>{" "}
-      {/* <Box> */}
+      </Head>
       <form onSubmit={handleUpdate}>
         <Stack
           maxW="min(65ch, 100%)"

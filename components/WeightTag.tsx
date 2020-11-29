@@ -43,7 +43,8 @@ export const WeightTag: React.FunctionComponent<
         align="center"
         color={lbsColor}
       >
-        &#8198;lbs
+        &nbsp;lbs
+        {/* &#8198;lbs */}
       </Text>
     </Stack>
   );

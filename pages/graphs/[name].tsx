@@ -36,7 +36,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     include: { weighIns: { orderBy: { weighDate: "asc" } } },
   });
 
-  console.log(result);
+  // console.log(result);
 
   return {
     props: { data: JSON.stringify(result) },
@@ -45,8 +45,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 const CustomLabel = (props: any) => {
   const { x, y, payload }: any = props;
-
-  console.log(props);
 
   return (
     <g transform={`translate(${x},${y})`}>
@@ -99,11 +97,7 @@ const TestGraph = ({ data }: any) => {
 };
 
 const DemoPage: React.FunctionComponent<{ data: string }> = ({ data }) => {
-  console.log(data);
-
   const graphData: Person = JSON.parse(data);
-
-  console.log(graphData);
 
   return (
     <Layout title="About | nonstarter">
