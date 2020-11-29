@@ -43,10 +43,12 @@ export type Entry = {
   name: string;
 };
 
+// Wtf did i do this for
 export type Entries = {
   [k: string]: Entry;
 }[];
 
+// No idea what weightRequired is for?
 export type FormInputs = {
   date: Date;
   weightRequired: string;

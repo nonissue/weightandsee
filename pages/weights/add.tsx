@@ -23,7 +23,7 @@ import { ensureAuthenticated } from "lib/guards/ensureAuthenticated";
 import ReactDatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
 import { Confirmation, Layout } from "../../components";
-import { FormInputs, FormResult } from "../../interfaces";
+import { FormResult } from "../../interfaces";
 
 // eslint-disable-next-line import/no-named-as-default
 import db from "prisma";
@@ -58,45 +58,40 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
+type FormData = {
+  date: Date;
+  entries: {
+    name: string;
+    weight: string;
+  }[];
+  updateCurrentWeight: boolean;
+};
+
 const CreateWeights: React.FunctionComponent<{
   people: Person[];
   session: Session;
 }> = ({ people, session }) => {
-  //: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const router = useRouter();
-  const { handleSubmit, errors, control, watch } = useForm<FormInputs>();
+  const { handleSubmit, errors, control, watch } = useForm<FormData>();
   const [entryCount, setEntryCount] = useState(1);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const startDate = new Date();
   const watched = watch("entries");
-  // const test: Person[] = Object.values(watched);
-  // console.log(Object.values(watched));
-  // console.log(test?.map((e) => e.name));
-  // console.log(test);
-  // console.log(people);
-  // console.log(typeof people);
+  console.log(watched);
 
   const formBorderColor = useColorModeValue("gray.100", "gray.700");
   const headerColor = useColorModeValue("pink.400", "pink.200");
-  // const [selected, setSelected] = useState<string[]>([]);
-
-  // console.log(watched);
 
   const confirmationCallback = () => {
     setEntryCount(entryCount - 1);
   };
 
   const getPeople = () => {
-    // const selected =
-    //   watched &&
-    //   Object.entries(watched).map((_entry, index) => {
-    //     return watched[index];
-    //   });
     const selected = watched?.map((entry) => entry.name);
 
     if (selected) {
       const filteredPeople = people.filter(
-        (person: { id: number; name: string }) =>
-          (selected as any).indexOf(person.name) === -1
+        (person: Person) => selected.indexOf(person.name) === -1
       );
 
       return filteredPeople;
@@ -106,6 +101,7 @@ const CreateWeights: React.FunctionComponent<{
   };
 
   const onSubmit = async (data: FormResult) => {
+    setIsSubmitted(true);
     console.log(data);
 
     try {
@@ -120,9 +116,6 @@ const CreateWeights: React.FunctionComponent<{
       console.log(e);
     }
   };
-
-  // const [test, setTest] = useState("Roker");
-  // let test = "Roker";
 
   if (!session) {
     return (
@@ -170,13 +163,7 @@ const CreateWeights: React.FunctionComponent<{
               Weigh-In
             </Heading>
 
-            <Stack
-              direction="row"
-              spacing="1"
-              // w="100%"
-              // justifyContent="center"
-              alignItems="center"
-            >
+            <Stack direction="row" spacing="1" alignItems="center">
               <Button
                 w="100%"
                 onClick={() => {
@@ -192,15 +179,9 @@ const CreateWeights: React.FunctionComponent<{
                   title="- Entry"
                   action={confirmationCallback}
                   variant="outline"
-                  // colorScheme="yellow"
-                  // shadow="sm"
                   w="100%"
-                  // borderRadius="2em"
-                  // size="sm"
                   size="xs"
                   textColor="red.400"
-                  // fontWeight="600"
-                  // w="100%"
                 />
               )}
             </Stack>
@@ -215,9 +196,6 @@ const CreateWeights: React.FunctionComponent<{
                   <div key={index}>
                     <Stack
                       spacing={2}
-                      // display="flex"
-                      // flexDirection={["column", "row"]}
-                      // isInline={[true, false]}
                       direction={["column", "row"]}
                       w="100%"
                       key={index}
@@ -225,11 +203,8 @@ const CreateWeights: React.FunctionComponent<{
                       <FormControl id="person" w="100%">
                         <Controller
                           name={`entries.[${index}].name`}
-                          // as={Select}
                           control={control}
-                          // placeholder="Select Person"
                           defaultValue=""
-                          // isInvalid={errors.entries?.[i]?.name ? true : false}
                           errorBorderColor="red.300"
                           rules={{ required: true }}
                           render={({ value, onChange, onBlur }) => (
@@ -241,7 +216,6 @@ const CreateWeights: React.FunctionComponent<{
                               isInvalid={
                                 errors.entries?.[index]?.name ? true : false
                               }
-                              // isInvalid={value === "Select Person"}
                             >
                               {getPeople().map((p: Person) => {
                                 return (
@@ -254,16 +228,6 @@ const CreateWeights: React.FunctionComponent<{
                           )}
                         />
                       </FormControl>
-                      {errors.entries?.[index]?.name && false && (
-                        <Box
-                          fontFamily="mono"
-                          fontSize="xs"
-                          textColor="red.400"
-                          pl="1"
-                        >
-                          Required
-                        </Box>
-                      )}
 
                       <FormControl id="person">
                         <Controller
@@ -271,11 +235,11 @@ const CreateWeights: React.FunctionComponent<{
                           control={control}
                           defaultValue=""
                           rules={{ required: true, min: 2 }}
-                          render={(props: any) => (
+                          render={({ value, onChange }) => (
                             <InputGroup w="100%">
                               <Input
-                                value={props.value}
-                                onChange={props.onChange}
+                                value={value}
+                                onChange={onChange}
                                 placeholder="200.0"
                                 isInvalid={
                                   errors.entries?.[index]?.weight ? true : false
@@ -289,16 +253,6 @@ const CreateWeights: React.FunctionComponent<{
                             </InputGroup>
                           )}
                         />
-                        {errors.entries?.[index]?.weight && false && (
-                          <Box
-                            fontFamily="mono"
-                            fontSize="xs"
-                            textColor="red.400"
-                            pl="1"
-                          >
-                            Required
-                          </Box>
-                        )}
                       </FormControl>
                     </Stack>
                     <Divider pt="2" display={["block", "block"]} />
@@ -308,7 +262,6 @@ const CreateWeights: React.FunctionComponent<{
 
               <Stack
                 direction={["column", "row", "row", "row"]}
-                // justifyContent="space"
                 alignContent="center"
                 display="flex"
               >
@@ -375,9 +328,9 @@ const CreateWeights: React.FunctionComponent<{
                 colorScheme="pink"
                 type="submit"
                 mx="auto"
-                // borderRadius="24px"
                 mt="4"
                 w={["100%", "100%"]}
+                isLoading={isSubmitted}
               >
                 Submit Weigh-In
               </Button>
