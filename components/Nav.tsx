@@ -38,7 +38,6 @@ export const NavItems: React.FunctionComponent<NavItemsProps> = ({
       )}
       <NextChakraLink href="/people">People</NextChakraLink>
       <NextChakraLink href="/weights">Weigh-Ins</NextChakraLink>
-      {/* <NextChakraLink href="/graphs">Graphs</NextChakraLink> */}
       <Link
         display="block"
         onClick={() => signOut()}
@@ -46,7 +45,6 @@ export const NavItems: React.FunctionComponent<NavItemsProps> = ({
       >
         Sign&nbsp;Out
       </Link>
-      {/* <NextChakraLink href="/about">About</NextChakraLink> */}
     </>
   );
 };
@@ -83,13 +81,15 @@ export const Nav: React.FunctionComponent<Props> = ({
                 <IconButton
                   marginX="1"
                   size="sm"
+                  p="2"
                   aria-label={`About/Info`}
                   variant="ghost"
                   icon={<InformationCircleOutline />}
-                ></IconButton>
+                />
               </NextChakraLink>
 
               <ColorModeToggle />
+
               <IconButton
                 marginX="1"
                 size="sm"
@@ -124,7 +124,7 @@ export const Nav: React.FunctionComponent<Props> = ({
                 onClick={() => {
                   setMobileNavShown(!mobileNavShown);
                 }}
-              ></IconButton>
+              />
             </Flex>
           ) : (
             <Stack
@@ -136,13 +136,13 @@ export const Nav: React.FunctionComponent<Props> = ({
               {!session ? (
                 <>
                   <NextChakraLink
-                    href="/api/auth/signin!"
+                    href="/api/auth/signin"
                     color={loginLinkColor}
                   >
                     Sign In
                   </NextChakraLink>
                   <NextChakraLink href="/user/signup" color={loginLinkColor}>
-                    Sign Up!
+                    Sign Up
                   </NextChakraLink>
                 </>
               ) : (

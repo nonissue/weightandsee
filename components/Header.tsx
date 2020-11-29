@@ -97,39 +97,7 @@ export const Header: React.FunctionComponent = () => {
               />
               {/* </Box> */}
             </Stack>
-            {/* {mobileNavShown && ( */}
-            {/* <motion.div
-              variants={{
-                open: {
-                  opacity: 1,
-                  left: "0px",
-                  top: "0",
-                  display: "block",
-                  clipPath: `circle(${300 * 1.5}px at 0px 10vh)`,
-                  transition: {
-                    delay: 0,
-                    type: "spring",
-                    stiffness: 40,
-                    restSpeed: 2,
-                  },
-                },
-                closed: {
-                  opacity: 0,
-                  display: "none",
-                  top: "0vh",
-                  left: "0vw",
-                  clipPath: "circle(25px at 0vw 10vh)",
-                  transition: {
-                    delay: 0,
-                    type: "spring",
-                    stiffness: 30,
-                    damping: 5,
-                  },
-                },
-              }}
-              initial={false}
-              animate={mobileNavShown ? "open" : "closed"}
-            > */}
+
             {mobileNavShown && (
               <Stack
                 shadow={navDs}
