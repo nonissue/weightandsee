@@ -1,0 +1,19 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "DeleteModel",
+      "model": "Person"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "WeighIn",
+      "field": "personId"
+    },
+    {
+      "tag": "DeleteField",
+      "model": "WeighIn",
+      "field": "person"
+    }
+  ]
+}

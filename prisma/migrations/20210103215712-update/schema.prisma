@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -21,12 +21,27 @@ enum AuthMethod {
   PASSWORD
 }
 
+model Person {
+  id            Int       @id @default(autoincrement())
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  updatedAt     DateTime  @default(now()) @map(name: "updated_at")
+  name          String    @unique
+  nickName      String    @unique
+  weighIns      WeighIn[]
+  currentWeight Float?
+
+  @@map(name: "people")
+}
+
 model WeighIn {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @default(now()) @map(name: "updated_at")
   weighDate DateTime
   weight    Float
+
+  personId Int?
+  person   Person? @relation(fields: [personId], references: [id])
 
   userId Int?
   user   User? @relation(fields: [userId], references: [id])
