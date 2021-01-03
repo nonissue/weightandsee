@@ -4,12 +4,12 @@
 //
 // import User from 'path/to/interfaces';
 
-export type User = {
-  id: number;
-  name: string;
-};
+// export type User = {
+//   id: number;
+//   name: string;
+// };
 
-export type Person = {
+export type User = {
   id: number;
   name: string;
   nickName?: string;
@@ -24,7 +24,7 @@ export type PersonPageProps = {
   currentWeight?: number;
   weighIns?: {
     weight: number;
-    person: Person;
+    user: User;
     id: number;
     weighDate: string;
   }[];
@@ -35,7 +35,7 @@ export type PersonPageProps = {
 // };
 
 export type Participants = {
-  people: Person[];
+  people: User[];
 };
 
 export type Entry = {
@@ -63,7 +63,7 @@ export type FormResult = {
 
 export type WeighIn = {
   weight: number;
-  personId: number;
+  userId: number;
   id: number;
   weighDate: Date;
   createdAt?: Date;
@@ -74,16 +74,16 @@ export type WeighIns = {
   weighIns: WeighIn[];
 };
 
-export type WeighInWithPerson = {
-  weight: number;
-  person: Person;
-  id: number;
-  weighDate: Date;
-};
+// export type WeighInWithPerson = {
+//   weight: number;
+//   person: User;
+//   id: number;
+//   weighDate: Date;
+// };
 
 export type WeighInWithUser = {
   weight: number;
-  user: Person;
+  user: User;
   id: number;
   weighDate: Date;
 };
@@ -92,9 +92,9 @@ export type WeighInsWithUser = {
   weighIns: WeighInWithUser[];
 };
 
-export type WeighInsWithPerson = {
-  weighIns: WeighInWithPerson[];
-};
+// export type WeighInsWithPerson = {
+//   weighIns: WeighInWithPerson[];
+// };
 
 export type Session = {
   user: {

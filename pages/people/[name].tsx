@@ -144,7 +144,7 @@ export const PersonPage: React.FunctionComponent<{ data: string }> = ({
                   >
                     Graphs
                   </NextChakraLink>
-                  <NextChakraLink
+                  {/* <NextChakraLink
                     href={`/graphs/${personData.name}`}
                     _hover={{
                       textDecoration: "none",
@@ -153,7 +153,7 @@ export const PersonPage: React.FunctionComponent<{ data: string }> = ({
                     color={useColorModeValue("red.700", "red.400")}
                   >
                     Delete
-                  </NextChakraLink>
+                  </NextChakraLink> */}
                 </Box>
               )}
             </Box>

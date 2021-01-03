@@ -77,7 +77,6 @@ const CreateWeights: React.FunctionComponent<{
   const [isSubmitted, setIsSubmitted] = useState(false);
   const startDate = new Date();
   const watched = watch("entries");
-  console.log(watched);
 
   const formBorderColor = useColorModeValue("gray.100", "gray.700");
   const headerColor = useColorModeValue("pink.400", "pink.200");

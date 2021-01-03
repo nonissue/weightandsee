@@ -10,7 +10,7 @@ import {
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { ensureAuthenticated } from "lib/guards/ensureAuthenticated";
 import { Layout, NextChakraLink, WeightTag } from "../../components";
-import { Person } from "../../interfaces";
+import { User } from "../../interfaces";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   await ensureAuthenticated(context);
@@ -63,7 +63,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 export const PeoplePage: React.FunctionComponent<{ data: string }> = ({
   data,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const peopleList: Person[] = data;
+  const peopleList: User[] = data;
   const nameColor = useColorModeValue("black", "gray.300");
   const headerColor = useColorModeValue("pink.400", "pink.200");
 
