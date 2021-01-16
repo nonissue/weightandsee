@@ -6,6 +6,7 @@ import { getSession } from "next-auth/client";
 // doesn't work when linking to /weights from header...
 // I think it's fixed if we return res! But then weights complains
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const isAuth: any = async (context: any) => {
   const session = await getSession(context);
 

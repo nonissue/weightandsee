@@ -124,6 +124,13 @@
 - [ ] Recharts - good, seems simpler
 - [ ] Victory - I like this too (Responsive OOB)
 
+### Todo:
+
+- [ ] https://nivo.rocks/storybook/?path=/story/line--highlighting-negative-values
+- [ ] Timescale https://nivo.rocks/storybook/?path=/story/line--time-scale
+- [ ] marker for starting weight https://nivo.rocks/storybook/?path=/story/line--adding-markers
+- [ ] Combined series graph with everyone 
+
 ### Everyone
 
 - [ ] Time Series
