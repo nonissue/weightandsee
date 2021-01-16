@@ -7,8 +7,8 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
-  // previewFeatures = ["transactionApi"]
+  provider        = "prisma-client-js"
+  previewFeatures = ["transactionApi"]
 }
 
 enum Role {
