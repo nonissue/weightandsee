@@ -55,6 +55,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 export const Profile: React.FunctionComponent<{ data: string }> = ({
   data,
 }) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let userData: any; // TODO: Validate we have a user here
 
   try {

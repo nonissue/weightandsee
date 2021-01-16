@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Flex,
   Box,
   Stack,
@@ -10,7 +11,6 @@ import {
   Portal,
   Menu as ChakraMenu,
   MenuButton,
-  Button,
   MenuGroup,
   MenuItem,
   MenuList,
@@ -22,12 +22,13 @@ import { signOut, useSession } from "next-auth/client";
 import { motion } from "framer-motion";
 // import { Menu, X as Close } from "heroicons-react";
 import {
-  MenuOutline as Menu,
-  XSolid as Close,
+  MenuAlt3Outline as Menu,
+  XOutline as Close,
+  UserCircleSolid as UserAvatar,
 } from "@graywolfai/react-heroicons";
 
 import { NextChakraLink } from "./NextChakraLink";
-import { ColorModeToggle } from "./ColorModeToggle";
+import { ColorModeToggle2 } from "./ColorModeToggle";
 
 type Props = {
   mobileNavShown: boolean;
@@ -49,15 +50,20 @@ export const NavItems: React.FunctionComponent<NavItemsProps> = ({
   const router = useRouter();
   const loginLinkColor = useColorModeValue("pink.500", "pink.200");
   const logoutLinkColor = useColorModeValue("pink.700", "pink.400");
+
   console.log(isMobile);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
+  const handleClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    context: string
+  ): void => {
     event.preventDefault();
+    console.log(context);
     if (user) {
-      router.push("people/" + user.name.toLowerCase());
+      router.push("/" + context + "/" + user.name.toLowerCase());
     }
   };
-
+  const buttonBgHover = useColorModeValue("gray.200", "gray.700");
   return (
     <>
       {isAdmin && (
@@ -69,9 +75,41 @@ export const NavItems: React.FunctionComponent<NavItemsProps> = ({
       <NextChakraLink href="/weights">WeighIns</NextChakraLink>
       <NextChakraLink href="/about">About</NextChakraLink>
       {user && !isMobile && (
+        // shown on desktop viewport
         <ChakraMenu>
-          <MenuButton as={Button} colorScheme="pink" size="sm">
-            {user.name}
+          <MenuButton
+            as={IconButton}
+            borderRadius="999em"
+            variant="ghost"
+            size="md"
+            mr={["0", "-4"]}
+            _hover={{
+              cursor: "pointer",
+              // background: "gray.400",
+              background: buttonBgHover,
+            }}
+          >
+            <Avatar
+              boxShadow="none"
+              background="transparent"
+              color="currentcolor"
+              w={6}
+              h={6}
+              icon={
+                <Icon
+                  sx={{
+                    path: {
+                      strokeWidth: "0px",
+                    },
+                    stroke: "url(#pink-gradient)",
+                  }}
+                  w={6}
+                  h={6}
+                  as={UserAvatar}
+                  aria-label={user.name}
+                />
+              }
+            />
           </MenuButton>
           <Portal>
             <MenuList zIndex={10}>
@@ -89,11 +127,12 @@ export const NavItems: React.FunctionComponent<NavItemsProps> = ({
                     ROLE: Admin
                   </Text>
                 )}
-                <MenuItem px="4" onClick={handleClick}>
+                <MenuItem px="4" onClick={(e) => handleClick(e, "people")}>
                   Profile
                 </MenuItem>
-                <MenuItem px="4">Graphs</MenuItem>
-                <MenuItem px="4">Settings</MenuItem>
+                <MenuItem px="4" onClick={(e) => handleClick(e, "graphs")}>
+                  Graphs
+                </MenuItem>
               </MenuGroup>
               <MenuDivider />
               <MenuGroup>
@@ -111,16 +150,6 @@ export const NavItems: React.FunctionComponent<NavItemsProps> = ({
           </Portal>
         </ChakraMenu>
       )}
-
-      {/* {isMobile && (
-        <Link
-          display="inline"
-          onClick={() => signOut()}
-          textColor={logoutLinkColor}
-        >
-          Sign&nbsp;Out
-        </Link>
-      )} */}
     </>
   );
 };
@@ -135,8 +164,9 @@ export const Nav: React.FunctionComponent<Props> = ({
   // so have to set this as any?
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [session]: any = useSession();
+  const router = useRouter();
 
-  console.log(session);
+  // console.log(session);
 
   // console.log(session?.user.role);
   // this is actually the opposite of what we expect?
@@ -148,25 +178,40 @@ export const Nav: React.FunctionComponent<Props> = ({
   });
 
   const loginLinkColor = useColorModeValue("pink.400", "pink.200");
+  const buttonBgHover = useColorModeValue("gray.300", "gray.700");
+
+  const handleClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    context: string
+  ): void => {
+    event.preventDefault();
+    console.log(context);
+    if (session.user) {
+      router.push("/" + context + "/" + session.user.name.toLowerCase());
+    }
+  };
 
   return (
     <>
+      <svg width="0" height="0">
+        <linearGradient id="blue-gradient" x1="100%" y1="100%" x2="0%" y2="0%">
+          <stop stopColor="#6dd5ed" offset="0%" />
+          <stop stopColor="#2193b0" offset="100%" />
+        </linearGradient>
+      </svg>
+
+      <svg width="0" height="0">
+        <linearGradient id="pink-gradient" x1="100%" y1="100%" x2="0%" y2="0%">
+          <stop stopColor="#FBB6CE" offset="0%" />
+          <stop stopColor="#cf5895" offset="100%" />
+        </linearGradient>
+      </svg>
       <Box>
         <Stack isInline spacing={0} alignItems="center">
           {showBurger ? (
             <Flex justifyContent="flex-end" alignItems="center" width="100%">
-              {/* <NextChakraLink href="/about">
-                <IconButton
-                  marginX="1"
-                  size="sm"
-                  p="2"
-                  aria-label={`About/Info`}
-                  variant="ghost"
-                  icon={<InformationCircleOutline />}
-                />
-              </NextChakraLink> */}
               {session && session.user && (
-                <Box textAlign="right" mr="4" whiteSpace="break-spaces">
+                <Box textAlign="right" mr="1" whiteSpace="break-spaces">
                   <Box
                     display="initial"
                     flexDirection="row"
@@ -175,17 +220,37 @@ export const Nav: React.FunctionComponent<Props> = ({
                     <ChakraMenu>
                       <Box display="flex" justifyContent="flex-end">
                         <MenuButton
-                          as={Button}
-                          alignItems="center"
-                          // backgroundColor="transparent"
-                          colorScheme="pink"
-                          size="xs"
-                          // variant="outline"
+                          as={IconButton}
+                          borderRadius="9999em"
+                          w="6"
+                          variant="ghost"
+                          sz="md"
+                          _hover={{
+                            cursor: "pointer",
+                            // background: "gray.400",
+                            background: buttonBgHover,
+                          }}
                         >
-                          <Box display="inline-block">
-                            <b>Profile</b>
-                            &nbsp;
-                          </Box>
+                          <Avatar
+                            boxShadow="none"
+                            background="transparent"
+                            color="currentcolor"
+                            // color="pink.400"
+                            icon={
+                              <Icon
+                                sx={{
+                                  path: {
+                                    strokeWidth: "0px",
+                                  },
+                                  stroke: "url(#pink-gradient)",
+                                }}
+                                w={6}
+                                h={6}
+                                as={UserAvatar}
+                                aria-label={session.user.name}
+                              />
+                            }
+                          />
                         </MenuButton>
                       </Box>
                       <Portal>
@@ -204,9 +269,18 @@ export const Nav: React.FunctionComponent<Props> = ({
                                 ROLE: Admin
                               </Text>
                             )}
-                            <MenuItem px="4">Profile</MenuItem>
-                            <MenuItem px="4">Graphs</MenuItem>
-                            <MenuItem px="4">Settings</MenuItem>
+                            <MenuItem
+                              px="4"
+                              onClick={(e) => handleClick(e, "people")}
+                            >
+                              Profile
+                            </MenuItem>
+                            <MenuItem
+                              px="4"
+                              onClick={(e) => handleClick(e, "graphs")}
+                            >
+                              Graphs
+                            </MenuItem>
                           </MenuGroup>
                           <MenuDivider />
                           <MenuGroup>
@@ -223,14 +297,15 @@ export const Nav: React.FunctionComponent<Props> = ({
                 </Box>
               )}
 
-              <ColorModeToggle />
+              <ColorModeToggle2 />
 
               <IconButton
                 marginX="1"
-                size="sm"
+                // size="sm"
                 aria-label={`Menu`}
                 variant="ghost"
                 zIndex={1}
+                borderRadius="999em"
                 icon={
                   <>
                     <motion.div
@@ -241,7 +316,16 @@ export const Nav: React.FunctionComponent<Props> = ({
                       }}
                       transition={{ duration: 0.3 }}
                     >
-                      <Icon w={6} h={6} as={Close} width="2em" />
+                      <Icon
+                        sx={{
+                          stroke: "url(#blue-gradient)",
+                          strokeLinecap: "round",
+                        }}
+                        aria-label="menu"
+                        w={7}
+                        h={7}
+                        as={Close}
+                      />
                     </motion.div>
 
                     <motion.div
@@ -252,8 +336,15 @@ export const Nav: React.FunctionComponent<Props> = ({
                       }}
                       transition={{ duration: 0.3 }}
                     >
-                      {/* <LazyMenu /> */}
-                      <Icon w={6} h={6} as={Menu} />
+                      <Icon
+                        w={7}
+                        h={7}
+                        as={Menu}
+                        sx={{
+                          stroke: "url(#blue-gradient)",
+                          strokeLinecap: "round",
+                        }}
+                      />
                     </motion.div>
                   </>
                 }
@@ -289,8 +380,8 @@ export const Nav: React.FunctionComponent<Props> = ({
                 />
               )}
 
-              <Stack isInline spacing={1} textAlign="center">
-                {/* <NextChakraLink href="/about">
+              {/* <Stack isInline spacing={0} textAlign="center"> */}
+              {/* <NextChakraLink href="/about">
                   <IconButton
                     size="sm"
                     aria-label={`About/Info`}
@@ -298,8 +389,9 @@ export const Nav: React.FunctionComponent<Props> = ({
                     icon={<InformationCircleOutline />}
                   ></IconButton>
                 </NextChakraLink> */}
-                <ColorModeToggle />
-              </Stack>
+              {/* <h3>Hi</h3> */}
+              <ColorModeToggle2 />
+              {/* </Stack> */}
             </Stack>
           )}
         </Stack>
