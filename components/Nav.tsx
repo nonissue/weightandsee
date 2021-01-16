@@ -5,11 +5,26 @@ import {
   IconButton,
   useColorModeValue,
   Link,
+  Icon,
+  Text,
+  Portal,
+  Menu as ChakraMenu,
+  MenuButton,
+  Button,
+  MenuGroup,
+  MenuItem,
+  MenuList,
+  MenuDivider,
   useBreakpointValue,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import { signOut, useSession } from "next-auth/client";
 import { motion } from "framer-motion";
-import { Menu, InformationCircleOutline, X } from "heroicons-react";
+// import { Menu, X as Close } from "heroicons-react";
+import {
+  MenuOutline as Menu,
+  XSolid as Close,
+} from "@graywolfai/react-heroicons";
 
 import { NextChakraLink } from "./NextChakraLink";
 import { ColorModeToggle } from "./ColorModeToggle";
@@ -21,13 +36,27 @@ type Props = {
 
 type NavItemsProps = {
   isAdmin?: boolean; // show add link
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  user: any;
+  isMobile?: boolean;
 };
 
 export const NavItems: React.FunctionComponent<NavItemsProps> = ({
   isAdmin,
+  user = undefined,
+  isMobile = true,
 }) => {
+  const router = useRouter();
   const loginLinkColor = useColorModeValue("pink.500", "pink.200");
-  const logoutLinkColor = useColorModeValue("pink.600", "pink.400");
+  const logoutLinkColor = useColorModeValue("pink.700", "pink.400");
+  console.log(isMobile);
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
+    event.preventDefault();
+    if (user) {
+      router.push("people/" + user.name.toLowerCase());
+    }
+  };
 
   return (
     <>
@@ -37,14 +66,61 @@ export const NavItems: React.FunctionComponent<NavItemsProps> = ({
         </NextChakraLink>
       )}
       <NextChakraLink href="/people">People</NextChakraLink>
-      <NextChakraLink href="/weights">Weigh-Ins</NextChakraLink>
-      <Link
-        display="block"
-        onClick={() => signOut()}
-        textColor={logoutLinkColor}
-      >
-        Sign&nbsp;Out
-      </Link>
+      <NextChakraLink href="/weights">WeighIns</NextChakraLink>
+      <NextChakraLink href="/about">About</NextChakraLink>
+      {user && !isMobile && (
+        <ChakraMenu>
+          <MenuButton as={Button} colorScheme="pink" size="sm">
+            {user.name}
+          </MenuButton>
+          <Portal>
+            <MenuList zIndex={10}>
+              <MenuGroup title="">
+                {user.role === "ADMIN" && (
+                  <Text
+                    px="4"
+                    py="2"
+                    fontWeight="400"
+                    fontFamily="mono"
+                    fontSize="0.8em"
+                    textTransform="uppercase"
+                    color="gray.400"
+                  >
+                    ROLE: Admin
+                  </Text>
+                )}
+                <MenuItem px="4" onClick={handleClick}>
+                  Profile
+                </MenuItem>
+                <MenuItem px="4">Graphs</MenuItem>
+                <MenuItem px="4">Settings</MenuItem>
+              </MenuGroup>
+              <MenuDivider />
+              <MenuGroup>
+                <MenuItem>
+                  <Link
+                    px="1"
+                    onClick={() => signOut()}
+                    textColor={logoutLinkColor}
+                  >
+                    Sign&nbsp;Out
+                  </Link>
+                </MenuItem>
+              </MenuGroup>
+            </MenuList>
+          </Portal>
+        </ChakraMenu>
+      )}
+
+      {/* {isMobile && (
+        <Link
+          display="inline"
+          onClick={() => signOut()}
+          textColor={logoutLinkColor}
+        >
+          Sign&nbsp;Out
+        </Link>
+      )} */}
     </>
   );
 };
@@ -57,7 +133,10 @@ export const Nav: React.FunctionComponent<Props> = ({
 }) => {
   // next-auth session.user type is wrong
   // so have to set this as any?
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [session]: any = useSession();
+
+  console.log(session);
 
   // console.log(session?.user.role);
   // this is actually the opposite of what we expect?
@@ -68,7 +147,6 @@ export const Nav: React.FunctionComponent<Props> = ({
     lg: false,
   });
 
-  // const logoutLinkColor = useColorModeValue("orange.500", "orange.200");
   const loginLinkColor = useColorModeValue("pink.400", "pink.200");
 
   return (
@@ -77,7 +155,7 @@ export const Nav: React.FunctionComponent<Props> = ({
         <Stack isInline spacing={0} alignItems="center">
           {showBurger ? (
             <Flex justifyContent="flex-end" alignItems="center" width="100%">
-              <NextChakraLink href="/about">
+              {/* <NextChakraLink href="/about">
                 <IconButton
                   marginX="1"
                   size="sm"
@@ -86,7 +164,64 @@ export const Nav: React.FunctionComponent<Props> = ({
                   variant="ghost"
                   icon={<InformationCircleOutline />}
                 />
-              </NextChakraLink>
+              </NextChakraLink> */}
+              {session && session.user && (
+                <Box textAlign="right" mr="4" whiteSpace="break-spaces">
+                  <Box
+                    display="initial"
+                    flexDirection="row"
+                    alignItems="center"
+                  >
+                    <ChakraMenu>
+                      <Box display="flex" justifyContent="flex-end">
+                        <MenuButton
+                          as={Button}
+                          alignItems="center"
+                          // backgroundColor="transparent"
+                          colorScheme="pink"
+                          size="xs"
+                          // variant="outline"
+                        >
+                          <Box display="inline-block">
+                            <b>Profile</b>
+                            &nbsp;
+                          </Box>
+                        </MenuButton>
+                      </Box>
+                      <Portal>
+                        <MenuList zIndex={10}>
+                          <MenuGroup title="">
+                            {session.user?.role === "ADMIN" && (
+                              <Text
+                                px="4"
+                                py="2"
+                                fontWeight="400"
+                                fontFamily="mono"
+                                fontSize="0.8em"
+                                textTransform="uppercase"
+                                color="gray.400"
+                              >
+                                ROLE: Admin
+                              </Text>
+                            )}
+                            <MenuItem px="4">Profile</MenuItem>
+                            <MenuItem px="4">Graphs</MenuItem>
+                            <MenuItem px="4">Settings</MenuItem>
+                          </MenuGroup>
+                          <MenuDivider />
+                          <MenuGroup>
+                            <MenuItem>
+                              <Link px="1" onClick={() => signOut()}>
+                                Sign&nbsp;Out
+                              </Link>
+                            </MenuItem>
+                          </MenuGroup>
+                        </MenuList>
+                      </Portal>
+                    </ChakraMenu>
+                  </Box>
+                </Box>
+              )}
 
               <ColorModeToggle />
 
@@ -95,7 +230,7 @@ export const Nav: React.FunctionComponent<Props> = ({
                 size="sm"
                 aria-label={`Menu`}
                 variant="ghost"
-                zIndex={1000}
+                zIndex={1}
                 icon={
                   <>
                     <motion.div
@@ -106,7 +241,7 @@ export const Nav: React.FunctionComponent<Props> = ({
                       }}
                       transition={{ duration: 0.3 }}
                     >
-                      <X />
+                      <Icon w={6} h={6} as={Close} width="2em" />
                     </motion.div>
 
                     <motion.div
@@ -117,7 +252,8 @@ export const Nav: React.FunctionComponent<Props> = ({
                       }}
                       transition={{ duration: 0.3 }}
                     >
-                      <Menu />
+                      {/* <LazyMenu /> */}
+                      <Icon w={6} h={6} as={Menu} />
                     </motion.div>
                   </>
                 }
@@ -148,18 +284,20 @@ export const Nav: React.FunctionComponent<Props> = ({
               ) : (
                 <NavItems
                   isAdmin={(session.user?.role as string) === "ADMIN"}
+                  user={session?.user || undefined}
+                  isMobile={showBurger}
                 />
               )}
 
-              <Stack isInline spacing={1}>
-                <NextChakraLink href="/about">
+              <Stack isInline spacing={1} textAlign="center">
+                {/* <NextChakraLink href="/about">
                   <IconButton
                     size="sm"
                     aria-label={`About/Info`}
                     variant="ghost"
                     icon={<InformationCircleOutline />}
                   ></IconButton>
-                </NextChakraLink>
+                </NextChakraLink> */}
                 <ColorModeToggle />
               </Stack>
             </Stack>

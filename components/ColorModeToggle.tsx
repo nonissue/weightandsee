@@ -4,7 +4,11 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { Moon, Sun } from "heroicons-react";
+// import { Moon, Sun } from "heroicons-react";
+import {
+  MoonSolid as Moon,
+  SunSolid as Sun,
+} from "@graywolfai/react-heroicons";
 
 type ColorModeSwitcherProps = Omit<IconButtonProps, "aria-label">;
 

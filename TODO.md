@@ -24,6 +24,8 @@
 ## General
 
 - [ ] Add startWeight
+- [ ] Only admins can submit entries for everyone
+  - [ ] Indviduals can submit an entry for themselves
 - [ ] User profile page
 - [ ] Add profile menu item / functionality
 - [ ] Migrate `people` -> `user` without dataloss

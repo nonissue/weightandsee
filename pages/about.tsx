@@ -14,7 +14,7 @@ import {
 
 import { Layout } from "../components";
 
-import { Minus } from "heroicons-react";
+import { MinusSolid as Minus } from "@graywolfai/react-heroicons";
 
 const AboutPage: React.FunctionComponent = () => {
   // const linkColor = useColorModeValue("pink.400", "pink.300");
@@ -71,11 +71,7 @@ const AboutPage: React.FunctionComponent = () => {
                       mb="3px"
                       verticalAlign="middle"
                     />
-                    <Link
-                      // color={technologyLinkColor}
-                      href="https://nextjs.org"
-                      variant="external"
-                    >
+                    <Link href="https://nextjs.org" variant="external">
                       Next.js
                     </Link>
                   </ListItem>
