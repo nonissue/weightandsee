@@ -18,7 +18,7 @@ import {
 import { ensureAuthenticated } from "lib/guards/ensureAuthenticated";
 
 import { Layout } from "components";
-import { Person } from "interfaces";
+import { User } from "interfaces";
 
 const prisma = db.getInstance().prisma;
 
@@ -63,6 +63,10 @@ const CustomLabel = (props: any) => {
 };
 
 const TestGraph = ({ data }: any) => {
+  console.log(data);
+
+  const yBounds = data[0].weight;
+
   return (
     <ResponsiveContainer width="100%" height={500}>
       <LineChart
@@ -82,7 +86,7 @@ const TestGraph = ({ data }: any) => {
           tickCount={4}
           interval={0}
         />
-        <YAxis />
+        <YAxis domain={[yBounds - 50, yBounds + 70]} />
         <Tooltip />
         <Legend verticalAlign="top" height={36} />
         <Line
@@ -97,7 +101,7 @@ const TestGraph = ({ data }: any) => {
 };
 
 const DemoPage: React.FunctionComponent<{ data: string }> = ({ data }) => {
-  const graphData: Person = JSON.parse(data);
+  const graphData: User = JSON.parse(data);
 
   return (
     <Layout title="About | nonstarter">

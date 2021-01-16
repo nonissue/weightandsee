@@ -19,13 +19,28 @@ create unique index "people.name_unique"
 create unique index "people.nickName_unique"
     on people ("nickName");
 
+Sasson == Vidal
+Crocfather == drew
+Professor == sweeney
+Diegs == Cam
+Mish == Mission
+Larry == Larry
+Raison == Sean
+
+
 INSERT INTO public.people (id, created_at, updated_at, name, "nickName", "currentWeight") VALUES (3, '2020-11-03 21:10:35.715', '2020-11-03 21:10:35.715', 'Mish', 'Mish', 202.200000000000000000000000000000);
 INSERT INTO public.people (id, created_at, updated_at, name, "nickName", "currentWeight") VALUES (6, '2020-11-03 21:10:43.085', '2020-11-03 21:10:43.085', 'Diegs', 'Diegs', 246.600000000000000000000000000000);
+
+-- Sweeney
 INSERT INTO public.people (id, created_at, updated_at, name, "nickName", "currentWeight") VALUES (5, '2020-11-03 21:10:36.292', '2020-11-03 21:10:36.292', 'Professor', 'Professor', 184.600000000000000000000000000000);
+-- Vidal
 INSERT INTO public.people (id, created_at, updated_at, name, "nickName", "currentWeight") VALUES (4, '2020-11-03 21:10:36.002', '2020-11-03 21:10:36.002', 'Sassoon', 'Sassoon', 179.500000000000000000000000000000);
+-- Larry
 INSERT INTO public.people (id, created_at, updated_at, name, "nickName", "currentWeight") VALUES (2, '2020-11-03 21:10:14.224', '2020-11-03 21:10:14.224', 'Larry', 'Boitch', 214.200000000000000000000000000000);
+-- Al
 INSERT INTO public.people (id, created_at, updated_at, name, "nickName", "currentWeight") VALUES (1, '2020-11-03 21:10:08.329', '2020-11-03 21:10:08.330', 'Roker', 'Roker', 242.200000000000000000000000000000);
 INSERT INTO public.people (id, created_at, updated_at, name, "nickName", "currentWeight") VALUES (7, '2020-11-03 21:10:51.291', '2020-11-03 21:10:51.291', 'Raisin', 'Raisin', 179.000000000000000000000000000000);
+-- Drew
 INSERT INTO public.people (id, created_at, updated_at, name, "nickName", "currentWeight") VALUES (8, '2020-11-03 21:14:55.901', '2020-11-03 21:14:55.901', 'CrocFather', 'Crocfather', 230.800000000000000000000000000000);
 
 
@@ -33,3 +48,11 @@ INSERT INTO public.people (id, created_at, updated_at, name, "nickName", "curren
 INSERT INTO public.users (id, created_at, updated_at, name, email, email_verified, role, password, "currentWeight", "startWeight", "nickName") VALUES (27, '2021-01-03 22:11:24.620', '2021-01-03 22:11:24.620', 'Andy', 'andy@nonissue.org', null, 'ADMIN', '$2a$10$cuZgeuehjQDjnpYs4AKhM.PaEmr7A1yaSpq7Wf6iQ/34S6CmCu7Wm', null, null, null);
 INSERT INTO public.users (id, created_at, updated_at, name, email, email_verified, role, password, "currentWeight", "startWeight", "nickName") VALUES (3, '2020-11-03 21:10:35.715', '2020-11-03 21:10:35.715', 'Mish', 'me_mission@me.com', null, 'USER', '$2a$10$6ftBNW.xLvoqB3.wp9rqAOpdzDPJYKDQz9qXbgQopZPBAUVO3o942', 202.200000000000000000000000000000, null, 'Mish');
 INSERT INTO public.users (id, created_at, updated_at, name, email, email_verified, role, password, "currentWeight", "startWeight", "nickName") VALUES (1, '2020-11-03 21:10:35.715', '2020-11-03 21:10:35.715', 'Roker', 'findalwilliams@gmail.com', null, 'ADMIN', '$2a$10$6ftBNW.xLvoqB3.wp9rqAOpdzDPJYKDQz9qXbgQopZPBAUVO3o942', 242.200000000000000000000000000000, null, 'Roker');
+
+INSERT INTO public.users (id, created_at, updated_at, name, email, email_verified, role, password, "currentWeight", "startWeight", "nickName") VALUES (6, '2020-11-03 21:10:43.085', '2020-11-03 21:10:43.085', 'Diegs', 'camspinney@gmail.com', null, 'USER', '$2a$10$6ftBNW.xLvoqB3.wp9rqAOpdzDPJYKDQz9qXbgQopZPBAUVO3o942', 246.600000000000000000000000000000, null, 'Diegs');
+INSERT INTO public.users (id, created_at, updated_at, name, email, email_verified, role, password, "currentWeight", "startWeight", "nickName") VALUES (4, '2020-11-03 21:10:36.002', '2020-11-03 21:10:36.002', 'Vidal', 'markalanvidal@gmail.com', null, 'USER', '$2a$10$6ftBNW.xLvoqB3.wp9rqAOpdzDPJYKDQz9qXbgQopZPBAUVO3o942', 179.500000000000000000000000000000, null, 'Sassoon');
+INSERT INTO public.users (id, created_at, updated_at, name, email, email_verified, role, password, "currentWeight", "startWeight", "nickName") VALUES (8, '2020-11-03 21:14:55.901', '2020-11-03 21:14:55.901', 'Drew', 'dyker168@hotmail.com', null, 'USER', '$2a$10$6ftBNW.xLvoqB3.wp9rqAOpdzDPJYKDQz9qXbgQopZPBAUVO3o942', 230.800000000000000000000000000000, null, 'CrocFather');
+INSERT INTO public.users (id, created_at, updated_at, name, email, email_verified, role, password, "currentWeight", "startWeight", "nickName") VALUES (7, '2020-11-03 21:10:51.291', '2020-11-03 21:10:51.291', 'Sean', 'dyker1@hotmail.com', null, 'USER', '$2a$10$6ftBNW.xLvoqB3.wp9rqAOpdzDPJYKDQz9qXbgQopZPBAUVO3o942', 179.000000000000000000000000000000, null, 'Raisin');
+INSERT INTO public.users (id, created_at, updated_at, name, email, email_verified, role, password, "currentWeight", "startWeight", "nickName") VALUES (2, '2020-11-03 21:10:14.224', '2020-11-03 21:10:14.224', 'Larry', 'boitchkov@hotmail.com', null, 'USER', '$2a$10$6ftBNW.xLvoqB3.wp9rqAOpdzDPJYKDQz9qXbgQopZPBAUVO3o942', 214.200000000000000000000000000000, null, 'Boich');
+INSERT INTO public.users (id, created_at, updated_at, name, email, email_verified, role, password, "currentWeight", "startWeight", "nickName") VALUES (5, '2020-11-03 21:10:36.292', '2020-11-03 21:10:36.292', 'Sweeney', 'crononaut@gmail.com', null, 'USER', '$2a$10$6ftBNW.xLvoqB3.wp9rqAOpdzDPJYKDQz9qXbgQopZPBAUVO3o942', 184.600000000000000000000000000000, null, 'Professor');
+INSERT INTO public.people (id, created_at, updated_at, name, "nickName", "currentWeight") VALUES (5, '2020-11-03 21:10:36.292', '2020-11-03 21:10:36.292', 'Professor', 'Professor', 184.600000000000000000000000000000);
