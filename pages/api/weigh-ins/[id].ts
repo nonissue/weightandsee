@@ -54,7 +54,7 @@ async function handlePUT(
         id: Number(weighInId),
       },
       include: {
-        person: true,
+        user: true,
       },
       data: {
         ...data,
