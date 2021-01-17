@@ -3,8 +3,10 @@ import {
   Flex,
   Box,
   BoxProps,
+  Button,
   Stack,
   IconButton,
+  useColorMode,
   useColorModeValue,
   Link,
   Icon,
@@ -17,7 +19,7 @@ import {
   MenuItem,
   MenuList,
   MenuDivider,
-  useBreakpointValue,
+  // useBreakpointValue,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { signOut, useSession } from "next-auth/client";
@@ -32,15 +34,25 @@ import {
   ScaleOutline,
   UsersOutline,
   LightBulbOutline,
-  // UserCircleSolid as UserAvatar,
+  PlusCircleOutline,
 } from "@graywolfai/react-heroicons";
 
-import { ColorModeToggle } from "./ColorModeToggle";
-
 import { NextChakraLink } from "./NextChakraLink";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useEffect } from "react";
 
 type DemoIconProps = PropsWithChildren<Omit<IconProps, "as"> & BoxProps>;
+
+type NavProps = {
+  mobileNavShown: boolean;
+  setMobileNavShown: (bool: boolean) => void;
+  showMobileMenu: boolean;
+};
+
+type NavItemsProps = {
+  isAdmin?: boolean;
+  user: SessionUser;
+  isMobile?: boolean;
+};
 
 const DemoIcon: React.FunctionComponent<DemoIconProps> = ({
   as,
@@ -48,7 +60,7 @@ const DemoIcon: React.FunctionComponent<DemoIconProps> = ({
 }) => (
   <Icon
     as={as}
-    mr="2"
+    mr={["2", "2", "2", "2"]}
     w="6"
     mt="1px"
     h="6"
@@ -56,7 +68,6 @@ const DemoIcon: React.FunctionComponent<DemoIconProps> = ({
       path: {
         strokeWidth: "2px",
       },
-      // fill: `${useColorModeValue("transparent", "url(#pink-gradient)")}`,
       fill: "transparent",
       stroke: "url(#pink-gradient)",
     }}
@@ -71,116 +82,82 @@ const DemoIcon: React.FunctionComponent<DemoIconProps> = ({
   </Icon>
 );
 
-type Props = {
-  mobileNavShown: boolean;
-  setMobileNavShown: (bool: boolean) => void;
-};
-
-type NavItemsProps = {
-  isAdmin?: boolean; // show add link
-  user: SessionUser;
-  isMobile?: boolean;
-};
-
 export const NavItems: React.FunctionComponent<NavItemsProps> = ({
   isAdmin,
   user = undefined,
   isMobile = true,
 }) => {
-  const loginLinkColor = useColorModeValue("pink.500", "pink.200");
+  const { toggleColorMode } = useColorMode();
 
+  const uiToggleIcon = useColorModeValue(Moon, LightBulbOutline);
+
+  const iconSize = isMobile ? 7 : 4;
   return (
     <>
       {isAdmin && (
-        <NextChakraLink href="/weights/add" color={loginLinkColor}>
-          + Add
+        <NextChakraLink href="/weights/add" whiteSpace="nowrap">
+          <Box display="flex" alignItems="center">
+            <DemoIcon w={iconSize} h={iconSize} as={PlusCircleOutline} />
+            Add
+          </Box>
         </NextChakraLink>
       )}
       <NextChakraLink href="/people">
-        <Box display="flex" alignContent="center">
-          <DemoIcon as={UsersOutline} />
+        <Box display="flex" alignItems="center">
+          <DemoIcon w={iconSize} h={iconSize} as={UsersOutline} />
           People
         </Box>
       </NextChakraLink>
       <NextChakraLink href="/weights">
-        <Box display="flex" alignContent="center">
-          <DemoIcon as={ScaleOutline} />
+        <Box display="flex" alignItems="center">
+          <DemoIcon w={iconSize} h={iconSize} as={ScaleOutline} />
           WeighIns
         </Box>
       </NextChakraLink>
       <NextChakraLink href="/about">
-        <Box display="flex" alignContent="center">
-          <DemoIcon as={InformationCircleOutline} />
+        <Box display="flex" alignItems="center">
+          <DemoIcon w={iconSize} h={iconSize} as={InformationCircleOutline} />
           About
         </Box>
       </NextChakraLink>
-      <NextChakraLink href="/people">
-        <Box display="flex" alignContent="center">
-          <DemoIcon
-            as={useColorModeValue(Moon, LightBulbOutline)}
-            // opacity={useColorModeValue("0.6", "1")}
-          />
-          {/* <Icon
-            as={Moon}
-            mr="2"
-            w="6"
-            mt="1px"
-            h="6"
-            sx={{
-              path: {
-                strokeWidth: `${useColorModeValue("2px", "0px")}`,
-              },
-              fill: `${useColorModeValue(
-                "transparent",
-                "url(#pink-gradient)"
-              )}`,
-              stroke: "url(#pink-gradient)",
-            }}
+      <Box display="flex" alignItems="center">
+        {isMobile || (
+          <Box
+            display="flex"
+            as={Button}
+            variant="link"
+            alignContent="center"
+            onClick={toggleColorMode}
           >
-            <svg width="0" height="0">
-              <linearGradient
-                id="pink-gradient"
-                x1="100%"
-                y1="100%"
-                x2="0%"
-                y2="0%"
-              >
-                <stop stopColor="#FBB6CE" offset="0%" />
-                <stop stopColor="#cf5895" offset="100%" />
-              </linearGradient>
-            </svg>
-          </Icon> */}
-          Dark Mode
+            <DemoIcon as={uiToggleIcon} />
+          </Box>
+        )}
+        <Box display="flex" alignContent="center" mr="2">
+          {user && !isMobile && <ProfileMenu user={user} />}
         </Box>
-      </NextChakraLink>
-
-      {user && !isMobile && <ProfileMenu user={user} />}
-
-      <ColorModeToggle position="absolute" top="-1" right="5" />
+      </Box>
     </>
   );
 };
 
 // Can we render mobile nav in here?
 // or should mobile nav be its own component altogether?
-export const Nav: React.FunctionComponent<Props> = ({
+export const Nav: React.FunctionComponent<NavProps> = ({
   mobileNavShown,
   setMobileNavShown,
+  showMobileMenu,
 }) => {
-  // next-auth session.user type is wrong
-  // so have to set this as any?
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [session]: any = useSession();
-
-  // this is actually the opposite of what we expect?
-  const showBurger = useBreakpointValue({
-    base: true,
-    sm: true,
-    md: false,
-    lg: false,
-  });
-
+  const { toggleColorMode } = useColorMode();
   const loginLinkColor = useColorModeValue("pink.400", "pink.200");
+  const uiToggleIcon = useColorModeValue(Moon, LightBulbOutline);
+
+  useEffect(() => {
+    if (!showMobileMenu && mobileNavShown) {
+      setMobileNavShown(false);
+    }
+  }, [showMobileMenu, setMobileNavShown, mobileNavShown]);
 
   return (
     <>
@@ -192,9 +169,17 @@ export const Nav: React.FunctionComponent<Props> = ({
       </svg>
       <Box>
         <Stack isInline spacing={0} alignItems="center">
-          {showBurger ? (
-            <Flex justifyContent="flex-end" alignItems="center" width="100%">
-              {/* <ColorModeToggle2 /> */}
+          {showMobileMenu ? (
+            <Flex justifyContent="unset" alignItems="center" width="100%">
+              <Box
+                display="flex"
+                as={Button}
+                variant="link"
+                alignContent="center"
+                onClick={toggleColorMode}
+              >
+                <DemoIcon as={uiToggleIcon} />
+              </Box>
               {session && session.user && <ProfileMenu user={session.user} />}
 
               <IconButton
@@ -253,7 +238,8 @@ export const Nav: React.FunctionComponent<Props> = ({
           ) : (
             <Stack
               isInline
-              spacing={["4", "4", "4", "6"]}
+              // spacing={["4", "4", "4", "6"]}
+              spacing={3}
               alignItems="center"
               fontWeight="600"
             >
@@ -273,7 +259,7 @@ export const Nav: React.FunctionComponent<Props> = ({
                 <NavItems
                   isAdmin={(session.user?.role as string) === "ADMIN"}
                   user={session?.user || undefined}
-                  isMobile={showBurger}
+                  isMobile={showMobileMenu}
                 />
               )}
             </Stack>
@@ -303,20 +289,22 @@ const ProfileMenu: React.FunctionComponent<{ user: SessionUser }> = ({
   };
 
   return (
-    <Box
-      textAlign="right"
-      mr={["0", "-1", "-4", "-6"]}
-      whiteSpace="break-spaces"
-    >
-      <Box display="initial" flexDirection="row" alignItems="center">
+    <Box mr={["0", "0", "0", "0"]}>
+      <Box display="block" flexDirection="row" alignItems="center">
         <ChakraMenu placement="bottom-start" autoSelect={false}>
-          <Box display="flex" justifyContent="flex-end">
+          {/* <Box display="flex" justifyContent="flex-end"> */}
+          <Box display="flex">
             <MenuButton
-              as={IconButton}
+              // w="100px"
+              // w="5"
+              h="6"
+              // background="#ff0000"
+              zIndex="1000"
+              as={Box}
               borderRadius="9999em"
-              w="6"
-              variant="ghost"
-              sz="md"
+              // w="5"
+              // h="5"
+              // sz="md"
               _hover={{
                 cursor: "pointer",
               }}
@@ -325,6 +313,8 @@ const ProfileMenu: React.FunctionComponent<{ user: SessionUser }> = ({
                 boxShadow="none"
                 background="transparent"
                 color="currentcolor"
+                w="6"
+                h="6"
                 icon={
                   <Icon
                     sx={{

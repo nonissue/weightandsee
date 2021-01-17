@@ -13,6 +13,7 @@ import {
   MenuList,
   MenuDivider,
   Portal,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { Nav, NavItems, NextChakraLink } from ".";
 import { useSession, signOut } from "next-auth/client";
@@ -36,6 +37,13 @@ export const Header: React.FunctionComponent = () => {
   const headerDs = useColorModeValue("sm", "xl");
   const navDs = useColorModeValue("lg", "xl");
   const [mobileNavShown, setMobileNavShown] = useState(false);
+
+  const showBurger = useBreakpointValue({
+    base: true,
+    sm: true,
+    md: false,
+    lg: false,
+  });
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [session, loading]: any = useSession();
@@ -96,7 +104,7 @@ export const Header: React.FunctionComponent = () => {
                     fontSize={["xl", "xl", "2xl", "2xl"]}
                     fontFamily={"mono"}
                     fontWeight="300"
-                    mr={["2", "6", "12", "12"]}
+                    mr={["2", "6", "10", "10"]}
                   >
                     <Text fontFamily="DM Sans" fontWeight="700">
                       weight
@@ -114,6 +122,7 @@ export const Header: React.FunctionComponent = () => {
               <Nav
                 mobileNavShown={mobileNavShown}
                 setMobileNavShown={setMobileNavShown}
+                showMobileMenu={showBurger as boolean}
               />
               {/* </Box> */}
             </Stack>
