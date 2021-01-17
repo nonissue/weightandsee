@@ -43,7 +43,13 @@ export const PersonPage: React.FunctionComponent<{ data: string }> = ({
   data,
 }) => {
   let personData: PersonPageProps;
-
+  const weightColor = useColorModeValue("gray.700", "gray.300");
+  const weightShadow = useColorModeValue(
+    `2px 2px 1px hsla(0,0%,70%,0)`,
+    `2px 2px 1px hsla(0,0%,70%,0.2)`
+  );
+  const headerColor = useColorModeValue("pink.400", "pink.200");
+  const graphsLink = useColorModeValue("pink.600", "pink.300");
   try {
     personData = JSON.parse(data);
   } catch (error) {
@@ -56,14 +62,6 @@ export const PersonPage: React.FunctionComponent<{ data: string }> = ({
       </Layout>
     );
   }
-
-  const weightColor = useColorModeValue("gray.700", "gray.300");
-
-  const weightShadow = useColorModeValue(
-    `2px 2px 1px hsla(0,0%,70%,0)`,
-    `2px 2px 1px hsla(0,0%,70%,0.2)`
-  );
-  const headerColor = useColorModeValue("pink.400", "pink.200");
 
   if (!personData) {
     return (
@@ -132,7 +130,7 @@ export const PersonPage: React.FunctionComponent<{ data: string }> = ({
                     href={`/graphs/${personData.name}`}
                     _hover={{
                       textDecoration: "none",
-                      color: useColorModeValue("pink.600", "pink.300"),
+                      color: graphsLink,
                     }}
                     mr={["2", "2"]}
                     ml={["0", "2"]}
