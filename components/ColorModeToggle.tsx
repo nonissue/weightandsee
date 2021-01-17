@@ -1,4 +1,5 @@
 import {
+  BoxProps,
   IconButton,
   IconButtonProps,
   useColorMode,
@@ -7,15 +8,21 @@ import {
 } from "@chakra-ui/react";
 // import { Moon, Sun } from "heroicons-react";
 import {
-  MoonSolid as Moon,
+  MoonOutline as Moon,
   SunSolid as Sun,
 } from "@graywolfai/react-heroicons";
 
-type ColorModeSwitcherProps = Omit<IconButtonProps, "aria-label">;
+import { PropsWithChildren } from "react";
 
-export const ColorModeToggle: React.FunctionComponent = (
-  props: ColorModeSwitcherProps
-) => {
+type ColorModeSwitcherProps3 = PropsWithChildren<
+  Omit<IconButtonProps, "aria-label"> & BoxProps
+>;
+
+// type ColorModeSwitcherProps = Omit<IconButtonProps, "aria-label">;
+
+export const ColorModeToggle: React.FunctionComponent<ColorModeSwitcherProps3> = ({
+  ...chakraProps
+}) => {
   const { toggleColorMode } = useColorMode();
   const text = useColorModeValue("dark", "light");
   const SwitchIcon = useColorModeValue(Sun, Moon);
@@ -29,20 +36,19 @@ export const ColorModeToggle: React.FunctionComponent = (
       onClick={toggleColorMode}
       icon={<SwitchIcon width="20px" height="20px" viewBox="0 0 20 20" />}
       aria-label={`Switch to ${text} mode`}
-      {...props}
+      {...chakraProps}
     />
   );
 };
 
-type ColorModeSwitcherProps2 = Omit<IconButtonProps, "aria-label">;
-
-export const ColorModeToggle2: React.FunctionComponent = (
-  props: ColorModeSwitcherProps2
-) => {
+export const ColorModeToggle2: React.FunctionComponent<ColorModeSwitcherProps3> = ({
+  ...chakraProps
+}) => {
   const { toggleColorMode } = useColorMode();
   const text = useColorModeValue("dark", "light");
-  const SwitchIcon = useColorModeValue(Sun, Moon);
-  const buttonBgHover = useColorModeValue("gray.300", "gray.700");
+  const SwitchIcon = useColorModeValue(Moon, Sun);
+  useColorModeValue("2px", "0px");
+  // const buttonBgHover = useColorModeValue("gray.300", "gray.700");
 
   return (
     <IconButton
@@ -50,12 +56,12 @@ export const ColorModeToggle2: React.FunctionComponent = (
       variant="ghost"
       _hover={{
         cursor: "pointer",
-        background: buttonBgHover,
+        // background: buttonBgHover,
       }}
-      // color="#cf5895"
+      // color={useColorModeValue("transparent", "#d381ac")}
       // color="transparent"
       borderRadius="9999em"
-      mr="-1"
+      mr="0"
       onClick={toggleColorMode}
       icon={
         <Icon
@@ -64,27 +70,28 @@ export const ColorModeToggle2: React.FunctionComponent = (
           h="6"
           sx={{
             path: {
-              strokeWidth: "0px",
+              strokeWidth: `${useColorModeValue("2px", "0px")}`,
             },
-            stroke: "#ff0000",
+            fill: `${useColorModeValue("transparent", "url(#pink-gradient)")}`,
+            stroke: "url(#pink-gradient)",
           }}
         >
           <svg width="0" height="0">
             <linearGradient
-              id="blue-gradient"
+              id="pink-gradient"
               x1="100%"
               y1="100%"
               x2="0%"
               y2="0%"
             >
-              <stop stopColor="#6dd5ed" offset="0%" />
-              <stop stopColor="#2193b0" offset="100%" />
+              <stop stopColor="#FBB6CE" offset="0%" />
+              <stop stopColor="#cf5895" offset="100%" />
             </linearGradient>
           </svg>
         </Icon>
       }
       aria-label={`Switch to ${text} mode`}
-      {...props}
+      {...chakraProps}
     />
   );
 };

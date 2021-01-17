@@ -107,13 +107,8 @@ export const PersonPage: React.FunctionComponent<{ data: string }> = ({
             justifyContent="space-between"
             alignItems="center"
           >
-            <Box
-              display="flex"
-              flexDirection={["column", "row"]}
-              // alignItems="center"
-            >
+            <Box display="flex" flexDirection={["column", "row"]}>
               <Heading
-                // mb={["2", "0"]}
                 size="xl"
                 fontWeight="725"
                 color={headerColor}
@@ -144,16 +139,6 @@ export const PersonPage: React.FunctionComponent<{ data: string }> = ({
                   >
                     Graphs
                   </NextChakraLink>
-                  {/* <NextChakraLink
-                    href={`/graphs/${personData.name}`}
-                    _hover={{
-                      textDecoration: "none",
-                      color: useColorModeValue("gray.600", "red.200"),
-                    }}
-                    color={useColorModeValue("red.700", "red.400")}
-                  >
-                    Delete
-                  </NextChakraLink> */}
                 </Box>
               )}
             </Box>

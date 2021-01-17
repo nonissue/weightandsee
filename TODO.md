@@ -12,6 +12,8 @@
 - [ ] Nav issue:
   - [ ] https://github.com/chakra-ui/chakra-ui/issues/2615
   - [ ] https://github.com/chakra-ui/chakra-ui/issues/2601
+- [ ] prevent the creation of duplicate entries (maybe debounce submit button)
+- [ ] Scroll position restoration when navigating back and forth between pages
 
 ## Auth
 

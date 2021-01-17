@@ -97,11 +97,13 @@ export type WeighInsWithUser = {
 // };
 
 export type Session = {
-  user: {
-    name: string;
-    email: string;
-    role: string;
-    id: number;
-  };
+  user: SessionUser;
   expires: string;
+};
+
+export type SessionUser = {
+  name: string;
+  email: string;
+  role: string;
+  id: number;
 };

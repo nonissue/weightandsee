@@ -26,7 +26,7 @@ export const Header: React.FunctionComponent = () => {
   // const mobileNavDividerColor = useColorModeValue("gray.400", "gray.600");
 
   const headerBg = useColorModeValue(
-    "hsla(210, 38%, 95%, 0.7)",
+    "hsla(210, 20%, 95%, 0.5)",
     "hsla(230, 21%, 24%, 0.2)"
   );
   const mobileNavBg = useColorModeValue(
