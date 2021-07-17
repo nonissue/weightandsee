@@ -16,8 +16,7 @@ import { Session } from "interfaces";
 import { Layout, Confirmation } from "components";
 // import { isAuth } from "lib/helpers/auth";
 
-import db from "prisma";
-const prisma = db.getInstance().prisma;
+import prisma from "lib/prisma";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   await ensureAuthenticated(context);
@@ -25,7 +24,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   // const session = await isAuth(context);
 
-  const result = await prisma.weighIn.findOne({
+  const result = await prisma.weighIn.findUnique({
     where: { id: Number(context.params?.id) },
     include: { user: true },
   });

@@ -4,7 +4,7 @@ import { Provider } from "next-auth/client";
 import { AppProps } from "next/app";
 import * as gtag from "../lib/gtag";
 import { AnimatePresence, motion } from "framer-motion";
-import { Box, BoxProps } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 
 /* eslint-disable @typescript-eslint/ban-types */
 import { Chakra } from "../Chakra";
@@ -24,7 +24,7 @@ export interface AppRenderProps {
   cookies?: string;
 }
 
-const MotionBox = motion.custom<BoxProps & React.ReactNode>(Box);
+const MotionBox = motion(Box);
 
 const App: React.FunctionComponent<AppRenderProps & AppProps> = ({
   Component,

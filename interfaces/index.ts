@@ -30,10 +30,6 @@ export type PersonPageProps = {
   }[];
 };
 
-// export type People = {
-//   people: Person[];
-// };
-
 export type Participants = {
   people: User[];
 };
@@ -41,6 +37,7 @@ export type Participants = {
 export type Entry = {
   weight: number;
   name: string;
+  userId?: number;
 };
 
 // Wtf did i do this for

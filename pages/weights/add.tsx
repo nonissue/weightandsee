@@ -18,16 +18,15 @@ import {
 import { useState } from "react";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import { getSession, Session } from "next-auth/client";
+import { getSession } from "next-auth/client";
 import { ensureAuthenticated } from "lib/guards/ensureAuthenticated";
 import ReactDatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
 import { Confirmation, Layout } from "../../components";
 import { FormResult } from "../../interfaces";
-
+import { Session } from "next-auth";
 // eslint-disable-next-line import/no-named-as-default
-import db from "prisma";
-const prisma = db.getInstance().prisma;
+import prisma from "lib/prisma";
 
 type Person = {
   id: number;
@@ -72,7 +71,13 @@ const CreateWeights: React.FunctionComponent<{
   session: Session;
 }> = ({ people, session }) => {
   const router = useRouter();
-  const { handleSubmit, errors, control, watch } = useForm<FormData>();
+  const {
+    handleSubmit,
+    control,
+    watch,
+    formState: { errors },
+  } = useForm<FormData>();
+
   const [entryCount, setEntryCount] = useState(1);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const startDate = new Date();
@@ -80,6 +85,7 @@ const CreateWeights: React.FunctionComponent<{
 
   const formBorderColor = useColorModeValue("gray.100", "gray.700");
   const headerColor = useColorModeValue("pink.400", "pink.200");
+  const shadowSize = useColorModeValue("sm", "lg");
 
   const confirmationCallback = () => {
     setEntryCount(entryCount - 1);
@@ -139,7 +145,7 @@ const CreateWeights: React.FunctionComponent<{
           px={["4", "4", "4", "4"]}
           py="4"
           border={["0px", "1px"]}
-          shadow={useColorModeValue("sm", "lg")}
+          shadow={shadowSize}
           borderRadius={["8px", "8px"]}
           borderColor={[formBorderColor, formBorderColor]}
         >
@@ -201,12 +207,12 @@ const CreateWeights: React.FunctionComponent<{
                     >
                       <FormControl id="person" w="100%">
                         <Controller
-                          name={`entries.[${index}].name`}
+                          name={`entries.${index}.name`}
                           control={control}
                           defaultValue=""
-                          errorBorderColor="red.300"
+                          // errorBorderColor="red.300"
                           rules={{ required: true }}
-                          render={({ value, onChange, onBlur }) => (
+                          render={({ field: { value, onChange, onBlur } }) => (
                             <Select
                               onChange={(e) => onChange(e.target.value)}
                               onBlur={onBlur}
@@ -230,11 +236,11 @@ const CreateWeights: React.FunctionComponent<{
 
                       <FormControl id="person">
                         <Controller
-                          name={`entries.[${index}].weight`}
+                          name={`entries.${index}.weight`}
                           control={control}
                           defaultValue=""
                           rules={{ required: true, min: 2 }}
-                          render={({ value, onChange }) => (
+                          render={({ field: { value, onChange } }) => (
                             <InputGroup w="100%">
                               <Input
                                 value={value}
@@ -269,7 +275,7 @@ const CreateWeights: React.FunctionComponent<{
                     control={control}
                     name="date"
                     defaultValue={startDate}
-                    render={({ onChange, onBlur, value }) => (
+                    render={({ field: { value, onChange, onBlur } }) => (
                       <ReactDatePicker
                         onChange={(date) => {
                           onChange(date);
@@ -304,7 +310,7 @@ const CreateWeights: React.FunctionComponent<{
                     control={control}
                     name="updateCurrentWeight"
                     defaultValue={true}
-                    render={({ onChange, onBlur }) => (
+                    render={({ field: { onChange, onBlur } }) => (
                       <Checkbox
                         onBlur={onBlur}
                         onChange={(e) => {

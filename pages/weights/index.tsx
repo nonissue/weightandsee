@@ -2,22 +2,29 @@
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
 import { ensureAuthenticated } from "lib/guards/ensureAuthenticated";
-// import { isAuth } from "lib/helpers/auth";
 import { Grid, Heading, Divider, Text, Stack, Box } from "@chakra-ui/react";
 import { Layout, NextChakraLink, WeightTag } from "../../components";
 import { WeighInsWithUser, Session } from "../../interfaces";
 
-import db from "prisma";
-const prisma = db.getInstance().prisma;
+import prisma from "lib/prisma";
+
+type ModifiedWeighIn = {
+  weight: number;
+  userId: number;
+  id: number;
+  weighDate: Date;
+  user: {
+    name: string;
+  };
+};
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   await ensureAuthenticated(context);
   const session = await getSession(context);
 
-  // const session = await isAuth(context);
-
   let data;
   let parsedData = null;
+
   if (session) {
     try {
       data = await prisma.weighIn.findMany({
@@ -44,7 +51,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
 
     try {
-      parsedData = await data?.map((item) => {
+      parsedData = await data?.map((item: ModifiedWeighIn) => {
         return {
           ...item,
           weighDate: item.weighDate.toLocaleDateString("en-CA", {
