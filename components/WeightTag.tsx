@@ -6,11 +6,13 @@ export const WeightTag: React.FunctionComponent<
   { weight: number; isLink?: boolean } & StackProps
 > = ({ weight, isLink, ...chakraProps }) => {
   const weightColor = useColorModeValue("gray.700", "gray.300");
-  const weightBGColor = useColorModeValue("gray.200", "gray.700");
+  // const weightBGColor = useColorModeValue("gray.200", "gray.700");
   const weightBGHoverColor = useColorModeValue("gray.100", "gray.600");
   const weightBGBorderColor = useColorModeValue("gray.400", "gray.400");
   const weightBorderColor = useColorModeValue("gray.300", "gray.600");
   const lbsColor = useColorModeValue("gray.500", "gray.400");
+
+  console.log(isLink);
 
   return (
     <Stack
@@ -27,12 +29,10 @@ export const WeightTag: React.FunctionComponent<
       // shadow="sm"
       border="0px"
       borderColor={weightBorderColor}
-      _hover={
-        isLink && {
-          background: weightBGHoverColor,
-          borderColor: weightBGBorderColor,
-        }
-      }
+      _hover={{
+        background: weightBGHoverColor,
+        borderColor: weightBGBorderColor,
+      }}
       {...chakraProps}
     >
       <Text fontWeight="400" px={0} fontFamily="mono" color={weightColor}>

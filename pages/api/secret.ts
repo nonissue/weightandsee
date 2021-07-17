@@ -6,7 +6,7 @@ const secretHandler: NextApiHandler = async (req, res) => {
   if (session) {
     res.end(
       `Welcome to the mega secret VIP club, ${
-        session.user.email ?? session.user.name
+        session?.user?.email ?? session?.user?.name
       }`
     );
   } else {
