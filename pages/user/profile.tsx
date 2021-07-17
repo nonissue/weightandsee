@@ -12,13 +12,13 @@ import { getBaseURL } from "lib/getBaseURL";
 
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
+
 import Head from "next/head";
 import { FormEvent, useState } from "react";
 
 import { hash } from "bcryptjs";
 
-import db from "prisma";
-const prisma = db.getInstance().prisma;
+import prisma from "lib/prisma";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   // await ensureAuthenticated(context);
@@ -36,11 +36,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return { props: {} };
   }
 
-  // findFirst instead of findOne so we can use case insensitive filtering
+  // findFirst instead of findUnique so we can use case insensitive filtering
   const result = await prisma.user.findFirst({
     where: {
       name: {
-        equals: session?.user.name as string,
+        equals: session?.user?.name as string,
         mode: "insensitive",
       },
     },

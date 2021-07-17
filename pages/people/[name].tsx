@@ -2,8 +2,7 @@ import { GetServerSideProps } from "next";
 import { ensureAuthenticated } from "lib/guards/ensureAuthenticated";
 import { PersonPageProps } from "interfaces";
 
-import db from "prisma";
-const prisma = db.getInstance().prisma;
+import prisma from "lib/prisma";
 
 import {
   Heading,
@@ -23,7 +22,7 @@ import { Layout, WeightTag, NextChakraLink } from "components";
 export const getServerSideProps: GetServerSideProps = async (context) => {
   await ensureAuthenticated(context);
 
-  // findFirst instead of findOne so we can use case insensitive filtering
+  // findFirst instead of findUnique so we can use case insensitive filtering
   const result = await prisma.user.findFirst({
     where: {
       name: {

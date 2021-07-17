@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { Entry } from "../../../interfaces";
+import prisma from "lib/prisma";
 
-import db from "prisma";
-const prisma = db.getInstance().prisma;
+// const prisma = db.getInstance().prisma;
 // POST /api/weigh-ins
 // Required fields in body: title
 // Optional fields in body: content
@@ -37,6 +37,7 @@ async function handleGET(res: NextApiResponse) {
 // this needs to be cleaned up
 async function handlePOST(req: NextApiRequest, res: NextApiResponse) {
   const { date, entries, updateCurrentWeight } = req.body;
+  // use id for connecting weighins to user, not name
 
   if (
     !(
@@ -71,6 +72,7 @@ async function handlePOST(req: NextApiRequest, res: NextApiResponse) {
       });
     });
 
+  console.log(records);
   let result;
 
   try {
@@ -82,8 +84,11 @@ async function handlePOST(req: NextApiRequest, res: NextApiResponse) {
 
   let updateWeightRes;
 
+  console.log("updating current weights");
+  console.log(entries);
   if (updateCurrentWeight) {
     try {
+      // replace this with updateMany?
       const updateCurrentWeights = entries
         .filter((entry: Entry) => !!entry)
         .map((entry: Entry) => {

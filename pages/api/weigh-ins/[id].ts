@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import prisma from "lib/prisma";
 
 import { WeighIn } from "interfaces";
 
@@ -27,7 +26,7 @@ export default async function handle(
 async function handleGET(weighInId: string, res: NextApiResponse) {
   let result;
   try {
-    result = await prisma.weighIn.findOne({
+    result = await prisma.weighIn.findUnique({
       where: { id: Number(weighInId) },
       include: { user: true },
     });

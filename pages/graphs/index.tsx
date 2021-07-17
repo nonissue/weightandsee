@@ -62,7 +62,7 @@ const data = [
 ];
 
 // export const getServerSideProps: GetServerSideProps = async () => {
-//   const result = await prisma.person.findOne({
+//   const result = await prisma.person.findUnique({
 //     where: { name: params?.name as string },
 //     include: { weighIns: { orderBy: { weighDate: "desc" } } },
 //   });

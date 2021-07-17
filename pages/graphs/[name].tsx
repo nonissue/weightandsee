@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { GetServerSideProps } from "next";
-import db from "prisma";
+import prisma from "lib/prisma";
 
 import { Heading, Grid, useColorModeValue } from "@chakra-ui/react";
 import {
@@ -20,8 +20,6 @@ import { ensureAuthenticated } from "lib/guards/ensureAuthenticated";
 
 import { Layout } from "components";
 import { User } from "interfaces";
-
-const prisma = db.getInstance().prisma;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   await ensureAuthenticated(context);
