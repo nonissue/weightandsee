@@ -5,9 +5,7 @@ import Providers from "next-auth/providers";
 import Adapters from "next-auth/adapters";
 import { compare } from "bcrypt";
 
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "lib/prisma";
 
 const authHandler: NextApiHandler = (req, res) => NextAuth(req, res, options);
 export default authHandler;
@@ -25,7 +23,7 @@ const options = {
         password: { label: "Password", type: "password" },
       },
       authorize: async (credentials) => {
-        const user = await prisma.user.findOne({
+        const user = await prisma.user.findUnique({
           where: { email: credentials.email },
         });
 
