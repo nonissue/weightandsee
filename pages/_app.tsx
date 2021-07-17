@@ -54,9 +54,15 @@ const App: React.FunctionComponent<AppRenderProps & AppProps> = ({
             initial="initial"
             key={router.route}
             variants={{
-              initial: { opacity: 0, y: 80 },
+              initial: { opacity: 0, y: 20 },
               enter: { opacity: 1, y: 0 },
-              exit: { opacity: 0, y: 30 },
+              exit: { opacity: 0, y: 10 },
+            }}
+            transition={{
+              type: "spring",
+              stiffness: 500,
+              damping: 40,
+              restSpeed: 0.9,
             }}
           >
             <Component {...pageProps} />

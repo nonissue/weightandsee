@@ -72,14 +72,7 @@ const DemoIcon: React.FunctionComponent<DemoIconProps> = ({
       stroke: "url(#pink-gradient)",
     }}
     {...chakraProps}
-  >
-    <svg width="0" height="0">
-      <linearGradient id="pink-gradient" x1="100%" y1="100%" x2="0%" y2="0%">
-        <stop stopColor="#FBB6CE" offset="0%" />
-        <stop stopColor="#cf5895" offset="100%" />
-      </linearGradient>
-    </svg>
-  </Icon>
+  ></Icon>
 );
 
 export const NavItems: React.FunctionComponent<NavItemsProps> = ({
@@ -133,7 +126,7 @@ export const NavItems: React.FunctionComponent<NavItemsProps> = ({
           </Box>
         )}
         <Box display="flex" alignContent="center" mr="2">
-          {user && !isMobile && <ProfileMenu user={user} />}
+          {user && !isMobile && <ProfileMenu user={user} isMobile />}
         </Box>
       </Box>
     </>
@@ -167,6 +160,18 @@ export const Nav: React.FunctionComponent<NavProps> = ({
           <stop stopColor="#cf5895" offset="100%" />
         </linearGradient>
       </svg>
+      <svg width="0" height="0">
+        <linearGradient
+          id="toggle-gradient"
+          x1="100%"
+          y1="100%"
+          x2="0%"
+          y2="0%"
+        >
+          <stop stopColor="#9c4b15" offset="0%" />
+          <stop stopColor="#cf9758" offset="100%" />
+        </linearGradient>
+      </svg>
       <Box>
         <Stack isInline spacing={0} alignItems="center">
           {showMobileMenu ? (
@@ -180,7 +185,9 @@ export const Nav: React.FunctionComponent<NavProps> = ({
               >
                 <DemoIcon as={uiToggleIcon} />
               </Box>
-              {session && session.user && <ProfileMenu user={session.user} />}
+              {session && session.user && (
+                <ProfileMenu user={session.user} isMobile={true} />
+              )}
 
               <IconButton
                 marginX="1"
@@ -275,9 +282,10 @@ type HandleClickProps = {
   prefix: string;
 };
 
-const ProfileMenu: React.FunctionComponent<{ user: SessionUser }> = ({
-  user,
-}) => {
+const ProfileMenu: React.FunctionComponent<{
+  user: SessionUser;
+  isMobile: boolean;
+}> = ({ user, isMobile }) => {
   const router = useRouter();
 
   const handleClick = ({ event, prefix }: HandleClickProps): void => {
@@ -291,7 +299,10 @@ const ProfileMenu: React.FunctionComponent<{ user: SessionUser }> = ({
   return (
     <Box mr={["0", "0", "0", "0"]}>
       <Box display="block" flexDirection="row" alignItems="center">
-        <ChakraMenu placement="bottom-start" autoSelect={false}>
+        <ChakraMenu
+          placement={`${isMobile ? "bottom-end" : "bottom-start"}`}
+          autoSelect={false}
+        >
           {/* <Box display="flex" justifyContent="flex-end"> */}
           <Box display="flex">
             <MenuButton
@@ -333,7 +344,7 @@ const ProfileMenu: React.FunctionComponent<{ user: SessionUser }> = ({
             </MenuButton>
           </Box>
           <Portal>
-            <MenuList zIndex={10} pt="2">
+            <MenuList zIndex={10} pt="2" mr="0vw">
               <MenuGroup
 
               // title={`${user.name}${user.role === "ADMIN" && " (admin)"}`}

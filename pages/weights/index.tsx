@@ -82,8 +82,8 @@ const WeightsPage: React.FunctionComponent<
   WeighInsWithUser & { session: Session }
 > = ({ weighIns, session }) => {
   let lastDate: Date;
-  const dateBorderColor = useColorModeValue("gray.400", "gray.500");
-  const rowBorderColor = useColorModeValue("gray.300", "gray.600");
+  const dateBorderColor = useColorModeValue("gray.400", "gray.600");
+  const rowBorderColor = useColorModeValue("gray.300", "gray.700");
 
   if (!session) {
     return (

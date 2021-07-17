@@ -79,10 +79,17 @@ export const Header: React.FunctionComponent = () => {
             animate={loading ? "loading" : "loaded"}
             initial="loading"
             variants={{
-              loading: { opacity: 0, y: "-100px" },
-              loaded: { opacity: 1, y: "0px" },
+              loading: { opacity: 0, y: -20 },
+              loaded: { opacity: 1, y: 0 },
             }}
-            transition={{ delay: 0.2, duration: 0.5 }}
+            transition={{
+              delay: 0.1,
+              type: "spring",
+              damping: 20,
+              restSpeed: 0.5,
+              // restDelta: 0.5,
+              stiffness: 150,
+            }}
           >
             <Stack
               // overflowX="hidden"
