@@ -2,7 +2,15 @@
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
 import { ensureAuthenticated } from "lib/guards/ensureAuthenticated";
-import { Grid, Heading, Divider, Text, Stack, Box } from "@chakra-ui/react";
+import {
+  Grid,
+  Heading,
+  Divider,
+  Text,
+  Stack,
+  Box,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { Layout, NextChakraLink, WeightTag } from "../../components";
 import { WeighInsWithUser, Session } from "../../interfaces";
 
@@ -74,6 +82,8 @@ const WeightsPage: React.FunctionComponent<
   WeighInsWithUser & { session: Session }
 > = ({ weighIns, session }) => {
   let lastDate: Date;
+  const dateBorderColor = useColorModeValue("gray.400", "gray.500");
+  const rowBorderColor = useColorModeValue("gray.300", "gray.600");
 
   if (!session) {
     return (
@@ -105,29 +115,53 @@ const WeightsPage: React.FunctionComponent<
     <Layout>
       <Grid templateColumns={`1fr min(65ch, 100%) 1fr`} mt="4">
         <Grid column="2" my="4" px={["4", "4", "2", "2"]}>
-          <Heading mb="3" size="lg" letterSpacing="-1px" fontWeight="700">
+          <Heading
+            textAlign="center"
+            mb="3"
+            size="md"
+            letterSpacing="-1px"
+            fontWeight="500"
+          >
             Weigh Ins
           </Heading>
-          <Stack mt="1" spacing={1}>
+          <Stack mt="1" spacing={0}>
             {weighIns.map((weighIn) => {
               const showDate = weighIn.weighDate === lastDate ? false : true;
               lastDate = weighIn.weighDate;
 
               return (
-                <Stack spacing={0} key={weighIn.id}>
+                <Stack
+                  spacing={0}
+                  key={weighIn.id}
+                  py="1px"
+                  borderBottom="1px"
+                  borderStyle="dotted"
+                  borderBottomColor={rowBorderColor}
+                >
                   {showDate && (
-                    <>
-                      <Divider borderWidth="0px" mt={1} />
+                    <Box marginBottom="0px" marginTop="0px" paddingTop="0px">
+                      <Divider borderWidth="0px" marginBottom="0px" mt={0} />
                       <Text
-                        fontSize="md"
+                        fontSize="sm"
+                        // background="gray.400"
+                        borderBottom="1px"
+                        borderStyle="dotted"
+                        borderColor={dateBorderColor}
                         fontFamily="mono"
+                        letterSpacing="0.1em"
+                        p="2px"
+                        pl="5px"
                         fontWeight="400"
-                        textColor="gray.400"
+                        textColor="gray.500"
                       >
                         {weighIn.weighDate}
                       </Text>
-                      <Divider borderWidth="0.5px" mb="1" />
-                    </>
+                      <Divider
+                        borderWidth="0px"
+                        variant="dashed"
+                        marginBottom="2px"
+                      />
+                    </Box>
                   )}
                   <Stack
                     isInline
@@ -138,8 +172,13 @@ const WeightsPage: React.FunctionComponent<
                     <NextChakraLink
                       href={`people/${weighIn.user.name}`}
                       mr="1"
+                      opacity="0.7"
+                      pl="5px"
+                      fontFamily="body"
                       fontWeight="400"
-                      fontSize="xl"
+                      fontSize="lg"
+                      lineHeight="1.3"
+                      // letterSpacing="-0.1em"
                     >
                       {weighIn.user.name}
                     </NextChakraLink>

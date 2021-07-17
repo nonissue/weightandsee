@@ -16,14 +16,17 @@ export const WeightTag: React.FunctionComponent<
     <Stack
       isInline
       spacing="0"
-      borderBottom="1px"
+      // borderBottom="1px"
+      // borderTop="1px"
+      // borderTopColor="transparent"
       px="1"
       align="center"
-      borderRadius="4px"
-      background={weightBGColor}
-      fontSize="md"
-      shadow="sm"
-      borderBottomColor={weightBorderColor}
+      // borderRadius="4px"
+      // background={weightBGColor}
+      fontSize="sm"
+      // shadow="sm"
+      border="0px"
+      borderColor={weightBorderColor}
       _hover={
         isLink && {
           background: weightBGHoverColor,
