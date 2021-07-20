@@ -6,6 +6,8 @@ import {
 import { LinkProps as NextLinkProps } from "next/dist/client/link";
 import NextLink from "next/link";
 import { PropsWithChildren } from "react";
+// might wanna rework this? might be causing rerenders and is janky.
+// Though, shouldn't have to forwardRef since we don't pass `as` to chakralink...
 
 // _hover prop doesn't exist in LinkProps, but works
 // so BoxProps are provided as well

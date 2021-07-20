@@ -1,14 +1,11 @@
-import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-
 import { hash } from "bcrypt";
+import prisma from "lib/prisma";
 
 export default async function (
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> {
-  const prisma = new PrismaClient({ log: ["query"] });
-
   try {
     const userData = req.body;
     const userRole =

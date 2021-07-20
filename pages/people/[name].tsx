@@ -94,6 +94,8 @@ export const PersonPage: React.FunctionComponent<{ data: string }> = ({
     );
   }
 
+  console.log("rendered!");
+
   return (
     <Layout>
       <Grid templateColumns={`1fr min(65ch, 100%) 1fr`} mt="4">

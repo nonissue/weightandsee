@@ -7,17 +7,12 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { Layout, NextChakraLink } from "components";
-
 import { getBaseURL } from "lib/getBaseURL";
-
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/client";
-
 import Head from "next/head";
 import { FormEvent, useState } from "react";
-
 import { hash } from "bcryptjs";
-
 import prisma from "lib/prisma";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -60,7 +55,6 @@ export const Profile: React.FunctionComponent<{ data: string }> = ({
 
   try {
     userData = JSON.parse(data);
-    // console.log(userData);
   } catch (error) {
     console.log(error);
   }
@@ -81,25 +75,6 @@ export const Profile: React.FunctionComponent<{ data: string }> = ({
     const newPassword = await hash(userData.password, 10);
 
     console.log(newPassword);
-
-    // try {
-    //   const res = await fetch(`/api/user/signup`, {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify({ name, email, password }),
-    //   });
-
-    //   signIn("credentials", {
-    //     email: email,
-    //     password: password,
-    //     callbackUrl: `${baseURL}/people`,
-    //   });
-
-    //   // router.push("/people");
-    //   return res;
-    // } catch (error) {
-    //   console.log(error);
-    // }
   }
 
   return (

@@ -4,6 +4,7 @@ import { useColorModeValue, Stack, Text, StackProps } from "@chakra-ui/react";
 
 export const WeightTag: React.FunctionComponent<
   { weight: number; isLink?: boolean } & StackProps
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
 > = ({ weight, isLink, ...chakraProps }) => {
   const weightColor = useColorModeValue("gray.700", "gray.300");
   // const weightBGColor = useColorModeValue("gray.200", "gray.700");
@@ -12,19 +13,20 @@ export const WeightTag: React.FunctionComponent<
   const weightBorderColor = useColorModeValue("gray.300", "gray.600");
   const lbsColor = useColorModeValue("gray.500", "gray.400");
 
-  console.log(isLink);
+  // no idea why this was suddenly necessary
+  // let fixedWeight;
+  // if (typeof weight === "string") {
+  //   fixedWeight = parseFloat(weight);
+  // }
+
+  // const fixedWeight = weight + 0;
 
   return (
     <Stack
       isInline
       spacing="0"
-      // borderBottom="1px"
-      // borderTop="1px"
-      // borderTopColor="transparent"
       px="1"
       align="center"
-      // borderRadius="4px"
-      // background={weightBGColor}
       fontSize="sm"
       // shadow="sm"
       border="0px"

@@ -14,6 +14,7 @@ import {
 import { Layout, NextChakraLink, WeightTag } from "../../components";
 import { WeighInsWithUser, Session } from "../../interfaces";
 
+// import { Prisma as Prisma2 } from "@prisma/client";
 import prisma from "lib/prisma";
 
 type ModifiedWeighIn = {
@@ -73,6 +74,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   }
 
+  console.log(parsedData);
+
   return {
     props: { weighIns: parsedData, session },
   };
@@ -84,6 +87,9 @@ const WeightsPage: React.FunctionComponent<
   let lastDate: Date;
   const dateBorderColor = useColorModeValue("gray.400", "gray.600");
   const rowBorderColor = useColorModeValue("gray.300", "gray.700");
+
+  // console.log(typeof weighIns[0].weight);
+  // const testdecimal = new Prisma2.Decimal(1.0000001).toString();
 
   if (!session) {
     return (
@@ -98,7 +104,7 @@ const WeightsPage: React.FunctionComponent<
     );
   }
 
-  if (weighIns.length === 0) {
+  if (weighIns.length === 0 || !weighIns) {
     return (
       <Layout>
         <Grid templateColumns={`1fr min(65ch, 100%) 1fr`}>
@@ -110,6 +116,11 @@ const WeightsPage: React.FunctionComponent<
       </Layout>
     );
   }
+
+  console.log("rendering");
+
+  // console.log(testdecimal);
+  // console.log(typeof testdecimal);
 
   return (
     <Layout>
@@ -132,7 +143,7 @@ const WeightsPage: React.FunctionComponent<
               return (
                 <Stack
                   spacing={0}
-                  key={weighIn.id}
+                  key={weighIn.id + weighIn.weighDate.toString()}
                   py="1px"
                   borderBottom="1px"
                   borderStyle="dotted"
@@ -170,7 +181,7 @@ const WeightsPage: React.FunctionComponent<
                     justifyContent="space-between"
                   >
                     <NextChakraLink
-                      href={`people/${weighIn.user.name}`}
+                      href={`/people/${weighIn.user.name}`}
                       mr="1"
                       opacity="0.7"
                       pl="5px"
