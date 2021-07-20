@@ -38,7 +38,7 @@ export const WeightTag: React.FunctionComponent<
       {...chakraProps}
     >
       <Text fontWeight="400" px={0} fontFamily="mono" color={weightColor}>
-        {weight === 0 ? "000.0" : weight.toFixed(1)}
+        {weight === 0 ? "000.0" : weight?.toFixed(1)}
       </Text>
       <Text
         fontWeight="600"
