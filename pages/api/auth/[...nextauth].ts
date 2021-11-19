@@ -36,9 +36,11 @@ const options = {
           if (result) {
             return Promise.resolve(user);
           } else {
+            console.log("returning null for user");
             return Promise.resolve(null);
           }
         } else {
+          console.log("returning null for user");
           return Promise.resolve(null);
         }
       },

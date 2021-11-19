@@ -31,6 +31,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   await ensureAuthenticated(context);
   const session = await getSession(context);
 
+  const prefix =
+    context.req.headers.host === "localhost:3000" ? "http://" : "https://";
+
+  if (!session) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: `/user/signin?callbackUrl=${prefix}${context.req.headers.host}${context.resolvedUrl}`,
+      },
+    };
+  }
+
   let data;
   let parsedData = null;
 
@@ -74,8 +86,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   }
 
-  console.log(parsedData);
-
   return {
     props: { weighIns: parsedData, session },
   };
@@ -118,9 +128,6 @@ const WeightsPage: React.FunctionComponent<
   }
 
   console.log("rendering");
-
-  // console.log(testdecimal);
-  // console.log(typeof testdecimal);
 
   return (
     <Layout>

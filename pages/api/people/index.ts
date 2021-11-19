@@ -12,6 +12,8 @@ export default async function handler(
   res: NextApiResponse
 ): Promise<void> {
   let test;
+  // console.log(process.env);
+
   try {
     res.statusCode = 200;
     test = await prisma.user.findMany({

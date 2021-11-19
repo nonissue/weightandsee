@@ -72,7 +72,8 @@ async function handlePOST(req: NextApiRequest, res: NextApiResponse) {
       });
     });
 
-  console.log(records);
+  // console.log("records!");
+  // console.log(records);
   let result;
 
   try {
@@ -84,8 +85,8 @@ async function handlePOST(req: NextApiRequest, res: NextApiResponse) {
 
   let updateWeightRes;
 
-  console.log("updating current weights");
-  console.log(entries);
+  // console.log("updating current weights");
+  // console.log(entries);
   if (updateCurrentWeight) {
     try {
       // replace this with updateMany?

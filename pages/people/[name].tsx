@@ -51,7 +51,7 @@ export const PersonPage: React.FunctionComponent<{ data: string }> = ({
   const graphsLink = useColorModeValue("pink.600", "pink.300");
   try {
     personData = JSON.parse(data);
-  } catch (error) {
+  } catch (error: any) {
     return (
       <Layout>
         <Grid maxW="min(65ch, 100%)" mx="auto" mt="8" px={["4", "4", "2", "2"]}>

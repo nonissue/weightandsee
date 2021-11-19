@@ -15,9 +15,7 @@ import { Layout } from "../components/Layout";
 
 const IndexPage: React.FunctionComponent = () => {
   const router = useRouter();
-  // const iconColor = useColorModeValue("gray.300", "gray.500");
-  // const alertBGColor = useColorModeValue("gray.100", "gray.700");
-  // const alertBorderColor = useColorModeValue("gray.200", "gray.600");
+
   // router.push("/weights");
   const handleSubmit = (event: FormEvent) => {
     // alert('A name was submitted: ' + this.state.value);

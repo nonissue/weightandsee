@@ -77,7 +77,7 @@ async function handleDELETE(weighInId: string, res: NextApiResponse) {
     } else {
       return res.status(404).json("weighIN not found");
     }
-  } catch (error) {
+  } catch (error: any) {
     // we know this is a prisma 'record not found' error
     if (error.meta.details.indexOf("RecordNotFound") !== -1) {
       console.error("Delete Error: Weigh-In not found");
