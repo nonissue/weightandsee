@@ -3,6 +3,7 @@ import { useState } from "react";
 import { GetServerSideProps } from "next";
 import prisma from "lib/prisma";
 import {
+  Box,
   Flex,
   Grid,
   Heading,
@@ -41,7 +42,38 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   };
 };
 
-const CustomLabel = (props: any) => {
+// type LabelProps = {
+//   payload: any;
+//   label: any;
+//   content: any;
+// };
+
+const CustomTooltip = ({ payload, label, content }: any) => {
+  console.log(payload);
+  console.log(label);
+  console.log(content);
+  return (
+    <Box
+      background={useColorModeValue("gray.700", "gray.50")}
+      color={useColorModeValue("gray.100", "gray.900")}
+      borderRadius="6"
+      opacity="0.8"
+      w=""
+      shadow="sm"
+      className="custom-tooltip"
+      p="2"
+    >
+      <Box fontFamily="mono" fontSize="xs" textAlign="center">
+        {label.split("T")[0].slice(2)}
+      </Box>
+      <Box fontFamily="mono" fontWeight="500" px="2">
+        {payload[0]?.value}lbs
+      </Box>
+    </Box>
+  );
+};
+
+const CustomTickLabel = (props: any) => {
   const { x, y, payload }: any = props;
 
   return (
@@ -140,7 +172,7 @@ const UserGraph = ({ data }: any) => {
           <XAxis
             tickLine={true}
             dataKey="weighDate"
-            tick={<CustomLabel />}
+            tick={<CustomTickLabel />}
             height={60}
             tickCount={4}
             interval={4}
@@ -149,7 +181,8 @@ const UserGraph = ({ data }: any) => {
             //domain={[yBounds - 30, yBounds + 30]}
             domain={["auto", "auto"]}
           />
-          <Tooltip />
+          <Tooltip content={<CustomTooltip />} />
+          {/* <Tooltip /> */}
           <Legend verticalAlign="top" height={36} />
 
           {uiState.showBrush && (
