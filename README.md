@@ -1,5 +1,9 @@
 # Weight&See
 
+## 21-11-18
+
+- Added new `dev` branch based on moving forward from production and abandoning `develop` branch
+
 [http://weightandsee.vercel.app](http://weightandsee.vercel.app)
 
 ## Version
@@ -14,10 +18,10 @@
 - React-Hook-Form
 - Postgres
 - TypeScript
-  
+
 ## Setup
 
-- Add env variables on `vercel`: 
+- Add env variables on `vercel`:
   - Required: `DATABASE_URL`, `GA_TRACKING_ID`
 
 ```bash
@@ -35,4 +39,3 @@ yarn build
 ```bash
 yarn gen-favicons # builds favicons and plunks them in public
 ```
-

@@ -6,6 +6,7 @@ import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Router from "next/router";
 
 import { useForm, Controller } from "react-hook-form";
+// eslint-disable-next-line import/no-named-as-default
 import ReactDatePicker from "react-datepicker";
 
 import {
