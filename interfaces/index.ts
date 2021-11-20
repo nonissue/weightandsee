@@ -9,6 +9,14 @@ export type User = {
   name: string;
 };
 
+export type UserWithWeighIns = {
+  id: number;
+  name: string;
+  nickName?: string;
+  weighIns?: WeighIn[];
+  currentWeight?: number;
+};
+
 export type Person = {
   id: number;
   name: string;
@@ -27,8 +35,8 @@ export type PersonPageProps = {
     person: Person;
     id: number;
     weighDate: string;
-  }[]
-}
+  }[];
+};
 
 // export type People = {
 //   people: Person[];
@@ -64,8 +72,8 @@ export type WeighIn = {
   person: Person;
   id: number;
   weighDate: Date;
-}
+};
 
 export type WeighIns = {
   weighIns: WeighIn[];
-}
+};
