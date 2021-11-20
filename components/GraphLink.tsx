@@ -6,12 +6,12 @@ import { NextChakraLink } from "components";
 export const GraphLink: React.FunctionComponent<
   { linkURL: string } & StackProps
 > = ({ linkURL, ...chakraProps }) => {
-  const weightColor = useColorModeValue("gray.100", "pink.600 ");
-  const weightBGGradient = useColorModeValue(
-    "linear(to-br, gray.500, gray.400)",
-    "linear(to-tl, gray.300, gray.400)"
-  );
-  const weightBorderColor = useColorModeValue("gray.300", "gray.600");
+  // const weightColor = useColorModeValue("gray.100", "pink.600 ");
+  // const weightBGGradient = useColorModeValue(
+  //   "linear(to-br, gray.500, gray.400)",
+  //   "linear(to-tl, gray.300, gray.400)"
+  // );
+  // const weightBorderColor = useColorModeValue("gray.300", "gray.600");
 
   return (
     <NextChakraLink

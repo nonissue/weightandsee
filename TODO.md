@@ -7,6 +7,12 @@
   - [x] Tried to fix with prisma singleton
   - [x] Maybe copy blitz.js implementation
 
+## Graph UI
+
+- [ ] fix data color in point hover label (dark mode)
+- [ ] format date in point hover label in a nicer fashion
+  - [ ] Right now it's unix timestamp
+
 ## General
 
 - [ ] Password
