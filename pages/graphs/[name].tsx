@@ -4,10 +4,8 @@ import { GetServerSideProps } from "next";
 import prisma from "lib/prisma";
 import {
   Box,
-  Flex,
   Grid,
   Heading,
-  Spacer,
   Switch,
   useColorModeValue,
 } from "@chakra-ui/react";
@@ -52,14 +50,35 @@ const CustomTooltip = ({ payload, label, content }: any) => {
   console.log(payload);
   console.log(label);
   console.log(content);
+
+  const labelBgColor = useColorModeValue("purple.700", "purple.100");
+  const labelTextColor = useColorModeValue("purple.50", "purple.900");
+
+  if (!label || !payload[0]) {
+    return (
+      <Box
+        background={labelBgColor}
+        color={labelTextColor}
+        borderRadius="6"
+        opacity="0.95"
+        w="100px  "
+        shadow="sm"
+        className="custom-tooltip"
+        p="2"
+      >
+        Loading...
+      </Box>
+    );
+  }
+
   return (
     <Box
-      background={useColorModeValue("gray.700", "gray.50")}
-      color={useColorModeValue("gray.100", "gray.900")}
-      borderRadius="6"
-      opacity="0.8"
+      background={labelBgColor}
+      color={labelTextColor}
+      borderRadius="4"
+      opacity="0.97"
       w=""
-      shadow="sm"
+      shadow="md"
       className="custom-tooltip"
       p="2"
     >
@@ -79,94 +98,83 @@ const CustomTickLabel = (props: any) => {
   return (
     <g transform={`translate(${x},${y})`}>
       <text
-        x={0}
+        x={2}
         y={-10}
         dy={15}
         textAnchor="start"
-        fill="#777"
-        transform="rotate(80)"
+        fill={useColorModeValue("#333", "#ccc")}
+        transform="rotate(90)"
         style={{
           fontFamily:
             "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
           fontSize: "0.8em",
         }}
       >
-        {payload.value.split("T")[0].split(/-(.+)/)[1]}
+        {/* {payload.value.split("T")[0].split(/-(.+)/)[1]} */}
+        {payload.value.split("T")[0].slice(2)}
       </text>
     </g>
   );
 };
 
-const UserGraph = ({ data }: any) => {
-  const [uiState, setUiState] = useState({ showBrush: false });
-  // const brushGradient = useColorModeValue(
-  //   "url(#blue-gradient-light)",
-  //   "url(#pink-gradient"
-  // );
-  // const brushStroke = useColorModeValue("#666", "rgb(163, 35, 140)");
-  console.log(data);
+const CustomYAxisLabel = (props: any) => {
+  const { x, y, payload }: any = props;
+
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <text
+        x={-24}
+        y={5}
+        dy={0}
+        textAnchor="start"
+        fill={useColorModeValue("#333", "#ccc")}
+        style={{
+          fontFamily:
+            "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
+          fontSize: "0.8em",
+          fontWeight: 700,
+        }}
+      >
+        {payload.value}
+      </text>
+      <text
+        y={"0.3em"}
+        fill={useColorModeValue("#333", "#ccc")}
+        style={{
+          fontFamily:
+            "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
+          fontSize: "0.7em",
+          fontWeight: 500,
+          opacity: 0,
+        }}
+      >
+        lbs
+      </text>
+    </g>
+  );
+};
+
+const UserGraph = ({ data, uiState }: any) => {
+  // console.log(data);
 
   return (
     <>
-      <Flex display="flex" alignItems="end">
-        <Spacer />
-        <Switch
-          onChange={() =>
-            setUiState({ ...uiState, showBrush: !uiState.showBrush })
-          }
-          size="sm"
-        >
-          Zoom
-        </Switch>
-      </Flex>
-      <ResponsiveContainer width="100%" height={500}>
+      <ResponsiveContainer
+        width="100%"
+        // height={`${uiState.showBrush ? "520" : "550"}px`}
+        height={uiState.showBrush ? 500 : 550}
+      >
         <LineChart
           data={data}
           margin={{
-            top: 5,
-            right: 30,
+            top: 25,
+            right: 15,
             left: 0,
             bottom: 25,
           }}
         >
-          <defs>
-            <linearGradient
-              id="blue-gradient"
-              x1="-25%"
-              y1="100%"
-              x2="0%"
-              y2="-50%"
-            >
-              <stop stopColor="#6dd5ed" offset="0%" />
-              <stop stopColor="#2193b0" offset="100%" />
-            </linearGradient>
-          </defs>
-          <defs>
-            <linearGradient
-              id="blue-gradient-light"
-              x1="-25%"
-              y1="100%"
-              x2="0%"
-              y2="-50%"
-            >
-              <stop stopColor="#26454e" offset="0%" />
-              <stop stopColor="#1ec1f1" offset="90%" />
-            </linearGradient>
-          </defs>
-          <defs>
-            <linearGradient
-              id="pink-gradient"
-              x1="-25%"
-              y1="100%"
-              x2="0%"
-              y2="-50%"
-            >
-              <stop stopColor="rgb(251, 182, 206)" offset="0%" />
-              <stop stopColor="rgb(213, 63, 140)" offset="100%" />
-            </linearGradient>
-          </defs>
           <CartesianGrid
-            strokeDasharray="2 2"
+            strokeDasharray="4 4"
             stroke={useColorModeValue("#ccc", "#555")}
           />
           <XAxis
@@ -176,29 +184,27 @@ const UserGraph = ({ data }: any) => {
             height={60}
             tickCount={4}
             interval={4}
-          />
+          ></XAxis>
           <YAxis
-            //domain={[yBounds - 30, yBounds + 30]}
             domain={["auto", "auto"]}
-          />
+            tickCount={10}
+            width={50}
+            tick={<CustomYAxisLabel />}
+          ></YAxis>
           <Tooltip content={<CustomTooltip />} />
-          {/* <Tooltip /> */}
           <Legend verticalAlign="top" height={36} />
 
-          {uiState.showBrush && (
+          {uiState.showBrush ? (
             <Brush
-              // fill={useColorModeValue("#ccc", "#999")}
-              // fill="hsl(270, 66.94214876033058%, 47.45098039215686%)"
-              // fill="url(#blue-gradient)"
-              // fill={brushGradient}
               dataKey="name"
-              height={30}
+              height={20}
               travellerWidth={30}
-              y={500 - 40}
-              // style={{ color: "rgb(129, 101, 125)" }}
-              // stroke="#8884d8"
-              // stroke={brushStroke}
+              y={480}
+              fill={"#ccc"}
+              stroke="rgba(0,0,0,0.5)"
             />
+          ) : (
+            ""
           )}
           <Line
             connectNulls={true}
@@ -215,6 +221,7 @@ const UserGraph = ({ data }: any) => {
 
 const DemoPage: React.FunctionComponent<{ data: string }> = ({ data }) => {
   const graphData: UserWithWeighIns = JSON.parse(data);
+  const [uiState, setUiState] = useState({ showBrush: false });
 
   return (
     <Layout title="About | nonstarter">
@@ -228,12 +235,26 @@ const DemoPage: React.FunctionComponent<{ data: string }> = ({ data }) => {
         rowGap={3}
         mt="4"
       >
-        <Grid px={["4", "4", "2", "2"]}>
+        <Grid px={["4", "4", "2", "2"]} textAlign="center">
           <Heading mt="4" size="lg">
             Weigh-Ins: {graphData.name}
           </Heading>
+          {/* <Flex display="flex" mt="4" alignItems="start"> */}
+          {/* <Spacer /> */}
+          {2 + 2 < 1 && (
+            <Switch
+              mt="4"
+              onChange={() =>
+                setUiState({ ...uiState, showBrush: !uiState.showBrush })
+              }
+              size="sm"
+            >
+              Adjust Dates
+            </Switch>
+          )}
+          {/* </Flex> */}
         </Grid>
-        <UserGraph data={graphData.weighIns} />
+        <UserGraph data={graphData.weighIns} uiState={uiState} />
       </Grid>
     </Layout>
   );
