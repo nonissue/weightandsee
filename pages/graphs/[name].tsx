@@ -75,18 +75,33 @@ const CustomTooltip = ({ payload, label, content }: any) => {
     <Box
       background={labelBgColor}
       color={labelTextColor}
-      borderRadius="4"
-      opacity="0.97"
+      borderRadius="6"
+      opacity="0.9"
       w=""
+      minWidth="120px"
       shadow="md"
       className="custom-tooltip"
-      p="2"
+      // textAlign="center"
+      // p="1"
+      py="2"
+      px="3"
     >
-      <Box fontFamily="mono" fontSize="xs" textAlign="center">
+      <Box fontFamily="mono" fontSize="sm">
         {label.split("T")[0].slice(2)}
       </Box>
-      <Box fontFamily="mono" fontWeight="500" px="2">
-        {payload[0]?.value}lbs
+      <Box fontFamily="" fontSize="2xl" fontWeight="700">
+        {payload[0]?.value.toFixed(2)}
+        <Box
+          display="inline"
+          // fontFamily="sans-serif"
+          // pl="0.5"
+          fontWeight={300}
+          pl="2px"
+          opacity="0.9"
+          fontSize="0.9em"
+        >
+          lbs
+        </Box>
       </Box>
     </Box>
   );
