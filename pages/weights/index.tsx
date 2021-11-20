@@ -1,7 +1,6 @@
 // Oh man, Chakra isRequired is way better than relying on form errors
 import { GetServerSideProps } from "next";
-// import { PrismaClient } from "@prisma/client";
-import { Grid, Heading, Divider, Text, Stack } from "@chakra-ui/core";
+import { Grid, Heading, Divider, Text, Stack } from "@chakra-ui/react";
 
 import { WeighIns } from "../../interfaces";
 

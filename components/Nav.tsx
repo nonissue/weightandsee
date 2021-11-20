@@ -4,7 +4,7 @@ import {
   Stack,
   IconButton,
   useColorModeValue,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { Menu, InformationCircleOutline } from "heroicons-react";
 import { useBreakpointValue } from "@chakra-ui/media-query";
 import { NextChakraLink } from "./NextChakraLink";

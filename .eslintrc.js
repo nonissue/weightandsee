@@ -19,11 +19,29 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended", // eslint react rules (github.com/yannickcr/eslint-plugin-react)
     "plugin:jsx-a11y/recommended", // accessibility plugin
+    "plugin:react-hooks/recommended",
   ],
   rules: {
     "react/prop-types": "off", // We turn off prop-types rule, as we will use TypeScript's types instead.
     "react/react-in-jsx-scope": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "jsx-a11y/anchor-is-valid": "off",
+    "@typescript-eslint/no-unused-vars": ["error"],
   },
+  settings: {
+    "import/resolver": {
+      typescript: {
+        project: ".",
+      },
+    },
+    react: {
+      version: "detect",
+    },
+    files: ["**/*.ts", "**/*.tsx"],
+  },
+  // overrrides: [
+  //   {
+  //     files: ["**/*.ts", "**/*.tsx"],
+  //   },
+  // ],
 };

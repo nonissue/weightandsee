@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Stack, Text, useColorModeValue } from "@chakra-ui/core";
+import { Box, Stack, Text, useColorModeValue } from "@chakra-ui/react";
 import { Nav, NavItems, NextChakraLink } from ".";
 
 import Head from "next/head";

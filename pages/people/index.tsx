@@ -10,7 +10,7 @@ import {
   Divider,
   Stack,
   useColorModeValue,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { Layout } from "../../components/Layout";
 import { WeightTag } from "../../components/WeightTag";
 import { NextChakraLink } from "../../components/NextChakraLink";

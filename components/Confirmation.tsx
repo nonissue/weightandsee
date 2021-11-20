@@ -10,7 +10,7 @@ import {
   Button,
   useDisclosure,
   ButtonProps,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 
 type Props = {
   title: string;

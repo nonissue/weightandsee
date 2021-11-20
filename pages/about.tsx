@@ -9,7 +9,7 @@ import {
   ListIcon,
   Link,
   useColorModeValue,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 
 import { Layout } from "../components";
 

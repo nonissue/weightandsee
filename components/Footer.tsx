@@ -1,4 +1,4 @@
-import { Box, Flex, Link, Stack, useColorModeValue } from "@chakra-ui/core";
+import { Box, Flex, Link, Stack, useColorModeValue } from "@chakra-ui/react";
 import { NextChakraLink } from "./NextChakraLink";
 
 export const Footer: React.FunctionComponent = () => {

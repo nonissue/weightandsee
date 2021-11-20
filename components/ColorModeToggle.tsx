@@ -3,7 +3,7 @@ import {
   IconButtonProps,
   useColorMode,
   useColorModeValue,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import { Moon, Sun } from "heroicons-react";
 
 type ColorModeSwitcherProps = Omit<IconButtonProps, "aria-label">;

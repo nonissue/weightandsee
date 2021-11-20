@@ -19,7 +19,7 @@ import {
   FormControl,
   Checkbox,
   useColorModeValue,
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 
 import { Confirmation, Layout } from "../../components";
 import { Participants, FormInputs, FormResult } from "../../interfaces";

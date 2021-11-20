@@ -1,7 +1,7 @@
 import { GA_TRACKING_ID } from "../lib/gtag";
 
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { ColorModeScript } from "@chakra-ui/core";
+import { ColorModeScript } from "@chakra-ui/react";
 import NextDocument, {
   DocumentContext,
   Head,
