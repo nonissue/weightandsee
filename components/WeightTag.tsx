@@ -16,6 +16,7 @@ export const WeightTag: React.FunctionComponent<
       spacing="0"
       borderBottom="1px"
       px="1"
+      ml="4"
       align="center"
       borderRadius="4px"
       background={weightBGColor}

@@ -3,6 +3,7 @@ import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { Person } from "../../interfaces";
 import {
   Heading,
+  Flex,
   Grid,
   List,
   ListItem,
@@ -12,7 +13,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { Layout } from "../../components/Layout";
-import { WeightTag } from "../../components/WeightTag";
+import { GraphLink, WeightTag } from "components";
 import { NextChakraLink } from "../../components/NextChakraLink";
 
 export const getServerSideProps: GetServerSideProps = async () => {
@@ -94,17 +95,19 @@ export const PeoplePage: React.FunctionComponent<{ data: string }> = ({
                     <NextChakraLink
                       fontWeight="600"
                       fontSize="2xl"
-                      mr="2"
+                      mr="0 "
                       color={nameColor}
                       href={`/people/${person.name}`}
                     >
                       {person.name}
                     </NextChakraLink>
-
-                    {person.currentWeight !== undefined &&
-                      person.currentWeight && (
-                        <WeightTag weight={person.currentWeight} />
-                      )}
+                    <Flex>
+                      <GraphLink linkURL={`/graphs/${person.name}`} />
+                      {person.currentWeight !== undefined &&
+                        person.currentWeight && (
+                          <WeightTag weight={person.currentWeight} />
+                        )}
+                    </Flex>
                   </Stack>
                   {k !== peopleList.length - 1 && <Divider />}
                 </ListItem>

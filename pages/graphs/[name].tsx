@@ -160,7 +160,7 @@ const UserGraph = ({ data }: any) => {
               // fill={brushGradient}
               dataKey="name"
               height={30}
-              travellerWidth={20}
+              travellerWidth={30}
               y={500 - 40}
               // style={{ color: "rgb(129, 101, 125)" }}
               // stroke="#8884d8"
