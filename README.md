@@ -2,7 +2,8 @@
 
 ## 21-11-18
 
-- Added new `dev` branch based on moving forward from production and abandoning `develop` branch
+- Added new `dev` branch based on moving forward from production and abandoning `develop` branch.
+- Backported `graph` functionality from `develop` to `dev`.
 
 [http://weightandsee.vercel.app](http://weightandsee.vercel.app)
 
