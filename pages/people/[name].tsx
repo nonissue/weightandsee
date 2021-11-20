@@ -12,15 +12,15 @@ import {
   Flex,
   Box,
   useColorModeValue,
-} from "@chakra-ui/core";
-import { Layout, WeightTag } from "../../components";
+} from "@chakra-ui/react";
+import { Layout, NextChakraLink, WeightTag } from "../../components";
 import { PersonPageProps } from "../../interfaces";
 
 import db from "../../prisma/db";
 const prisma = db.getInstance().prisma;
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const result = await prisma.person.findOne({
+  const result = await prisma.person.findFirst({
     where: { name: params?.name as string },
     include: { weighIns: { orderBy: { weighDate: "desc" } } },
   });
@@ -40,6 +40,7 @@ export const PersonPage: React.FunctionComponent<{ test: string }> = ({
     `2px 2px 1px hsla(0,0%,50%,0)`,
     `2px 2px 0px hsla(0,0%,70%,0.2)`
   );
+  const graphsLink = useColorModeValue("pink.600", "pink.300");
 
   if (!data) {
     return (
@@ -83,15 +84,49 @@ export const PersonPage: React.FunctionComponent<{ test: string }> = ({
             justifyContent="space-between"
             alignItems="center"
           >
-            <Box>
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+            >
               <Heading
                 size="lg"
                 fontFamily="heading"
                 fontWeight="800"
+                display="block"
+                pr="2"
                 letterSpacing="1px"
               >
                 {data.name}
               </Heading>
+              {data.weighIns?.length !== 0 && (
+                <Box
+                  mt={["0", "0"]}
+                  py="1"
+                  px="2"
+                  flexShrink="1"
+                  borderRadius="md"
+                  fontWeight="700"
+                  textTransform="uppercase"
+                  fontSize="xs"
+                  letterSpacing="0.05em"
+                  display={["flex", "flex"]}
+                  alignItems="center"
+                  background="gray.700"
+                >
+                  <NextChakraLink
+                    href={`/graphs/${data.name}`}
+                    _hover={{
+                      textDecoration: "none",
+                      color: graphsLink,
+                    }}
+                    mr={["0", "0"]}
+                    ml={["0", "0"]}
+                  >
+                    Graphs
+                  </NextChakraLink>
+                </Box>
+              )}
             </Box>
             {data.currentWeight && (
               <Box display="flex" alignItems="center">
