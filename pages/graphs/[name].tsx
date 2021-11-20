@@ -1,30 +1,32 @@
+import { useState } from "react";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { GetServerSideProps } from "next";
 import prisma from "lib/prisma";
-
-import { Heading, Grid, useColorModeValue } from "@chakra-ui/react";
+import {
+  Flex,
+  Grid,
+  Heading,
+  Spacer,
+  Switch,
+  useColorModeValue,
+} from "@chakra-ui/react";
 
 import {
-  LineChart,
+  Brush,
+  CartesianGrid,
+  Legend,
   Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  Brush,
 } from "recharts";
-
-// import { getSession } from "next-auth/client";
-// import { ensureAuthenticated } from "lib/guards/ensureAuthenticated";
 
 import { Layout } from "components";
 import { UserWithWeighIns } from "interfaces";
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  // const session = await getSession(context);
-
   const result = await prisma.person.findFirst({
     where: {
       name: {
@@ -33,8 +35,6 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     },
     include: { weighIns: { orderBy: { weighDate: "asc" } } },
   });
-
-  // console.log(result);
 
   return {
     props: { data: JSON.stringify(result) },
@@ -48,11 +48,16 @@ const CustomLabel = (props: any) => {
     <g transform={`translate(${x},${y})`}>
       <text
         x={0}
-        y={0}
+        y={-10}
         dy={15}
         textAnchor="start"
-        fill="#666"
-        transform="rotate(55)"
+        fill="#777"
+        transform="rotate(80)"
+        style={{
+          fontFamily:
+            "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
+          fontSize: "0.8em",
+        }}
       >
         {payload.value.split("T")[0].split(/-(.+)/)[1]}
       </text>
@@ -60,72 +65,118 @@ const CustomLabel = (props: any) => {
   );
 };
 
-const TestGraph = ({ data }: any) => {
+const UserGraph = ({ data }: any) => {
+  const [uiState, setUiState] = useState({ showBrush: false });
+  // const brushGradient = useColorModeValue(
+  //   "url(#blue-gradient-light)",
+  //   "url(#pink-gradient"
+  // );
+  // const brushStroke = useColorModeValue("#666", "rgb(163, 35, 140)");
   console.log(data);
 
-  // const yBounds = data[0].weight;
-
   return (
-    <ResponsiveContainer width="100%" height={500}>
-      <LineChart
-        data={data}
-        margin={{
-          top: 5,
-          right: 30,
-          left: 0,
-          bottom: 25,
-        }}
-      >
-        <defs>
-          <linearGradient
-            id="blue-gradient"
-            x1="-25%"
-            y1="100%"
-            x2="0%"
-            y2="-50%"
-          >
-            <stop stopColor="#6dd5ed" offset="0%" />
-            <stop stopColor="#2193b0" offset="100%" />
-          </linearGradient>
-        </defs>
-        <CartesianGrid
-          strokeDasharray="2 2"
-          stroke={useColorModeValue("#ccc", "#555")}
-        />
-        <XAxis
-          tickLine={true}
-          dataKey="weighDate"
-          tick={<CustomLabel />}
-          height={60}
-          tickCount={4}
-          interval={0}
-        />
-        <YAxis
-          //domain={[yBounds - 30, yBounds + 30]}
-          domain={["auto", "auto"]}
-        />
-        <Tooltip />
-        <Legend verticalAlign="top" height={36} />
-        <Brush
-          // fill={useColorModeValue("#ccc", "#999")}
-          // fill="hsl(270, 66.94214876033058%, 47.45098039215686%)"
-          fill="url(#blue-gradient)"
-          dataKey="name"
-          height={25}
-          // travellerWidth={10}
-          y={500 - 40}
-          // stroke="#8884d8"
-          stroke={useColorModeValue("#333", "#eee")}
-        />
-        <Line
-          connectNulls={true}
-          type="monotone"
-          dataKey="weight"
-          stroke="#8884d8"
-          // activeDot={{ r: 1 }}
-        />
-      </LineChart>
-    </ResponsiveContainer>
+    <>
+      <Flex display="flex" alignItems="end">
+        <Spacer />
+        <Switch
+          onChange={() =>
+            setUiState({ ...uiState, showBrush: !uiState.showBrush })
+          }
+          size="sm"
+        >
+          Zoom
+        </Switch>
+      </Flex>
+      <ResponsiveContainer width="100%" height={500}>
+        <LineChart
+          data={data}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 0,
+            bottom: 25,
+          }}
+        >
+          <defs>
+            <linearGradient
+              id="blue-gradient"
+              x1="-25%"
+              y1="100%"
+              x2="0%"
+              y2="-50%"
+            >
+              <stop stopColor="#6dd5ed" offset="0%" />
+              <stop stopColor="#2193b0" offset="100%" />
+            </linearGradient>
+          </defs>
+          <defs>
+            <linearGradient
+              id="blue-gradient-light"
+              x1="-25%"
+              y1="100%"
+              x2="0%"
+              y2="-50%"
+            >
+              <stop stopColor="#26454e" offset="0%" />
+              <stop stopColor="#1ec1f1" offset="90%" />
+            </linearGradient>
+          </defs>
+          <defs>
+            <linearGradient
+              id="pink-gradient"
+              x1="-25%"
+              y1="100%"
+              x2="0%"
+              y2="-50%"
+            >
+              <stop stopColor="rgb(251, 182, 206)" offset="0%" />
+              <stop stopColor="rgb(213, 63, 140)" offset="100%" />
+            </linearGradient>
+          </defs>
+          <CartesianGrid
+            strokeDasharray="2 2"
+            stroke={useColorModeValue("#ccc", "#555")}
+          />
+          <XAxis
+            tickLine={true}
+            dataKey="weighDate"
+            tick={<CustomLabel />}
+            height={60}
+            tickCount={4}
+            interval={4}
+          />
+          <YAxis
+            //domain={[yBounds - 30, yBounds + 30]}
+            domain={["auto", "auto"]}
+          />
+          <Tooltip />
+          <Legend verticalAlign="top" height={36} />
+
+          {uiState.showBrush && (
+            <Brush
+              // fill={useColorModeValue("#ccc", "#999")}
+              // fill="hsl(270, 66.94214876033058%, 47.45098039215686%)"
+              // fill="url(#blue-gradient)"
+              // fill={brushGradient}
+              dataKey="name"
+              height={30}
+              travellerWidth={20}
+              y={500 - 40}
+              // style={{ color: "rgb(129, 101, 125)" }}
+              // stroke="#8884d8"
+              // stroke={brushStroke}
+            />
+          )}
+          <Line
+            connectNulls={true}
+            type="monotone"
+            dataKey="weight"
+            stroke="#8884d8"
+            // activeDot={{ r: 1 }}
+          />
+        </LineChart>
+      </ResponsiveContainer>
+    </>
   );
 };
 
@@ -146,10 +197,10 @@ const DemoPage: React.FunctionComponent<{ data: string }> = ({ data }) => {
       >
         <Grid px={["4", "4", "2", "2"]}>
           <Heading mt="4" size="lg">
-            Data Visualization: {graphData.name}
+            Weigh-Ins: {graphData.name}
           </Heading>
         </Grid>
-        <TestGraph data={graphData.weighIns} />
+        <UserGraph data={graphData.weighIns} />
       </Grid>
     </Layout>
   );

@@ -1,4 +1,4 @@
-import { ColorModeToggle } from "./ColorModeToggle";
+import { ColorModeToggle } from "components/ColorModeToggle";
 import { Confirmation } from "./Confirmation";
 import { Footer } from "./Footer";
 import { Header } from "./Header";

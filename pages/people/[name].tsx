@@ -41,6 +41,7 @@ export const PersonPage: React.FunctionComponent<{ test: string }> = ({
     `2px 2px 0px hsla(0,0%,70%,0.2)`
   );
   const graphsLink = useColorModeValue("pink.600", "pink.300");
+  const graphsLinkBg = useColorModeValue("gray.200", "gray.600");
 
   if (!data) {
     return (
@@ -112,7 +113,7 @@ export const PersonPage: React.FunctionComponent<{ test: string }> = ({
                   letterSpacing="0.05em"
                   display={["flex", "flex"]}
                   alignItems="center"
-                  background="gray.700"
+                  background={graphsLinkBg}
                 >
                   <NextChakraLink
                     href={`/graphs/${data.name}`}
