@@ -10,20 +10,20 @@ import { useForm, Controller } from "react-hook-form";
 import ReactDatePicker from "react-datepicker";
 
 import {
-  Grid,
   Box,
-  Input,
   Button,
-  Stack,
-  Select,
+  Checkbox,
   Divider,
   FormControl,
-  Checkbox,
+  Grid,
+  Input,
+  Select,
+  Stack,
   useColorModeValue,
 } from "@chakra-ui/react";
 
 import { Confirmation, Layout } from "../../components";
-import { Participants, FormInputs, FormResult } from "../../interfaces";
+import { Participants, FormData, FormResult } from "../../interfaces";
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -77,12 +77,28 @@ export const getServerSideProps: GetServerSideProps = async () => {
 const CreateWeights: React.FunctionComponent<Participants> = ({
   people,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const { handleSubmit, errors, control } = useForm<FormInputs>();
+  const { handleSubmit, errors, control, watch } = useForm<FormData>();
   const [entryCount, setEntryCount] = useState(1);
 
+  const watched = watch("entries");
   const startDate = new Date();
 
   const formBorderColor = useColorModeValue("gray.200", "gray.700");
+
+  const getPeople = () => {
+    const selected = watched?.map((entry) => entry.name);
+
+    if (selected) {
+      const filteredPeople = people.filter(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (person: Person) => selected.indexOf(person.name as any) === -1
+      );
+
+      return filteredPeople;
+    } else {
+      return people;
+    }
+  };
 
   const confirmationCallback = () => {
     setEntryCount(entryCount - 1);
@@ -124,22 +140,40 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
                   <FormControl id="person">
                     <Controller
                       name={`entries.[${i}].name`}
-                      as={Select}
+                      // as={Select}
                       control={control}
-                      placeholder="Select Person"
+                      // placeholder="Select Person"
                       defaultValue=""
                       isInvalid={errors.entries?.[i]?.name ? true : false}
                       errorBorderColor="red.300"
                       rules={{ required: true }}
-                    >
-                      {people.map((p: Person) => {
+                      render={({ onChange, onBlur, value }) => (
+                        <Select
+                          onChange={(e) => onChange(e.target.value)}
+                          onBlur={onBlur}
+                          value={value ? value : undefined}
+                          placeholder={value ? value : "Select Person"}
+                          isInvalid={errors.entries?.[i]?.name ? true : false}
+                        >
+                          {getPeople().map((p: Person) => {
+                            return (
+                              <option key={p.id} value={p.name}>
+                                {p.name}
+                              </option>
+                            );
+                          })}
+                        </Select>
+                      )}
+                    />
+                    {/* {getPeople().map((p: Person) => {
+                        // {people.map((p: Person) => {
                         return (
                           <option key={p.id} value={p.name}>
                             {p.name}
                           </option>
                         );
-                      })}
-                    </Controller>
+                      })} */}
+                    {/* </Controller> */}
                   </FormControl>
                   {errors.entries?.[i]?.name && false && (
                     <Box

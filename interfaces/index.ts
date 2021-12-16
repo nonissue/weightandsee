@@ -61,6 +61,14 @@ export type FormInputs = {
   entries: Entries;
 };
 
+export type FormData = {
+  date: Date;
+  entries: {
+    name: string;
+    weight: string;
+  }[];
+};
+
 export type FormResult = {
   date: Date;
   entries: Entries;
