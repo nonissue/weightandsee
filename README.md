@@ -1,6 +1,6 @@
 # Weight&See
 
-[http://weightandsee.vercel.app](http://weightandsee.vercel.app)
+[http://beta.weightandsee.vercel.app](http://beta.weightandsee.vercel.app)
 
 ## Version
 
@@ -14,10 +14,10 @@
 - React-Hook-Form
 - Postgres
 - TypeScript
-  
+
 ## Setup
 
-- Add env variables on `vercel`: 
+- Add env variables on `vercel`:
   - Required: `DATABASE_URL`, `GA_TRACKING_ID`
 
 ```bash
@@ -35,4 +35,3 @@ yarn build
 ```bash
 yarn gen-favicons # builds favicons and plunks them in public
 ```
-
