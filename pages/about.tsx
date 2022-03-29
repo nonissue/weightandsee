@@ -13,7 +13,7 @@ import {
 
 import { Layout } from "../components";
 
-import { Minus } from "heroicons-react";
+import { MinusIcon } from "@heroicons/react/solid";
 
 const AboutPage: React.FunctionComponent = () => {
   const linkColor = useColorModeValue("pink.400", "pink.300");
@@ -83,7 +83,7 @@ const AboutPage: React.FunctionComponent = () => {
             <List mb="2" fontFamily="heading">
               <ListItem ml="1">
                 <ListIcon
-                  as={Minus}
+                  as={MinusIcon}
                   color={listDecoration}
                   fontWeight="300"
                   mb="3px"
@@ -99,7 +99,7 @@ const AboutPage: React.FunctionComponent = () => {
               </ListItem>
               <ListItem ml="1">
                 <ListIcon
-                  as={Minus}
+                  as={MinusIcon}
                   color={listDecoration}
                   fontWeight="300"
                   mb="3px"
@@ -115,7 +115,7 @@ const AboutPage: React.FunctionComponent = () => {
               </ListItem>
               <ListItem ml="1">
                 <ListIcon
-                  as={Minus}
+                  as={MinusIcon}
                   color={listDecoration}
                   fontWeight="300"
                   mb="3px"
@@ -131,7 +131,7 @@ const AboutPage: React.FunctionComponent = () => {
               </ListItem>
               <ListItem ml="1">
                 <ListIcon
-                  as={Minus}
+                  as={MinusIcon}
                   color={listDecoration}
                   fontWeight="300"
                   mb="3px"
@@ -143,7 +143,7 @@ const AboutPage: React.FunctionComponent = () => {
               </ListItem>
               <ListItem ml="1">
                 <ListIcon
-                  as={Minus}
+                  as={MinusIcon}
                   color={listDecoration}
                   fontWeight="300"
                   mb="3px"
@@ -159,7 +159,7 @@ const AboutPage: React.FunctionComponent = () => {
               </ListItem>
               <ListItem ml="1">
                 <ListIcon
-                  as={Minus}
+                  as={MinusIcon}
                   color={listDecoration}
                   fontWeight="300"
                   mb="3px"
