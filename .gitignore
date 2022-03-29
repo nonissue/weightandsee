@@ -35,6 +35,7 @@ yarn-error.log*
 .vercel
 
 prisma/.env
+*.tsbuildinfo
 # prisma/migrations.dev
 
 
