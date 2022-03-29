@@ -105,7 +105,7 @@ export const PeoplePage: React.FunctionComponent<{ data: string }> = ({
                         person.currentWeight &&
                         person.weighIns && (
                           <WeightTag
-                            weight={person.currentWeight}
+                            weight={parseInt(person.currentWeight)}
                             weighInId={person.weighIns[0].id}
                           />
                         )}

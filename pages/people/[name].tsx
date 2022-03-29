@@ -142,9 +142,10 @@ export const PersonPage: React.FunctionComponent<{
                 >
                   Current:
                 </Box>
+
                 {data.weighIns && (
                   <WeightTag
-                    weight={data.currentWeight}
+                    weight={parseFloat(data.currentWeight)}
                     weighInId={data.weighIns[0].id}
                   />
                 )}
@@ -184,7 +185,11 @@ export const PersonPage: React.FunctionComponent<{
                           display="inline-flex"
                           textShadow={weightShadow}
                         >
-                          <Box>{weighIn.weight.toFixed(1)}</Box>
+                          <Box>
+                            {parseFloat(
+                              weighIn.weight as unknown as string
+                            ).toFixed(1)}
+                          </Box>
                           <Box
                             textColor="gray.500"
                             fontWeight="400"

@@ -31,6 +31,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   }
 
   let parsedData = null;
+
   try {
     parsedData = await data?.map((item) => {
       return {
