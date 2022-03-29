@@ -3,7 +3,7 @@ import { NextChakraLink } from "./NextChakraLink";
 // TODO: Accept stack props as {...props}
 
 export const WeightTag: React.FunctionComponent<
-  { weight: number; weighInId?: number } & StackProps
+  { weight: number; weighInId: number } & StackProps
 > = ({ weight, weighInId, ...chakraProps }) => {
   const weightColor = useColorModeValue("gray.700", "gray.300");
   const weightBGColor = useColorModeValue("gray.200", "gray.700");
@@ -11,7 +11,7 @@ export const WeightTag: React.FunctionComponent<
   const lbsColor = useColorModeValue("gray.500", "gray.400");
 
   return (
-    <NextChakraLink href={`weights/${weighInId}`}>
+    <NextChakraLink href={`/weights/${weighInId}`}>
       <Stack
         isInline
         spacing="0"
