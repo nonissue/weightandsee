@@ -2,6 +2,7 @@ import { extendTheme } from "@chakra-ui/react";
 import { mode } from "@chakra-ui/theme-tools";
 
 const sans = [
+  "Inter",
   "DM Sans",
   "-apple-system",
   "BlinkMacSystemFont",
@@ -30,6 +31,7 @@ const sans = [
 // ].join(",");
 
 const mono = [
+  "monospace",
   "DM Mono",
   "Cousine",
   "Consolas",

@@ -21,7 +21,7 @@ const AboutPage: React.FunctionComponent = () => {
   const listDecoration = useColorModeValue("gray.400", "gray.600");
 
   return (
-    <Layout title="About | nonstarter">
+    <Layout title="About | weightandsee">
       <Grid
         templateColumns={`1fr min(65ch, 100%) 1fr`}
         sx={{
