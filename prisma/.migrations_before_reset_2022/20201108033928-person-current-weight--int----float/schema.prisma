@@ -1,0 +1,48 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url = "***"
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["transactionApi"]
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
+  name      String?
+  role      String
+  email     String?  @unique
+
+  @@map(name: "users")
+}
+
+model Person {
+  id            Int       @id @default(autoincrement())
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  updatedAt     DateTime  @default(now()) @map(name: "updated_at")
+  name          String    @unique
+  nickName      String    @unique
+  weighIns      WeighIn[]
+  currentWeight Float?
+
+  @@map(name: "people")
+}
+
+model WeighIn {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
+  weighDate DateTime
+  weight    Float
+
+  personId Int?
+  person   Person? @relation(fields: [personId], references: [id])
+
+  @@map(name: "weighins")
+}
