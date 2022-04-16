@@ -29,8 +29,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
   */
   let baseURL = null;
 
-  console.log(process.env);
-
   // GOD, this sucked
   // Below is tested in every case EXCEPT for actual deploying to production...
   if (process.env.NODE_ENV === "development") {
@@ -104,8 +102,12 @@ export const PeoplePage: React.FunctionComponent<{ data: string }> = ({
                     <Flex>
                       <GraphLink linkURL={`/graphs/${person.name}`} />
                       {person.currentWeight !== undefined &&
-                        person.currentWeight && (
-                          <WeightTag weight={person.currentWeight} />
+                        person.currentWeight &&
+                        person.weighIns && (
+                          <WeightTag
+                            weight={parseInt(person.currentWeight)}
+                            weighInId={person.weighIns[0].id}
+                          />
                         )}
                     </Flex>
                   </Stack>

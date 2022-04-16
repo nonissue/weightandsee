@@ -13,11 +13,10 @@ type Props = {
 };
 
 export const Layout: React.FunctionComponent<Props> = ({ children }) => (
-  <Box>
+  <>
     <Header />
 
-    {children}
-
+    <Box className="content">{children}</Box>
     <Footer />
-  </Box>
+  </>
 );

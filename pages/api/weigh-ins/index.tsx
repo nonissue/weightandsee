@@ -63,7 +63,5 @@ export default async (
     }
   }
 
-  console.log(result);
-
   res.json([result, updateWeightRes]);
 };

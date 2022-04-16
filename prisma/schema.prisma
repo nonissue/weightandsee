@@ -1,47 +1,44 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-datasource db {
-  provider = "postgresql"
-  url      = env("PROD_DB_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
 }
 
+datasource db {
+  provider = "postgresql"
+  url      = env("DEV_DB_URL")
+}
+
 model User {
   id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @default(now()) @map(name: "updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
   name      String?
   role      String
-  email     String?  @unique
+  email     String?  @unique(map: "users.email_unique")
 
-  @@map(name: "users")
+  @@map("users")
 }
 
 model Person {
-  id            Int       @id @default(autoincrement())
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
-  updatedAt     DateTime  @default(now()) @map(name: "updated_at")
-  name          String    @unique
-  nickName      String    @unique
-  weighIns      WeighIn[]
-  currentWeight Float?
+  id               Int       @id @default(autoincrement())
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @default(now()) @map("updated_at")
+  name             String    @unique(map: "people.name_unique")
+  nickName         String    @unique(map: "people.nickName_unique")
+  currentWeight    Decimal?
+  currentWeighInID Int?
+  weighIns         WeighIn[]
 
-  @@map(name: "people")
+  @@map("people")
 }
 
 model WeighIn {
   id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @default(now()) @map(name: "updated_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
   weighDate DateTime
-  weight    Float
+  weight    Decimal
+  personId  Int?
+  person    Person?  @relation(fields: [personId], references: [id])
 
-  personId Int?
-  person   Person? @relation(fields: [personId], references: [id])
-
-  @@map(name: "weighins")
+  @@map("weighins")
 }

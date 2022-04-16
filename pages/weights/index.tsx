@@ -31,10 +31,12 @@ export const getServerSideProps: GetServerSideProps = async () => {
   }
 
   let parsedData = null;
+
   try {
     parsedData = await data?.map((item) => {
       return {
         ...item,
+        weight: item.weight.toNumber(),
         weighDate: item.weighDate.toLocaleDateString("en-CA", {
           timeZone: "America/Denver",
         }),
@@ -116,7 +118,7 @@ const WeightsPage: React.FunctionComponent<WeighIns> = ({ weighIns }) => {
                     >
                       {weighIn.person.name}
                     </NextChakraLink>
-                    <WeightTag weight={weighIn.weight} />
+                    <WeightTag weight={weighIn.weight} weighInId={weighIn.id} />
                   </Stack>
                 </Stack>
               );

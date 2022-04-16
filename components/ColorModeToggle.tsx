@@ -4,7 +4,7 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { Moon, Sun } from "heroicons-react";
+import { MoonIcon, SunIcon } from "@heroicons/react/outline";
 
 type ColorModeSwitcherProps = Omit<IconButtonProps, "aria-label">;
 
@@ -13,17 +13,17 @@ export const ColorModeToggle: React.FunctionComponent = (
 ) => {
   const { toggleColorMode } = useColorMode();
   const text = useColorModeValue("dark", "light");
-  const SwitchIcon = useColorModeValue(Sun, Moon);
+  const SwitchIcon = useColorModeValue(SunIcon, MoonIcon);
 
   return (
     <IconButton
       size="sm"
       variant="ghost"
       color="current"
-      marginLeft="1 "
+      marginLeft="1"
       // ml="0"
       onClick={toggleColorMode}
-      icon={<SwitchIcon width="20px" height="20px" viewBox="0 0 20 20" />}
+      icon={<SwitchIcon width="24px" height="24px" viewBox="0 0 24 24" />}
       aria-label={`Switch to ${text} mode`}
       {...props}
     />

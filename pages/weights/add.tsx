@@ -78,6 +78,7 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
   people,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { handleSubmit, errors, control, watch } = useForm<FormData>();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [entryCount, setEntryCount] = useState(1);
 
   const watched = watch("entries");
@@ -105,6 +106,7 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
   };
 
   const onSubmit = async (data: FormResult) => {
+    setIsSubmitting(true);
     console.log(data);
 
     try {
@@ -299,6 +301,8 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
             <Box display="flex">
               <Button
                 colorScheme="blue"
+                isLoading={isSubmitting}
+                loadingText="Submitting"
                 type="submit"
                 mx="auto"
                 mt="4"

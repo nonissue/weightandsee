@@ -14,7 +14,7 @@ export type UserWithWeighIns = {
   name: string;
   nickName?: string;
   weighIns?: WeighIn[];
-  currentWeight?: number;
+  currentWeight?: string;
 };
 
 export type Person = {
@@ -22,14 +22,14 @@ export type Person = {
   name: string;
   nickName?: string;
   weighIns?: WeighIn[];
-  currentWeight?: number;
+  currentWeight?: string;
 };
 
 export type PersonPageProps = {
   id: number;
   name: string;
   nickName?: string;
-  currentWeight?: number;
+  currentWeight?: string;
   weighIns?: {
     weight: number;
     person: Person;
@@ -76,6 +76,7 @@ export type FormResult = {
 };
 
 export type WeighIn = {
+  // should really change this to string...
   weight: number;
   person: Person;
   id: number;

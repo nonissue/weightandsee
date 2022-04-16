@@ -5,7 +5,8 @@ import {
   IconButton,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { Menu, InformationCircleOutline } from "heroicons-react";
+import { MenuIcon } from "@heroicons/react/solid";
+import { InformationCircleIcon } from "@heroicons/react/outline";
 import { useBreakpointValue } from "@chakra-ui/media-query";
 import { NextChakraLink } from "./NextChakraLink";
 import { ColorModeToggle } from "./ColorModeToggle";
@@ -63,17 +64,26 @@ export const Nav: React.FunctionComponent<Props> = ({
                   size="sm"
                   aria-label={`About/Info`}
                   variant="ghost"
-                  icon={<InformationCircleOutline />}
+                  padding="1"
+                  icon={
+                    <InformationCircleIcon
+                      width="24px"
+                      height="24px"
+                      // viewBox="0 0 24 24"
+                    />
+                  }
                 />
               </NextChakraLink>
+
               <ColorModeToggle />
 
               <IconButton
                 marginLeft="1"
+                paddingY="1"
                 size="sm"
                 aria-label={`Menu`}
                 variant="ghost"
-                icon={<Menu />}
+                icon={<MenuIcon width="24px" height="24px" />}
                 onClick={() => {
                   setMobileNavShown(!mobileNavShown);
                 }}
@@ -100,10 +110,17 @@ export const Nav: React.FunctionComponent<Props> = ({
                 <NextChakraLink href="/about">
                   <IconButton
                     // marginLeft="1"
+                    // padding="1"
                     size="sm"
                     aria-label={`About/Info`}
                     variant="ghost"
-                    icon={<InformationCircleOutline />}
+                    icon={
+                      <InformationCircleIcon
+                        width="24px"
+                        height="24px"
+                        // viewBox="0 0 24 24"
+                      />
+                    }
                   />
                 </NextChakraLink>
                 <ColorModeToggle />

@@ -26,14 +26,14 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   });
 
   return {
-    props: { test: JSON.stringify(result) },
+    props: { personPageData: JSON.stringify(result) },
   };
 };
 
-export const PersonPage: React.FunctionComponent<{ test: string }> = ({
-  test,
-}) => {
-  const data: PersonPageProps = JSON.parse(test);
+export const PersonPage: React.FunctionComponent<{
+  personPageData: string;
+}> = ({ personPageData }) => {
+  const data: PersonPageProps = JSON.parse(personPageData);
 
   const weightColor = useColorModeValue("gray.700", "gray.300");
   const weightShadow = useColorModeValue(
@@ -105,7 +105,7 @@ export const PersonPage: React.FunctionComponent<{ test: string }> = ({
                   mt={["0", "0"]}
                   py="1"
                   px="2"
-                  flexShrink="1"
+                  flexShrink={1}
                   borderRadius="md"
                   fontWeight="700"
                   textTransform="uppercase"
@@ -129,10 +129,10 @@ export const PersonPage: React.FunctionComponent<{ test: string }> = ({
                 </Box>
               )}
             </Box>
-            {data.currentWeight && (
+            {data.currentWeight && data.weighIns?.length !== 0 && (
               <Box display="flex" alignItems="center">
                 <Box
-                  align="center"
+                  textAlign="center"
                   mr="2"
                   fontWeight="500"
                   textColor="gray.500"
@@ -142,7 +142,13 @@ export const PersonPage: React.FunctionComponent<{ test: string }> = ({
                 >
                   Current:
                 </Box>
-                <WeightTag weight={data.currentWeight} />
+
+                {data.weighIns && (
+                  <WeightTag
+                    weight={parseFloat(data.currentWeight)}
+                    weighInId={data.weighIns[0].id}
+                  />
+                )}
               </Box>
             )}
           </Flex>
@@ -170,26 +176,32 @@ export const PersonPage: React.FunctionComponent<{ test: string }> = ({
                       >
                         {weighIn.weighDate.split("T")[0]}
                       </Box>
-                      <Box
-                        fontSize="2xl"
-                        fontFamily="mono"
-                        fontWeight="500"
-                        color={weightColor}
-                        display="inline-flex"
-                        textShadow={weightShadow}
-                      >
-                        <Box>{weighIn.weight.toFixed(1)}</Box>
+                      <NextChakraLink href={`/weights/${weighIn.id}`}>
                         <Box
-                          textColor="gray.500"
-                          fontWeight="400"
-                          fontSize="lg"
-                          my="auto"
-                          ml="1"
-                          fontFamily="heading"
+                          fontSize="2xl"
+                          fontFamily="mono"
+                          fontWeight="500"
+                          color={weightColor}
+                          display="inline-flex"
+                          textShadow={weightShadow}
                         >
-                          lbs
+                          <Box>
+                            {parseFloat(
+                              weighIn.weight as unknown as string
+                            ).toFixed(1)}
+                          </Box>
+                          <Box
+                            textColor="gray.500"
+                            fontWeight="400"
+                            fontSize="lg"
+                            my="auto"
+                            ml="1"
+                            fontFamily="heading"
+                          >
+                            lbs
+                          </Box>
                         </Box>
-                      </Box>
+                      </NextChakraLink>
                     </Stack>
                     {data.weighIns && k !== data.weighIns.length - 1 && (
                       <Divider />
