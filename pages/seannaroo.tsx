@@ -8,6 +8,7 @@ import { Layout } from "../components";
 // https://stackoverflow.com/questions/63984376/how-can-i-implement-this-countdown-timer-in-react-with-hooks
 // https://github.com/vincentntang/react-timer-request-animation-frame-example/blob/master/src/requestAnimFrame/useRafCounter.js
 
+// https://www.digitalocean.com/community/tutorials/react-countdown-timer-react-hooks
 const Seannaroo: React.FunctionComponent = () => {
   const seannarooDateUTC = new Date(Date.UTC(2022, 8, 15, 19, 0, 0));
   //   const currentDate = new Date(Date.now());
