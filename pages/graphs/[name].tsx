@@ -90,7 +90,7 @@ const CustomTooltip = ({ payload, label, content }: any) => {
         {label.split("T")[0].slice(2)}
       </Box>
       <Box fontFamily="" fontSize="2xl" fontWeight="700">
-        {parseInt(payload[0]?.value).toFixed(2)}
+        {parseFloat(payload[0]?.value).toFixed(2)}
         <Box
           display="inline"
           // fontFamily="sans-serif"
