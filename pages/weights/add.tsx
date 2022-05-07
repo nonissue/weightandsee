@@ -221,7 +221,7 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
                         required: true,
                         min: 2,
                         pattern: {
-                          value: /^[0-9]+$/,
+                          value: /^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/,
                           message: "Please enter a number",
                         },
                       }}
