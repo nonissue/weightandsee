@@ -20,6 +20,7 @@ import {
   Select,
   Stack,
   useColorModeValue,
+  createStandaloneToast,
 } from "@chakra-ui/react";
 
 import { Confirmation, Layout } from "../../components";
@@ -56,6 +57,9 @@ function createArrayWithNumbers(length: number) {
 //     props: { people },
 //   };
 // };
+
+import theme from "../../theme";
+const toast = createStandaloneToast({ theme: theme });
 
 // When form submitted, verify that no entries duplicated
 export const getServerSideProps: GetServerSideProps = async () => {
@@ -110,13 +114,38 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
     console.log(data);
 
     try {
-      await fetch(`/api/weigh-ins`, {
+      const submitResponse = await fetch(`/api/weigh-ins`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
 
-      await Router.push("/weights");
+      if (submitResponse.status === 500) {
+        console.log("Error submitting weight!");
+
+        toast({
+          title: "Error",
+          description: "Unable to add the weight(s).",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+
+        setIsSubmitting(false);
+      }
+
+      if (submitResponse.status === 200) {
+        toast({
+          title: "Added",
+          description: "Added weight(s).",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+
+        setIsSubmitting(false);
+        await Router.push("/weights");
+      }
     } catch (e) {
       console.log(e);
     }
@@ -167,15 +196,6 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
                         </Select>
                       )}
                     />
-                    {/* {getPeople().map((p: Person) => {
-                        // {people.map((p: Person) => {
-                        return (
-                          <option key={p.id} value={p.name}>
-                            {p.name}
-                          </option>
-                        );
-                      })} */}
-                    {/* </Controller> */}
                   </FormControl>
                   {errors.entries?.[i]?.name && false && (
                     <Box
@@ -303,7 +323,7 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
                         mx={["0", "0"]}
                         defaultIsChecked
                       >
-                        Update Profile Weight
+                        Update Profile
                       </Checkbox>
                     )}
                   />
