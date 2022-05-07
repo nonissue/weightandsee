@@ -37,6 +37,8 @@ export default async (
     result = await prisma.$transaction(records);
   } catch (e) {
     console.log(e);
+
+    res.status(500).json({ error: "failed to add weight(s)" });
   }
 
   let updateWeightRes;
