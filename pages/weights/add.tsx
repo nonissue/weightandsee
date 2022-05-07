@@ -195,17 +195,29 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
                       as={Input}
                       placeholder="Weight (lbs)"
                       defaultValue=""
-                      isInvalid={errors.entries?.[i]?.weight ? true : false}
-                      rules={{ required: true, min: 2 }}
+                      isInvalid={errors.entries?.[i] ? true : false}
+                      errorBorderColor="red.300"
+                      rules={{
+                        required: true,
+                        min: 2,
+                        pattern: {
+                          value: /^[0-9]+$/,
+                          message: "Please enter a number",
+                        },
+                      }}
                     />
-                    {errors.entries?.[i]?.weight && false && (
+                    {console.log(errors.entries?.[i]?.weight)}
+                    {errors.entries?.[i]?.weight && (
                       <Box
                         fontFamily="mono"
                         fontSize="xs"
                         textColor="red.400"
                         pl="1"
                       >
-                        Required
+                        Warning:{" "}
+                        {errors.entries?.[i]?.weight?.type === "pattern"
+                          ? "Only numbers are accepted."
+                          : "Please check your input"}
                       </Box>
                     )}
                   </FormControl>
