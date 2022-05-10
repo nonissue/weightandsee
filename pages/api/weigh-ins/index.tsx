@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { Entry } from "../../../interfaces";
-import db from "../../../prisma/db";
-const prisma = db.getInstance().prisma;
+import { prisma } from "prisma/db";
+
 // POST /api/post
 // Required fields in body: title
 // Optional fields in body: content
