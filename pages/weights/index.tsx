@@ -8,8 +8,7 @@ import { Layout } from "../../components/Layout";
 import { NextChakraLink } from "../../components/NextChakraLink";
 import { WeightTag } from "../../components/WeightTag";
 
-import db from "../../prisma/db";
-const prisma = db.getInstance().prisma;
+import { prisma } from "prisma/db";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   let data;

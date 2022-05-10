@@ -16,8 +16,7 @@ import {
 import { Layout, NextChakraLink, WeightTag } from "../../components";
 import { PersonPageProps } from "../../interfaces";
 
-import db from "../../prisma/db";
-const prisma = db.getInstance().prisma;
+import { prisma } from "prisma/db";
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const result = await prisma.person.findFirst({
