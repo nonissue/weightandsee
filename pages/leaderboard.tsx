@@ -36,21 +36,46 @@ export const getServerSideProps: GetServerSideProps = async () => {
     include: { weighIns: { orderBy: { weighDate: "desc" } } },
   });
 
-  const allPeople = await prisma.person.findMany({ select: { id: true } });
+  // const allPeople = await prisma.person.findMany({ select: { id: true } });
 
-  console.log(allPeople.map((person) => person.id));
+  // console.log(allPeople.map((person) => person.id));
 
-  const userWeight = await prisma.weighIn.aggregate({
+  const personMinMax = await prisma.weighIn.groupBy({
+    by: ["personId"],
+
     _max: { weight: true },
-    where: {
-      personId: {
-        in: allPeople.map((person) => person.id),
-      },
-    },
+    _min: { weight: true },
+    // where: {
+    //   personId: {
+    //     in: allPeople.map((person) => person.id),
+    //   },
+    // },
   });
 
-  console.log(userWeight);
+  // console.log(personMinMax);
 
+  const getPersonWithWeightChange = async () => {
+    const combinePersonWithMinMax = await personMinMax.map(
+      async (weighInMinMax) => {
+        const person = await prisma.person.findFirst({
+          where: { id: weighInMinMax.personId as number },
+        });
+
+        const result = {
+          person: await person,
+          min: weighInMinMax._min.weight,
+          max: weighInMinMax._max.weight,
+        };
+        console.log(result);
+        return result;
+      }
+    );
+
+    return combinePersonWithMinMax;
+  };
+
+  getPersonWithWeightChange();
+  // console.log(await getPersonWithWeightChange());
   // const currentWeight = result?.weighIns[0].weight ?? 0;
   // const startingWeight = result?.weighIns.slice(-1)[0].weight ?? 0;
 
@@ -60,22 +85,22 @@ export const getServerSideProps: GetServerSideProps = async () => {
   // console.log(currentWeight);
   // console.log(typeof currentWeight);
 
-  if (result?.weighIns) {
-    console.log("Weight lost: " + getWeightLost(result?.weighIns).weightLost);
-  }
+  // if (result?.weighIns) {
+  //   console.log("Weight lost: " + getWeightLost(result?.weighIns).weightLost);
+  // }
 
-  const larry = await prisma.person.findFirst({
-    where: { name: "Larry" },
-    include: { weighIns: { orderBy: { weighDate: "desc" } } },
-  });
+  // const larry = await prisma.person.findFirst({
+  //   where: { name: "Larry" },
+  //   include: { weighIns: { orderBy: { weighDate: "desc" } } },
+  // });
 
-  if (larry?.weighIns) {
-    const larryProcessed = getWeightLost(larry?.weighIns);
+  // if (larry?.weighIns) {
+  //   const larryProcessed = getWeightLost(larry?.weighIns);
 
-    console.log(
-      `Larry\nStart Weight: ${larryProcessed.startingWeight}\nCurrent Weight: ${larryProcessed.currentWeight}\nWeight Lost: ${larryProcessed.weightLost}`
-    );
-  }
+  //   console.log(
+  //     `Larry\nStart Weight: ${larryProcessed.startingWeight}\nCurrent Weight: ${larryProcessed.currentWeight}\nWeight Lost: ${larryProcessed.weightLost}`
+  //   );
+  // }
 
   // console.log(
   //   `Start Weight: ${startingWeight} \nCurrent Weight: ${currentWeight}\nWeight Lost: ${Prisma.Decimal.sub(
