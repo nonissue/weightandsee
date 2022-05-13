@@ -17,11 +17,6 @@ import { Layout, NextChakraLink, WeightTag } from "../components";
 import { PersonPageProps } from "../interfaces";
 
 import { prisma } from "prisma/db";
-// import weighIns from "./api/weigh-ins";
-
-// import { Prisma, WeighIn } from "@prisma/client";
-// import weighIns from './api/weigh-ins';
-// const prisma = db.prisma;
 
 // const getWeightLost = (weighIns: WeighIn[]) => {
 //   const currentWeight = weighIns[0].weight ?? 0;
@@ -32,125 +27,46 @@ import { prisma } from "prisma/db";
 // };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const result = await prisma.person.findFirst({
-    where: { name: "Roker" },
-    include: { weighIns: { orderBy: { weighDate: "desc" } } },
-  });
-
-  const allPeople = await prisma.person.findMany({ select: { id: true } });
-
-  // console.log(allPeople.map((person) => person.id));
-  // where: {
-  //   personId: {
-  //     in: allPeople.map((person) => person.id),
-  //   },
-  // },
-
-  // const personMinMax = await prisma.weighIn.groupBy({
-  //   by: ["personId"],
-
-  //   _max: { weight: true },
-  //   _min: { weight: true },
+  // const result = await prisma.person.findFirst({
+  //   where: { name: "Roker" },
+  //   include: { weighIns: { orderBy: { weighDate: "desc" } } },
   // });
 
-  // const getPersonMinMax = async () => {
-  //   const combinePersonWithMinMax = await personMinMax.map(
-  //     async (weighInMinMax) => {
-  //       const person = await prisma.person.findFirst({
-  //         where: { id: weighInMinMax.personId as number },
-  //       });
+  const allPeople = await prisma.person.findMany({
+    select: { id: true, name: true },
+  });
 
-  //       const result = {
-  //         person: await person,
-  //         min: weighInMinMax._min.weight,
-  //         max: weighInMinMax._max.weight,
-  //       };
-  //       console.log(result);
-  //       return result;
-  //     }
-  //   );
-
-  //   return combinePersonWithMinMax;
-  // };
-
-  // await getPersonMinMax();
-
-  const getPersonWeightChange = async () => {
-    const result = await prisma.person.findMany({
-      select: {
-        name: true,
-        id: true,
-        weighIns: {
-          orderBy: {
-            weight: "asc",
-          },
-          select: { weight: true, weighDate: true },
-          take: 1,
-        },
-      },
-    });
-
-    const personWithInitialWeighIn = result.map((res) => {
-      return {
-        name: res.name,
-        id: res.id,
-        initialWeighIn: {
-          weight: res.weighIns[0].weight,
-          weighDate: res.weighIns[0].weighDate,
-        },
-      };
-    });
-
-    console.log(personWithInitialWeighIn);
-
-    // const personInitialWeighIn = await prisma.weighIn.groupBy({
-    //   by: ["personId"],
-    //   orderBy: {weightDate: 'asc'}
-    // });
-
-    // // });
-
-    // console.log(weightChange);
-
-    return {};
-  };
-
-  // console.log(groupByTest);
-  // await getPersonWeightChange();
-
-  const stupid = async () => {
-    const personWithCurrentWeight = await prisma.weighIn.findMany({
-      distinct: ["personId"],
-      where: {
-        personId: {
-          in: allPeople.map((person) => person.id),
-          // equals: 2,
-        },
-      },
-      orderBy: {
-        weighDate: "asc",
-      },
-      take: allPeople.length,
-    });
-
-    console.log(personWithCurrentWeight);
-  };
-
-  stupid();
+  // this gets us latest weights?
+  const result = await prisma.weighIn.findMany({
+    distinct: ["personId"],
+    // where: {
+    //   personId: {
+    //     in: allPeople.map((person) => person.id),
+    //   },
+    // },
+    select: {
+      weight: true,
+      weighDate: true,
+      personId: true,
+    },
+    orderBy: {
+      weighDate: "asc",
+    },
+    take: allPeople.length,
+  });
 
   return {
-    props: { personPageData: JSON.stringify(result) },
+    props: { leaderboardPageData: JSON.stringify(result) },
   };
 };
 
-/*
-
-*/
-
 export const PersonPage: React.FunctionComponent<{
-  personPageData: string;
-}> = ({ personPageData }) => {
-  const data: PersonPageProps = JSON.parse(personPageData);
+  leaderboardPageData: string;
+}> = ({ leaderboardPageData }) => {
+  // console.log(leaderboardPageData);
+  const data: PersonPageProps = JSON.parse(leaderboardPageData);
+
+  console.log(data);
 
   const weightColor = useColorModeValue("gray.700", "gray.300");
   const weightShadow = useColorModeValue(
@@ -217,7 +133,7 @@ export const PersonPage: React.FunctionComponent<{
               >
                 {data.name}
               </Heading>
-              {data.weighIns?.length !== 0 && (
+              {data.weighIns?.length !== 0 && data.weighIns && (
                 <Box
                   mt={["0", "0"]}
                   py="1"
