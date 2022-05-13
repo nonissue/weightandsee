@@ -19,16 +19,17 @@ import { PersonPageProps } from "../interfaces";
 import { prisma } from "prisma/db";
 // import weighIns from "./api/weigh-ins";
 
-import { Prisma, WeighIn } from "@prisma/client";
+// import { Prisma, WeighIn } from "@prisma/client";
+// import weighIns from './api/weigh-ins';
 // const prisma = db.prisma;
 
-const getWeightLost = (weighIns: WeighIn[]) => {
-  const currentWeight = weighIns[0].weight ?? 0;
-  const startingWeight = weighIns.slice(-1)[0].weight ?? 0;
-  const weightLost = Prisma.Decimal.sub(startingWeight, currentWeight);
+// const getWeightLost = (weighIns: WeighIn[]) => {
+//   const currentWeight = weighIns[0].weight ?? 0;
+//   const startingWeight = weighIns.slice(-1)[0].weight ?? 0;
+//   const weightLost = Prisma.Decimal.sub(startingWeight, currentWeight);
 
-  return { currentWeight, startingWeight, weightLost };
-};
+//   return { currentWeight, startingWeight, weightLost };
+// };
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const result = await prisma.person.findFirst({
@@ -36,96 +37,115 @@ export const getServerSideProps: GetServerSideProps = async () => {
     include: { weighIns: { orderBy: { weighDate: "desc" } } },
   });
 
-  // const allPeople = await prisma.person.findMany({ select: { id: true } });
+  const allPeople = await prisma.person.findMany({ select: { id: true } });
 
   // console.log(allPeople.map((person) => person.id));
+  // where: {
+  //   personId: {
+  //     in: allPeople.map((person) => person.id),
+  //   },
+  // },
 
-  const personMinMax = await prisma.weighIn.groupBy({
-    by: ["personId"],
+  // const personMinMax = await prisma.weighIn.groupBy({
+  //   by: ["personId"],
 
-    _max: { weight: true },
-    _min: { weight: true },
-    // where: {
-    //   personId: {
-    //     in: allPeople.map((person) => person.id),
-    //   },
-    // },
-  });
+  //   _max: { weight: true },
+  //   _min: { weight: true },
+  // });
 
-  // console.log(personMinMax);
+  // const getPersonMinMax = async () => {
+  //   const combinePersonWithMinMax = await personMinMax.map(
+  //     async (weighInMinMax) => {
+  //       const person = await prisma.person.findFirst({
+  //         where: { id: weighInMinMax.personId as number },
+  //       });
 
-  const getPersonWithWeightChange = async () => {
-    const combinePersonWithMinMax = await personMinMax.map(
-      async (weighInMinMax) => {
-        const person = await prisma.person.findFirst({
-          where: { id: weighInMinMax.personId as number },
-        });
+  //       const result = {
+  //         person: await person,
+  //         min: weighInMinMax._min.weight,
+  //         max: weighInMinMax._max.weight,
+  //       };
+  //       console.log(result);
+  //       return result;
+  //     }
+  //   );
 
-        const result = {
-          person: await person,
-          min: weighInMinMax._min.weight,
-          max: weighInMinMax._max.weight,
-        };
-        console.log(result);
-        return result;
-      }
-    );
+  //   return combinePersonWithMinMax;
+  // };
 
-    return combinePersonWithMinMax;
+  // await getPersonMinMax();
+
+  const getPersonWeightChange = async () => {
+    const result = await prisma.person.findMany({
+      select: {
+        name: true,
+        id: true,
+        weighIns: {
+          orderBy: {
+            weight: "asc",
+          },
+          select: { weight: true, weighDate: true },
+          take: 1,
+        },
+      },
+    });
+
+    const personWithInitialWeighIn = result.map((res) => {
+      return {
+        name: res.name,
+        id: res.id,
+        initialWeighIn: {
+          weight: res.weighIns[0].weight,
+          weighDate: res.weighIns[0].weighDate,
+        },
+      };
+    });
+
+    console.log(personWithInitialWeighIn);
+
+    // const personInitialWeighIn = await prisma.weighIn.groupBy({
+    //   by: ["personId"],
+    //   orderBy: {weightDate: 'asc'}
+    // });
+
+    // // });
+
+    // console.log(weightChange);
+
+    return {};
   };
 
-  getPersonWithWeightChange();
-  // console.log(await getPersonWithWeightChange());
-  // const currentWeight = result?.weighIns[0].weight ?? 0;
-  // const startingWeight = result?.weighIns.slice(-1)[0].weight ?? 0;
+  // console.log(groupByTest);
+  // await getPersonWeightChange();
 
-  // console.log(result?.weighIns[0].weight as Decimal);
-  // console.log(typeof result?.weighIns[0].weight);
+  const stupid = async () => {
+    const personWithCurrentWeight = await prisma.weighIn.findMany({
+      distinct: ["personId"],
+      where: {
+        personId: {
+          in: allPeople.map((person) => person.id),
+          // equals: 2,
+        },
+      },
+      orderBy: {
+        weighDate: "asc",
+      },
+      take: allPeople.length,
+    });
 
-  // console.log(currentWeight);
-  // console.log(typeof currentWeight);
+    console.log(personWithCurrentWeight);
+  };
 
-  // if (result?.weighIns) {
-  //   console.log("Weight lost: " + getWeightLost(result?.weighIns).weightLost);
-  // }
-
-  // const larry = await prisma.person.findFirst({
-  //   where: { name: "Larry" },
-  //   include: { weighIns: { orderBy: { weighDate: "desc" } } },
-  // });
-
-  // if (larry?.weighIns) {
-  //   const larryProcessed = getWeightLost(larry?.weighIns);
-
-  //   console.log(
-  //     `Larry\nStart Weight: ${larryProcessed.startingWeight}\nCurrent Weight: ${larryProcessed.currentWeight}\nWeight Lost: ${larryProcessed.weightLost}`
-  //   );
-  // }
-
-  // console.log(
-  //   `Start Weight: ${startingWeight} \nCurrent Weight: ${currentWeight}\nWeight Lost: ${Prisma.Decimal.sub(
-  //     startingWeight,
-  //     currentWeight
-  //   )}`
-  // );
-
-  // console.log(result?.weighIns[0]);
-
-  // console.log(result?.weighIns.slice(-1)[0]);
-
-  // console.log(typeof result?.weighIns);
-
-  // const weighInMax = await prisma.weighIn.aggregate({
-  //   _max: { weight: true },
-  //   where: { person: { name: params?.name as string } },
-  // });
-
-  // console.log(weighInMax);
+  stupid();
 
   return {
     props: { personPageData: JSON.stringify(result) },
   };
 };
+
+/*
+
+*/
 
 export const PersonPage: React.FunctionComponent<{
   personPageData: string;
