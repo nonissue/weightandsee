@@ -38,8 +38,8 @@ model WeighIn {
   deleted   Boolean  @default(false)
   weighDate DateTime
   weight    Decimal
-  personId  Int?
-  person    Person?  @relation(fields: [personId], references: [id])
+  personId  Int
+  person    Person   @relation(fields: [personId], references: [id])
 
   @@map("weighins")
 }
