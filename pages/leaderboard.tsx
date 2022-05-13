@@ -9,42 +9,25 @@ import {
   Stack,
   Link,
   Divider,
-  Flex,
-  Box,
   useColorModeValue,
+  VStack,
+  Flex,
 } from "@chakra-ui/react";
 import { Layout, NextChakraLink, WeightTag } from "../components";
-import { PersonPageProps } from "../interfaces";
 
 import { prisma } from "prisma/db";
-
-// const getWeightLost = (weighIns: WeighIn[]) => {
-//   const currentWeight = weighIns[0].weight ?? 0;
-//   const startingWeight = weighIns.slice(-1)[0].weight ?? 0;
-//   const weightLost = Prisma.Decimal.sub(startingWeight, currentWeight);
-
-//   return { currentWeight, startingWeight, weightLost };
-// };
+import { Prisma } from "@prisma/client";
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  // const result = await prisma.person.findFirst({
-  //   where: { name: "Roker" },
-  //   include: { weighIns: { orderBy: { weighDate: "desc" } } },
-  // });
-
   const allPeople = await prisma.person.findMany({
     select: { id: true, name: true },
   });
 
   // this gets us latest weights?
-  const result = await prisma.weighIn.findMany({
+  const personWithInitialWeighIn = await prisma.weighIn.findMany({
     distinct: ["personId"],
-    // where: {
-    //   personId: {
-    //     in: allPeople.map((person) => person.id),
-    //   },
-    // },
     select: {
+      id: true,
       weight: true,
       weighDate: true,
       personId: true,
@@ -52,29 +35,65 @@ export const getServerSideProps: GetServerSideProps = async () => {
     orderBy: {
       weighDate: "asc",
     },
-    take: allPeople.length,
   });
 
+  const personWithCurrentWeighIn = await prisma.weighIn.findMany({
+    distinct: ["personId"],
+    select: {
+      id: true,
+      weight: true,
+      weighDate: true,
+      personId: true,
+    },
+    orderBy: {
+      weighDate: "desc",
+    },
+  });
+
+  const personWithInitialAndCurrentWeighIn = allPeople.map((person) => {
+    const initialWeighIn = personWithInitialWeighIn.find(
+      (weighIn) => weighIn.personId === person.id
+    );
+    const currentWeighIn = personWithCurrentWeighIn.find(
+      (weighIn) => weighIn.personId === person.id
+    );
+    const res = {
+      ...person,
+      initialWeighIn,
+      currentWeighIn,
+      weightChange:
+        initialWeighIn?.weight && currentWeighIn?.weight
+          ? Prisma.Decimal.sub(
+              currentWeighIn.weight,
+              initialWeighIn.weight
+            ).toNumber()
+          : 0,
+    };
+    return res;
+  });
+
+  console.log(personWithInitialAndCurrentWeighIn);
+
   return {
-    props: { leaderboardPageData: JSON.stringify(result) },
+    props: {
+      leaderboardPageData: JSON.stringify(personWithInitialAndCurrentWeighIn),
+    },
   };
 };
 
 export const PersonPage: React.FunctionComponent<{
   leaderboardPageData: string;
 }> = ({ leaderboardPageData }) => {
-  // console.log(leaderboardPageData);
-  const data: PersonPageProps = JSON.parse(leaderboardPageData);
-
-  console.log(data);
-
-  const weightColor = useColorModeValue("gray.700", "gray.300");
-  const weightShadow = useColorModeValue(
-    `2px 2px 1px hsla(0,0%,50%,0)`,
-    `2px 2px 0px hsla(0,0%,70%,0.2)`
+  const data = JSON.parse(leaderboardPageData);
+  const sortedData = data.sort((a: any, b: any) =>
+    a.weightChange > b.weightChange ? 1 : -1
   );
-  const graphsLink = useColorModeValue("pink.600", "pink.300");
-  const graphsLinkBg = useColorModeValue("gray.200", "gray.600");
+  const nameColor = useColorModeValue("gray.700", "gray.300");
+  const negativeWeightChange = useColorModeValue("red.200", "red.100");
+  const positiveWeightChange = useColorModeValue("green.200", "green.100");
+
+  const negativeWeightChangeBG = useColorModeValue("red.200", "red.400");
+  const positiveWeightChangeBG = useColorModeValue("green.100", "green.600");
 
   if (!data) {
     return (
@@ -112,138 +131,97 @@ export const PersonPage: React.FunctionComponent<{
     <Layout>
       <Grid templateColumns={`1fr min(65ch, 100%) 1fr`} mt="4">
         <Grid column="2" my="4" px={["4", "4", "2", "2"]}>
-          <Flex
-            mb="4"
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Heading
-                size="lg"
-                fontFamily="heading"
-                fontWeight="800"
-                display="block"
-                pr="2"
-                letterSpacing="1px"
-              >
-                {data.name}
-              </Heading>
-              {data.weighIns?.length !== 0 && data.weighIns && (
-                <Box
-                  mt={["0", "0"]}
-                  py="1"
-                  px="2"
-                  flexShrink={1}
-                  borderRadius="md"
-                  fontWeight="700"
-                  textTransform="uppercase"
-                  fontSize="xs"
-                  letterSpacing="0.05em"
-                  display={["flex", "flex"]}
-                  alignItems="center"
-                  background={graphsLinkBg}
-                >
-                  <NextChakraLink
-                    href={`/graphs/${data.name}`}
-                    _hover={{
-                      textDecoration: "none",
-                      color: graphsLink,
-                    }}
-                    mr={["0", "0"]}
-                    ml={["0", "0"]}
+          <VStack isInline mb="3">
+            <Heading size="lg" letterSpacing="-1px" fontWeight="700">
+              Leaderboard (Weight Change)
+            </Heading>
+          </VStack>
+
+          <List spacing={0} mt={0}>
+            <Divider borderWidth="1.5px" mt={1} />
+            {sortedData.map((person: any, k: number) => {
+              return (
+                <ListItem m="0" py="0" key={person.id}>
+                  <Stack
+                    isInline
+                    align="center"
+                    spacing="0"
+                    justifyContent="space-between"
                   >
-                    Graphs
-                  </NextChakraLink>
-                </Box>
-              )}
-            </Box>
-            {data.currentWeight && data.weighIns?.length !== 0 && (
-              <Box display="flex" alignItems="center">
-                <Box
-                  textAlign="center"
-                  mr="2"
-                  fontWeight="500"
-                  textColor="gray.500"
-                  textTransform="uppercase"
-                  fontSize="sm"
-                  letterSpacing="0.05em"
-                >
-                  Current:
-                </Box>
-
-                {data.weighIns && (
-                  <WeightTag
-                    weight={parseFloat(data.currentWeight)}
-                    weighInId={data.weighIns[0].id}
-                  />
-                )}
-              </Box>
-            )}
-          </Flex>
-
-          <Divider />
-          <List w={["100%", "100%", "100%", "100%"]} mx="auto">
-            {data.weighIns &&
-              data.weighIns?.map((weighIn, k) => {
-                return (
-                  <ListItem key={weighIn.id}>
-                    <Stack
-                      isInline
-                      spacing={0}
-                      direction="row"
-                      justifyContent="space-between"
+                    <NextChakraLink
+                      fontWeight="600"
+                      fontSize="2xl"
+                      mr="0"
+                      paddingY="4px"
+                      color={nameColor}
+                      href={`/people/${person.name}`}
                     >
-                      <Box
-                        display="flex"
-                        fontFamily="heading"
-                        fontSize="md"
-                        textTransform="none"
-                        fontWeight="400"
-                        color="gray.500"
-                        alignItems="center"
-                      >
-                        {weighIn.weighDate.split("T")[0]}
-                      </Box>
-                      <NextChakraLink href={`/weights/${weighIn.id}`}>
-                        <Box
-                          fontSize="2xl"
-                          fontFamily="mono"
-                          fontWeight="500"
-                          color={weightColor}
-                          display="inline-flex"
-                          textShadow={weightShadow}
-                        >
-                          <Box>
-                            {parseFloat(
-                              weighIn.weight as unknown as string
-                            ).toFixed(1)}
-                          </Box>
-                          <Box
-                            textColor="gray.500"
-                            fontWeight="400"
-                            fontSize="lg"
-                            my="auto"
-                            ml="1"
-                            fontFamily="heading"
-                          >
-                            lbs
-                          </Box>
-                        </Box>
-                      </NextChakraLink>
-                    </Stack>
-                    {data.weighIns && k !== data.weighIns.length - 1 && (
-                      <Divider />
-                    )}
-                  </ListItem>
-                );
-              })}
+                      {person.name}
+                    </NextChakraLink>
+                    <Flex>
+                      {person.weightChange && (
+                        // person.weightChange
+                        <WeightTag
+                          position="relative"
+                          weight={parseFloat(person.weightChange)}
+                          weighInId={person.id}
+                          // borderWidth="1px"
+                          paddingX="6px"
+                          border="0px"
+                          letterSpacing={"-0.04em"}
+                          // borderColor={
+                          //   person.weightChange > 0
+                          //     ? negativeWeightChange
+                          //     : positiveWeightChange
+                          // }
+                          // borderBottomColor="initial"
+                          background="transparent"
+                          _before={{
+                            background:
+                              person.weightChange > 0
+                                ? negativeWeightChangeBG
+                                : positiveWeightChangeBG,
+                            pos: "absolute",
+                            zIndex: -1,
+                            top: 0,
+                            right: 0,
+                            left: 0,
+                            bottom: 0,
+                            borderColor:
+                              person.weightChange > 0
+                                ? negativeWeightChange
+                                : positiveWeightChange,
+                            opacity: 0.05,
+                            content: '""',
+                          }}
+                          _after={{
+                            pos: "absolute",
+                            zIndex: -1,
+                            top: 0,
+                            right: 0,
+                            left: 0,
+                            bottom: 0,
+                            borderWidth: "1px",
+                            borderRadius: "4px",
+                            borderColor:
+                              person.weightChange > 0
+                                ? negativeWeightChange
+                                : positiveWeightChange,
+                            opacity: 0.6,
+                            content: '""',
+                          }}
+                        />
+                      )}
+                    </Flex>
+                  </Stack>
+                  <Divider />
+
+                  {k !== sortedData.length - 1 && <Divider />}
+                </ListItem>
+              );
+            })}
           </List>
-          <Divider />
+          <Divider borderWidth="1px" />
         </Grid>
       </Grid>
     </Layout>
