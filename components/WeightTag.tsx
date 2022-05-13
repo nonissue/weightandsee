@@ -2,6 +2,12 @@ import { useColorModeValue, Stack, Text, StackProps } from "@chakra-ui/react";
 import { NextChakraLink } from "./NextChakraLink";
 // TODO: Accept stack props as {...props}
 
+// const padIntStart = (toPad: any, targetLength: number, padString: string) => {
+//   return `${toPad > 0 ? "+" : "-"}${Math.abs(toPad)
+//     .toString()
+//     .padStart(targetLength, padString)}`;
+// };
+
 export const WeightTag: React.FunctionComponent<
   { weight: number; weighInId: number } & StackProps
 > = ({ weight, weighInId, ...chakraProps }) => {
@@ -27,6 +33,7 @@ export const WeightTag: React.FunctionComponent<
         {...chakraProps}
       >
         <Text fontWeight="400" px={0} fontFamily="mono" color={weightColor}>
+          {/* {padIntStart(weight.toFixed(2), 0, " ")} */}
           {weight.toFixed(1)}
         </Text>
         <Text
