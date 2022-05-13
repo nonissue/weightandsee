@@ -16,7 +16,7 @@ import {
 import { Layout, NextChakraLink, WeightTag } from "../components";
 
 import { prisma } from "prisma/db";
-import { Prisma } from "@prisma/client";
+import { Prisma as PrismaClient } from "@prisma/client";
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const allPeople = await prisma.person.findMany({
@@ -63,7 +63,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
       currentWeighIn,
       weightChange:
         initialWeighIn?.weight && currentWeighIn?.weight
-          ? Prisma.Decimal.sub(
+          ? PrismaClient.Decimal.sub(
               currentWeighIn.weight,
               initialWeighIn.weight
             ).toNumber()
