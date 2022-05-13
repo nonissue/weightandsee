@@ -1,4 +1,4 @@
-import { GetServerSideProps } from "next";
+import { InferGetServerSidePropsType } from "next";
 
 import {
   Heading,
@@ -16,7 +16,6 @@ import {
 import { Layout, NextChakraLink, WeightTag } from "../components";
 
 import { prisma } from "prisma/db";
-import { Prisma as PrismaClient } from "@prisma/client";
 
 const getWeightChange = async (pid: number, months?: number) => {
   let startDate: Date;
@@ -59,7 +58,7 @@ const getWeightChange = async (pid: number, months?: number) => {
   return {};
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps = async () => {
   const allPeople = await prisma.person.findMany({
     select: { id: true, name: true },
   });
@@ -93,44 +92,69 @@ export const getServerSideProps: GetServerSideProps = async () => {
     },
   });
 
+  // if (!personWithCurrentWeighIn || !personWithInitialWeighIn) {
+  //   return {
+  //     props: {
+  //       leaderboardData: undefined,
+  //     },
+  //   };
+  // }
+
   const personWithInitialAndCurrentWeighIn = allPeople.map((person) => {
     const initialWeighIn = personWithInitialWeighIn.find(
       (weighIn) => weighIn.personId === person.id
     );
+
     const currentWeighIn = personWithCurrentWeighIn.find(
       (weighIn) => weighIn.personId === person.id
     );
+
+    // if (!initialWeighIn || !currentWeighIn) {
+    //   return {
+    //     props: {
+    //       leaderboardData: undefined,
+    //     },
+    //   };
+    // }
+
+    // These are necessary to get around the annoying prisma decimal type
+    // It's unserializable!
+    const startWeighIn = {
+      ...initialWeighIn,
+      weight: initialWeighIn?.weight.toNumber(),
+    };
+    const endWeighIn = {
+      ...currentWeighIn,
+      weight: currentWeighIn?.weight.toNumber(),
+    };
+
     const res = {
-      ...person,
-      initialWeighIn,
-      currentWeighIn,
+      name: person.name,
+      personId: person.id,
+      startWeighIn,
+      endWeighIn,
       weightChange:
-        initialWeighIn?.weight && currentWeighIn?.weight
-          ? PrismaClient.Decimal.sub(
-              currentWeighIn.weight,
-              initialWeighIn.weight
-            ).toNumber()
+        startWeighIn.weight && endWeighIn.weight
+          ? startWeighIn.weight - endWeighIn.weight
           : 0,
     };
     return res;
   });
 
-  // console.log(personWithInitialAndCurrentWeighIn);
-
   return {
     props: {
-      leaderboardPageData: JSON.stringify(personWithInitialAndCurrentWeighIn),
+      leaderboardData: personWithInitialAndCurrentWeighIn,
     },
   };
 };
 
-export const PersonPage: React.FunctionComponent<{
-  leaderboardPageData: string;
-}> = ({ leaderboardPageData }) => {
-  const data = JSON.parse(leaderboardPageData);
-  const sortedData = data.sort((a: any, b: any) =>
-    a.weightChange > b.weightChange ? 1 : -1
-  );
+export const PersonPage = (
+  props: InferGetServerSidePropsType<typeof getServerSideProps>
+) => {
+  const { leaderboardData } = props;
+
+  // const data = JSON.parse(leaderboardData);
+
   const nameColor = useColorModeValue("gray.700", "gray.300");
   const negativeWeightChange = useColorModeValue("red.200", "red.100");
   const positiveWeightChange = useColorModeValue("green.200", "green.100");
@@ -138,7 +162,7 @@ export const PersonPage: React.FunctionComponent<{
   const negativeWeightChangeBG = useColorModeValue("red.200", "red.400");
   const positiveWeightChangeBG = useColorModeValue("green.100", "green.600");
 
-  if (!data) {
+  if (!leaderboardData) {
     return (
       <Layout>
         <Grid templateColumns={`1fr min(65ch, 100%) 1fr`}>
@@ -170,6 +194,10 @@ export const PersonPage: React.FunctionComponent<{
     );
   }
 
+  const sortedData = leaderboardData.sort((a, b) => {
+    return a.weightChange > b.weightChange ? 1 : -1;
+  });
+
   return (
     <Layout>
       <Grid templateColumns={`1fr min(65ch, 100%) 1fr`} mt="4">
@@ -182,9 +210,9 @@ export const PersonPage: React.FunctionComponent<{
 
           <List spacing={0} mt={0}>
             <Divider borderWidth="1.5px" mt={1} />
-            {sortedData.map((person: any, k: number) => {
+            {sortedData.map((person, k: number) => {
               return (
-                <ListItem m="0" py="0" key={person.id}>
+                <ListItem m="0" py="0" key={person.personId}>
                   <Stack
                     isInline
                     align="center"
@@ -206,18 +234,12 @@ export const PersonPage: React.FunctionComponent<{
                         // person.weightChange
                         <WeightTag
                           position="relative"
-                          weight={parseFloat(person.weightChange)}
-                          weighInId={person.id}
+                          weight={person.weightChange}
+                          weighInId={person.personId}
                           // borderWidth="1px"
                           paddingX="6px"
                           border="0px"
                           letterSpacing={"-0.04em"}
-                          // borderColor={
-                          //   person.weightChange > 0
-                          //     ? negativeWeightChange
-                          //     : positiveWeightChange
-                          // }
-                          // borderBottomColor="initial"
                           background="transparent"
                           _before={{
                             background:
