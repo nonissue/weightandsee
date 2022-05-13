@@ -18,10 +18,53 @@ import { Layout, NextChakraLink, WeightTag } from "../components";
 import { prisma } from "prisma/db";
 import { Prisma as PrismaClient } from "@prisma/client";
 
+const getWeightChange = async (pid: number, months?: number) => {
+  let startDate: Date;
+
+  if (months) {
+    const todaysDate = new Date();
+    startDate = new Date(todaysDate.setMonth(todaysDate.getMonth() - months));
+    console.log(startDate);
+  } else {
+    startDate = new Date(2000, 0, 1);
+  }
+
+  const startWeight = await prisma.weighIn.findFirst({
+    where: {
+      AND: [{ personId: pid }, { weighDate: { gte: startDate } }],
+    },
+    select: {
+      weight: true,
+      id: true,
+      personId: true,
+      weighDate: true,
+    },
+    orderBy: { weighDate: "asc" },
+  });
+
+  const endWeight = await prisma.weighIn.findFirst({
+    where: { personId: pid },
+    orderBy: { weighDate: "desc" },
+    select: {
+      weight: true,
+      id: true,
+      personId: true,
+      weighDate: true,
+    },
+  });
+
+  console.log(startWeight);
+  console.log(endWeight);
+
+  return {};
+};
+
 export const getServerSideProps: GetServerSideProps = async () => {
   const allPeople = await prisma.person.findMany({
     select: { id: true, name: true },
   });
+
+  await getWeightChange(1, 3);
 
   // this gets us latest weights?
   const personWithInitialWeighIn = await prisma.weighIn.findMany({
@@ -72,7 +115,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
     return res;
   });
 
-  console.log(personWithInitialAndCurrentWeighIn);
+  // console.log(personWithInitialAndCurrentWeighIn);
 
   return {
     props: {
