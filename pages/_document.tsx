@@ -43,8 +43,20 @@ export default class Document extends NextDocument {
             href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500;700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=DM+Serif+Display:ital@0;1&family=DM+Serif+Text:ital@0;1&display=swap"
             rel="stylesheet"
           />
+          {/* <link
+            href="https://fonts.googleapis.com/css2?family=Recursive:slnt,wght,MONO@0,300,0;-8,400,0;0,500,0;0,600,0;0,700,0;0,800,1&display=swap"
+            rel="stylesheet"
+          /> */}
+          {/* <link
+            href="https://fonts.googleapis.com/css2?family=Recursive:slnt,wght,MONO@-8,300,0;-8,400,0;-8,700,0;0,300,0;0,400,0;0,700,0;0,900,0;0,900,1&display=swap"
+            rel="stylesheet"
+          /> */}
+          {/* <link
+            href="https://fonts.googleapis.com/css2?family=Recursive:slnt,wght,MONO@-8,300,0;-8,400,0;-8,600,0;-8,700,0;0,300,0;0,400,0;0,600,0;0,600,1;0,700,1;0,900,0;0,900,1&display=swap"
+            rel="stylesheet"
+          /> */}
           <link
-            href="https://fonts.googleapis.com/css2?family=Recursive:wght@300;400;500;600;700;800;850;900&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Recursive:slnt,wght,MONO@-8,300,0;-8,400,0;-8,600,0;-8,700,0;-8,1000,0;0,300,0;0,400,0;0,600,0;0,700,1&display=swap"
             rel="stylesheet"
           />
           <link

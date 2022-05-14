@@ -21,6 +21,14 @@ html, body, .body-wrapper {
   flex-shrink: 0;
 }
 
+/* .font-label_mono {
+
+  --slnt: "slnt" 0;
+  --CRSV: "CRSV" 0;
+  --mono: "MONO" 1;
+  font-variation-settings: var(--mono), var(--slnt), var(--CRSV);
+} */
+
 /* because firefox sucks and doesn't support backdrop filter */
 @-moz-document url-prefix() {
   .nav-header {

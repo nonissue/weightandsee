@@ -31,8 +31,8 @@ const sans = [
 // ].join(",");
 
 const mono = [
-  "monospace",
   "DM Mono",
+  "monospace",
   "Cousine",
   "Consolas",
   "'Courier New'",
