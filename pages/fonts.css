@@ -28,13 +28,13 @@ pyftsubset Inter.ttf \
   em,
   h3,
   h5, */
-  .italic,
+  /* .italic,
   i,
   var {
-    font-variation-settings: "slnt" -8;
+    font-variation-settings: "slnt" 0;
     font-style: oblique 8deg;
   }
-  
+   */
   @supports (-moz-appearance: none) {
     .italic,
     address,
