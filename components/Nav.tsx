@@ -25,6 +25,8 @@ export const NavItems: React.FunctionComponent = () => {
       </NextChakraLink>
       <NextChakraLink href="/people">People</NextChakraLink>
       <NextChakraLink href="/weights">Weigh-Ins</NextChakraLink>
+      <NextChakraLink href="/highscores">Highscores</NextChakraLink>
+
       {/* <NextChakraLink href="/demo">Graphs</NextChakraLink> */}
       {/* <NextChakraLink href="/about">About</NextChakraLink> */}
     </>
