@@ -117,8 +117,12 @@ export const getServerSideProps = async () => {
 
     const endWeighIn = {
       ...currentWeighIn,
-      weight: currentWeighIn?.weight.toNumber() ?? 0,
+      weight: currentWeighIn?.weight.toNumber(),
     };
+
+    console.log(person.name);
+    console.log("Start Weight: " + startWeighIn.weight);
+    console.log("End Weight: " + endWeighIn.weight);
 
     return {
       name: person.name,
@@ -127,7 +131,7 @@ export const getServerSideProps = async () => {
       endWeighIn,
       weightChange:
         startWeighIn.weight && endWeighIn.weight
-          ? startWeighIn.weight - endWeighIn.weight
+          ? endWeighIn.weight - startWeighIn.weight
           : 0,
     };
   });
@@ -139,19 +143,22 @@ export const getServerSideProps = async () => {
   };
 };
 
-export const PersonPage = (
+export const HighScoresPage = (
   props: InferGetServerSidePropsType<typeof getServerSideProps>
 ) => {
   const { leaderboardData } = props;
 
   // const data = JSON.parse(leaderboardData);
 
-  const nameColor = useColorModeValue("gray.700", "gray.300");
+  const headerColor = useColorModeValue("pink.400", "pink.300");
+  const nameColor = useColorModeValue("gray.900", "white");
   const negativeWeightChange = useColorModeValue("red.200", "red.100");
   const positiveWeightChange = useColorModeValue("green.200", "green.100");
 
-  const negativeWeightChangeBG = useColorModeValue("red.200", "red.400");
-  const positiveWeightChangeBG = useColorModeValue("green.100", "green.600");
+  const negativeWeightChangeBG = useColorModeValue("red.200", "red.300");
+  const positiveWeightChangeBG = useColorModeValue("green.100", "green.300");
+
+  const dividerOpacity = useColorModeValue("gray.400", "gray.600");
 
   if (!leaderboardData) {
     return (
@@ -191,16 +198,28 @@ export const PersonPage = (
 
   return (
     <Layout>
-      <Grid templateColumns={`1fr min(65ch, 100%) 1fr`} mt="4">
+      <Grid templateColumns={`1fr min(40ch, 100%) 1fr`} mt="4">
         <Grid column="2" my="4" px={["4", "4", "2", "2"]}>
-          <VStack isInline mb="3">
-            <Heading size="lg" letterSpacing="-1px" fontWeight="700">
-              Leaderboard (Weight Change)
+          <VStack isInline mb="6">
+            <Heading
+              size="xl"
+              w="full"
+              my={6}
+              // fontWeight="700"
+              sx={{
+                fontVariationSettings: "'slnt' 0, 'wght' 800, 'MONO' 0",
+              }}
+              textAlign={"left"}
+              color={headerColor}
+              // letterSpacing={"0.2em"}
+              // textTransform={"uppercase"}
+            >
+              Highscores
             </Heading>
           </VStack>
 
-          <List spacing={0} mt={0}>
-            <Divider borderWidth="1.5px" mt={1} />
+          <List spacing={0} mt={0} borderWidth="0px" paddingX="0" paddingY="1">
+            {/* <Divider borderWidth="1px" mt={1} /> */}
             {sortedData.map((person, k: number) => {
               return (
                 <ListItem m="0" py="0" key={person.personId}>
@@ -212,8 +231,9 @@ export const PersonPage = (
                   >
                     <NextChakraLink
                       fontWeight="600"
-                      fontSize="2xl"
+                      fontSize="xl"
                       mr="0"
+                      fontFamily={"inter"}
                       paddingY="4px"
                       color={nameColor}
                       href={`/people/${person.name}`}
@@ -223,15 +243,17 @@ export const PersonPage = (
                     <Flex>
                       {person.weightChange && (
                         // person.weightChange
+
                         <WeightTag
                           position="relative"
                           weight={person.weightChange}
                           weighInId={person.personId}
                           // borderWidth="1px"
-                          paddingX="6px"
+                          paddingX="4px"
                           border="0px"
-                          letterSpacing={"-0.04em"}
-                          background="transparent"
+                          fontSize="sm"
+                          letterSpacing={"-0.01em"}
+                          background="unset"
                           _before={{
                             background:
                               person.weightChange > 0
@@ -247,7 +269,7 @@ export const PersonPage = (
                               person.weightChange > 0
                                 ? negativeWeightChange
                                 : positiveWeightChange,
-                            opacity: 0.05,
+                            opacity: 0.15,
                             content: '""',
                           }}
                           _after={{
@@ -258,7 +280,7 @@ export const PersonPage = (
                             left: 0,
                             bottom: 0,
                             borderWidth: "1px",
-                            borderRadius: "4px",
+                            // borderRadius: "4px",
                             borderColor:
                               person.weightChange > 0
                                 ? negativeWeightChange
@@ -270,18 +292,23 @@ export const PersonPage = (
                       )}
                     </Flex>
                   </Stack>
-                  <Divider />
+                  {/* <Divider borderColor={"red.400"} opacity="0.5" /> */}
 
-                  {k !== sortedData.length - 1 && <Divider />}
+                  {k !== sortedData.length && (
+                    <Divider
+                      borderStyle={"dotted"}
+                      borderColor={dividerOpacity}
+                    />
+                  )}
                 </ListItem>
               );
             })}
           </List>
-          <Divider borderWidth="1px" />
+          {/* <Divider borderWidth="1px" /> */}
         </Grid>
       </Grid>
     </Layout>
   );
 };
 
-export default PersonPage;
+export default HighScoresPage;
