@@ -67,7 +67,6 @@ export const getServerSideProps = async () => {
 
   // this gets us latest weights?
   const personWithInitialWeighIn = await prisma.weighIn.findMany({
-    distinct: ["personId"],
     select: {
       id: true,
       weight: true,
@@ -80,7 +79,6 @@ export const getServerSideProps = async () => {
   });
 
   const personWithCurrentWeighIn = await prisma.weighIn.findMany({
-    distinct: ["personId"],
     select: {
       id: true,
       weight: true,
@@ -92,14 +90,6 @@ export const getServerSideProps = async () => {
     },
   });
 
-  // if (!personWithCurrentWeighIn || !personWithInitialWeighIn) {
-  //   return {
-  //     props: {
-  //       leaderboardData: undefined,
-  //     },
-  //   };
-  // }
-
   const personWithInitialAndCurrentWeighIn = allPeople.map((person) => {
     const initialWeighIn = personWithInitialWeighIn.find(
       (weighIn) => weighIn.personId === person.id
@@ -109,13 +99,14 @@ export const getServerSideProps = async () => {
       (weighIn) => weighIn.personId === person.id
     );
 
-    // if (!initialWeighIn || !currentWeighIn) {
-    //   return {
-    //     props: {
-    //       leaderboardData: undefined,
-    //     },
-    //   };
-    // }
+    if (!initialWeighIn || !currentWeighIn) {
+      throw new Error("error");
+      //   return {
+      //     props: {
+      //       leaderboardData: undefined,
+      //     },
+      //   };
+    }
 
     // These are necessary to get around the annoying prisma decimal type
     // It's unserializable!
@@ -123,12 +114,13 @@ export const getServerSideProps = async () => {
       ...initialWeighIn,
       weight: initialWeighIn?.weight.toNumber(),
     };
+
     const endWeighIn = {
       ...currentWeighIn,
-      weight: currentWeighIn?.weight.toNumber(),
+      weight: currentWeighIn?.weight.toNumber() ?? 0,
     };
 
-    const res = {
+    return {
       name: person.name,
       personId: person.id,
       startWeighIn,
@@ -138,7 +130,6 @@ export const getServerSideProps = async () => {
           ? startWeighIn.weight - endWeighIn.weight
           : 0,
     };
-    return res;
   });
 
   return {
