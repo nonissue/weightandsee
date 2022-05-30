@@ -101,11 +101,6 @@ export const getServerSideProps = async () => {
 
     if (!initialWeighIn || !currentWeighIn) {
       throw new Error("error");
-      //   return {
-      //     props: {
-      //       leaderboardData: undefined,
-      //     },
-      //   };
     }
 
     // These are necessary to get around the annoying prisma decimal type
@@ -150,15 +145,16 @@ export const HighScoresPage = (
 
   // const data = JSON.parse(leaderboardData);
 
-  const headerColor = useColorModeValue("pink.400", "pink.300");
+  const headerColor = useColorModeValue("black", "gray.300");
   const nameColor = useColorModeValue("gray.900", "white");
-  const negativeWeightChange = useColorModeValue("red.200", "red.100");
-  const positiveWeightChange = useColorModeValue("green.200", "green.100");
+  const negativeWeightChange = useColorModeValue("pink.500", "pink.300");
+  const positiveWeightChange = useColorModeValue("cyan.700", "cyan.300");
 
-  const negativeWeightChangeBG = useColorModeValue("red.200", "red.300");
-  const positiveWeightChangeBG = useColorModeValue("green.100", "green.300");
+  // const negativeWeightChangeBG = useColorModeValue("pink.200", "red.600");
+  // const positiveWeightChangeBG = useColorModeValue("green.200", "green.600");
 
-  const dividerOpacity = useColorModeValue("gray.400", "gray.600");
+  const dividerColor = useColorModeValue("gray.200", "gray.700");
+  const topAndBottomDivider = useColorModeValue("gray.400", "gray.400");
 
   if (!leaderboardData) {
     return (
@@ -198,35 +194,47 @@ export const HighScoresPage = (
 
   return (
     <Layout>
-      <Grid templateColumns={`1fr min(40ch, 100%) 1fr`} mt="4">
+      <Grid templateColumns={`1fr min(65ch, 100%) 1fr`} mt="4">
         <Grid column="2" my="4" px={["4", "4", "2", "2"]}>
-          <VStack isInline mb="6">
+          <VStack isInline mb="0" mt={["2", "12"]}>
             <Heading
               size="xl"
+              textAlign="left"
+              fontFamily="DM Sans"
+              fontWeight="600"
+              // letterSpacing={"0.15em"}
               w="full"
-              my={6}
-              // fontWeight="700"
-              sx={{
-                fontVariationSettings: "'slnt' 0, 'wght' 800, 'MONO' 0",
-              }}
-              textAlign={"left"}
+              textTransform={"capitalize"}
+              my={2}
+              // sx={{
+              //   fontVariationSettings: "'slnt' 0, 'wght' 700, 'MONO' 0",
+              // }}
               color={headerColor}
-              // letterSpacing={"0.2em"}
-              // textTransform={"uppercase"}
             >
-              Highscores
+              Leaderboard
             </Heading>
           </VStack>
 
-          <List spacing={0} mt={0} borderWidth="0px" paddingX="0" paddingY="1">
-            {/* <Divider borderWidth="1px" mt={1} /> */}
+          <List spacing={1} mt={0} borderWidth="0px" paddingX="0" paddingY="1">
             {sortedData.map((person, k: number) => {
               return (
                 <ListItem m="0" py="0" key={person.personId}>
+                  {k === 0 && (
+                    <Divider
+                      borderStyle={"solid"}
+                      borderColor={topAndBottomDivider}
+                      borderBottomWidth="2px"
+                      mb="4px"
+                      opacity="0.2"
+                      // opacity="0.6"
+                    />
+                  )}
                   <Stack
                     isInline
                     align="center"
                     spacing="0"
+                    pt="2"
+                    pb="2"
                     justifyContent="space-between"
                   >
                     <NextChakraLink
@@ -247,57 +255,84 @@ export const HighScoresPage = (
                         <WeightTag
                           position="relative"
                           weight={person.weightChange}
-                          weighInId={person.personId}
-                          // borderWidth="1px"
-                          paddingX="4px"
-                          border="0px"
-                          fontSize="sm"
-                          letterSpacing={"-0.01em"}
+                          paddingY="2.5px"
+                          width="5.5em"
+                          paddingX="3"
+                          justifyContent={"center"}
+                          fontSize="xl"
+                          letterSpacing={"-0.05em"}
                           background="unset"
+                          borderBottom="unset"
+                          marginTop={"-0px"}
+                          borderBottomColor={
+                            person.weightChange > 0
+                              ? negativeWeightChange
+                              : positiveWeightChange
+                          }
+                          fontWeight="700"
+                          fontFamily="Red Hat Mono"
+                          color={
+                            person.weightChange > 0
+                              ? negativeWeightChange
+                              : positiveWeightChange
+                          }
+                          // sx={{
+                          //   fontVariationSettings:
+                          //     "'slnt' 0, 'wght' 800, 'MONO' 1",
+                          // }}
                           _before={{
-                            background:
-                              person.weightChange > 0
-                                ? negativeWeightChangeBG
-                                : positiveWeightChangeBG,
                             pos: "absolute",
                             zIndex: -1,
                             top: 0,
                             right: 0,
                             left: 0,
                             bottom: 0,
+                            borderWidth: "0px",
+                            borderRadius: "6px",
                             borderColor:
                               person.weightChange > 0
                                 ? negativeWeightChange
                                 : positiveWeightChange,
-                            opacity: 0.15,
+                            opacity: 0.5,
                             content: '""',
                           }}
                           _after={{
+                            // background:
+                            //   person.weightChange > 0
+                            //     ? negativeWeightChangeBG
+                            //     : positiveWeightChangeBG,
                             pos: "absolute",
                             zIndex: -1,
                             top: 0,
                             right: 0,
                             left: 0,
                             bottom: 0,
-                            borderWidth: "1px",
-                            // borderRadius: "4px",
+                            borderWidth: "2px",
+                            borderRadius: "6px",
+                            borderStyle: "solid",
                             borderColor:
                               person.weightChange > 0
                                 ? negativeWeightChange
                                 : positiveWeightChange,
-                            opacity: 0.6,
+                            opacity: 0.5,
                             content: '""',
                           }}
                         />
                       )}
                     </Flex>
                   </Stack>
-                  {/* <Divider borderColor={"red.400"} opacity="0.5" /> */}
 
-                  {k !== sortedData.length && (
+                  {k !== sortedData.length - 1 && (
+                    <Divider borderStyle={"solid"} borderColor={dividerColor} />
+                  )}
+                  {k === sortedData.length - 1 && (
                     <Divider
-                      borderStyle={"dotted"}
-                      borderColor={dividerOpacity}
+                      borderStyle={"solid"}
+                      // borderWidth="1px"
+                      opacity="0.2"
+                      borderBottomWidth="2px"
+                      marginTop="4px"
+                      borderColor={topAndBottomDivider}
                     />
                   )}
                 </ListItem>
