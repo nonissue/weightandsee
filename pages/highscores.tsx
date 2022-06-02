@@ -196,7 +196,7 @@ export const HighScoresPage = (
     <Layout>
       <Grid templateColumns={`1fr min(65ch, 100%) 1fr`} mt="4">
         <Grid column="2" my="4" px={["4", "4", "2", "2"]}>
-          <VStack isInline mb="0" mt={["2", "12"]}>
+          <VStack isInline mb="0" mt={["2", "6"]}>
             <Heading
               size="xl"
               textAlign="left"
@@ -206,9 +206,6 @@ export const HighScoresPage = (
               w="full"
               textTransform={"capitalize"}
               my={2}
-              // sx={{
-              //   fontVariationSettings: "'slnt' 0, 'wght' 700, 'MONO' 0",
-              // }}
               color={headerColor}
             >
               Leaderboard
