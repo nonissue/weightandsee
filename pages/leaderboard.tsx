@@ -496,6 +496,8 @@ const DateRangeSelector = () => {
 
   const [currentSelection, setCurrentSelection] = useState(dateRanges[0]);
 
+  console.log(currentSelection);
+
   return (
     <Menu placement="bottom-end" matchWidth gutter={2}>
       <MenuButton
