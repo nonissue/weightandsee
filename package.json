@@ -13,7 +13,10 @@
     "type-check": "tsc",
     "migratedb": "dotenv -- yarn prisma migrate save --experimental && yarn prisma migrate up --experimental && yarn prisma generate",
     "studio": "dotenv -- npx prisma studio",
-    "eslint": "node ./node_modules/eslint/bin/eslint.js --ext .ts,.tsx ."
+    "eslint": "node ./node_modules/eslint/bin/eslint.js --ext .ts,.tsx .",
+    "analyze": "cross-env ANALYZE=true next build",
+    "analyze:server": "cross-env BUNDLE_ANALYZE=server next build",
+    "analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build"
   },
   "dependencies": {
     "@chakra-ui/react": "^1.7.2",
@@ -21,6 +24,7 @@
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@heroicons/react": "^1.0.6",
+    "@next/bundle-analyzer": "^12.1.6",
     "@prisma/client": "3.5.0",
     "babel-plugin-superjson-next": "^0.4.3",
     "favicons": "^6.2.2",
@@ -43,6 +47,7 @@
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "copy": "^0.3.2",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
     "eslint": "^7.30.0",
     "eslint-config-next": "^12.0.4",

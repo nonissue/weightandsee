@@ -1,5 +1,10 @@
+/* eslint-disable */
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // next.config.js
-// eslint-disable-next-line no-undef
-module.exports = {
-  reactStrictMode: true,
-};
+
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
+});
+
+module.exports = withBundleAnalyzer({});
