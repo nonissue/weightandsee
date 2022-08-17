@@ -6,7 +6,10 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { MenuIcon } from "@heroicons/react/solid";
-import { InformationCircleIcon } from "@heroicons/react/outline";
+import {
+  InformationCircleIcon,
+  PlusCircleIcon,
+} from "@heroicons/react/outline";
 import { useBreakpointValue } from "@chakra-ui/media-query";
 import { NextChakraLink } from "./NextChakraLink";
 import { ColorModeToggle } from "./ColorModeToggle";
@@ -26,9 +29,6 @@ export const NavItems: React.FunctionComponent = () => {
       <NextChakraLink href="/people">People</NextChakraLink>
       <NextChakraLink href="/weights">Weigh-Ins</NextChakraLink>
       <NextChakraLink href="/highscores">Highscores</NextChakraLink>
-
-      {/* <NextChakraLink href="/demo">Graphs</NextChakraLink> */}
-      {/* <NextChakraLink href="/about">About</NextChakraLink> */}
     </>
   );
 };
@@ -48,8 +48,6 @@ export const Nav: React.FunctionComponent<Props> = ({
   });
 
   // const logoutLinkColor = useColorModeValue("orange.500", "orange.200");
-  const loginLinkColor = useColorModeValue("green.500", "green.200");
-  const user = true;
 
   // showBurger => show burger button rather than full nav
   // mobileNavShown => burger clicked, show mobile nav items
@@ -60,6 +58,17 @@ export const Nav: React.FunctionComponent<Props> = ({
         <Stack isInline spacing={0} alignItems="center">
           {showBurger ? (
             <Flex justifyContent="flex-end" alignItems="center" width="100%">
+              <NextChakraLink href="/weights/add">
+                <IconButton
+                  marginLeft="1"
+                  size="sm"
+                  aria-label={`Add Weign In`}
+                  variant="ghost"
+                  padding="1"
+                  colorScheme={"pink"}
+                  icon={<PlusCircleIcon width="24px" height="24px" />}
+                />
+              </NextChakraLink>
               <NextChakraLink href="/about">
                 <IconButton
                   marginLeft="1"
@@ -67,13 +76,7 @@ export const Nav: React.FunctionComponent<Props> = ({
                   aria-label={`About/Info`}
                   variant="ghost"
                   padding="1"
-                  icon={
-                    <InformationCircleIcon
-                      width="24px"
-                      height="24px"
-                      // viewBox="0 0 24 24"
-                    />
-                  }
+                  icon={<InformationCircleIcon width="24px" height="24px" />}
                 />
               </NextChakraLink>
 
@@ -98,31 +101,14 @@ export const Nav: React.FunctionComponent<Props> = ({
               alignItems="center"
               fontWeight="semibold"
             >
-              {!user ? (
-                <>
-                  <NextChakraLink href="/demo" color={loginLinkColor}>
-                    Login
-                  </NextChakraLink>
-                </>
-              ) : (
-                <NavItems />
-              )}
-              ;
+              <NavItems />
               <Stack isInline spacing={1}>
                 <NextChakraLink href="/about">
                   <IconButton
-                    // marginLeft="1"
-                    // padding="1"
                     size="sm"
                     aria-label={`About/Info`}
                     variant="ghost"
-                    icon={
-                      <InformationCircleIcon
-                        width="24px"
-                        height="24px"
-                        // viewBox="0 0 24 24"
-                      />
-                    }
+                    icon={<InformationCircleIcon width="24px" height="24px" />}
                   />
                 </NextChakraLink>
                 <ColorModeToggle />
