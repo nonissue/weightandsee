@@ -19,14 +19,17 @@ model User {
 }
 
 model Person {
-  id               Int       @id @default(autoincrement())
-  createdAt        DateTime  @default(now()) @map("created_at")
-  updatedAt        DateTime  @default(now()) @map("updated_at")
-  name             String    @unique(map: "people.name_unique")
-  nickName         String    @unique(map: "people.nickName_unique")
+  id               Int           @id @default(autoincrement())
+  createdAt        DateTime      @default(now()) @map("created_at")
+  updatedAt        DateTime      @default(now()) @map("updated_at")
+  name             String        @unique(map: "people.name_unique")
+  nickName         String        @unique(map: "people.nickName_unique")
   currentWeight    Decimal?
   currentWeighInID Int?
   weighIns         WeighIn[]
+  currentHeight    Decimal?
+  currentHeightID  Int?
+  heightChecks     HeightCheck[]
 
   @@map("people")
 }
@@ -42,4 +45,18 @@ model WeighIn {
   person    Person   @relation(fields: [personId], references: [id])
 
   @@map("weighins")
+}
+
+model HeightCheck {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @default(now()) @map("updated_at")
+  deleted    Boolean  @default(false)
+  heightDate DateTime
+  // store this as cm?
+  height     Decimal
+  personId   Int
+  person     Person   @relation(fields: [personId], references: [id])
+
+  @@map("heightcheck")
 }
