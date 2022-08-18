@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import * as gtag from "../lib/gtag";
 
-/* eslint-disable @typescript-eslint/ban-types */
 import { Chakra } from "../Chakra";
 
 import type { NextComponentType, NextPageContext } from "next";
@@ -19,12 +18,12 @@ export interface AppRenderProps {
   router: NextRouter;
   cookies?: string;
 }
-
-const App: React.FunctionComponent<AppRenderProps> = ({
-  Component,
-  pageProps,
-  cookies,
-}) => {
+// const App: React.FunctionComponent<AppRenderProps> = ({
+//   Component,
+//   pageProps,
+//   cookies,
+// }) => {
+const AppPage = ({ Component, pageProps, cookies }: any) => {
   const router = useRouter();
   useEffect(() => {
     const handleRouteChange = (url: string) => {
@@ -43,4 +42,4 @@ const App: React.FunctionComponent<AppRenderProps> = ({
   );
 };
 
-export default App;
+export default AppPage;

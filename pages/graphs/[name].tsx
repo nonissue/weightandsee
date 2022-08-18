@@ -1,5 +1,4 @@
 import { useState } from "react";
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { GetServerSideProps } from "next";
 import prisma from "lib/prisma";
 import {

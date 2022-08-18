@@ -9,6 +9,7 @@ import { prisma } from "prisma/db";
 
 // Handle updateCurrentWeight
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default async (
   req: NextApiRequest,
   res: NextApiResponse

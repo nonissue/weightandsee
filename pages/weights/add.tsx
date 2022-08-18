@@ -94,7 +94,6 @@ const CreateWeights: React.FunctionComponent<Participants> = ({
 
     if (selected) {
       const filteredPeople = people.filter(
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (person: Person) => selected.indexOf(person.name as any) === -1
       );
 
