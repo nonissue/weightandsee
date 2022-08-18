@@ -17,6 +17,7 @@ import { GraphLink, WeightTag } from "components";
 import { NextChakraLink } from "../../components/NextChakraLink";
 
 export const getServerSideProps: GetServerSideProps = async () => {
+  // Need to remove all this local api bullshit and just fetch directly.
   let baseURL = null;
 
   // GOD, this sucked
@@ -47,7 +48,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
   const result = await fetch(`${baseURL}/api/people`);
   const people = await result.json();
-
+  console.log(people.filter((person: Person) => person.id === 9));
   return {
     props: { data: people },
   };
