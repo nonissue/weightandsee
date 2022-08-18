@@ -47,7 +47,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
   const result = await fetch(`${baseURL}/api/people`);
   const people = await result.json();
-
+  console.log(people.filter((person: Person) => person.id === 9));
   return {
     props: { data: people },
   };

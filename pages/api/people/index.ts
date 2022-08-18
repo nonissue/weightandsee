@@ -8,10 +8,10 @@ const prisma = new PrismaClient();
 
 // Handle updateCurrentWeight
 
-export default async function handler(_req: NextApiRequest,
-  res: NextApiResponse,
+export default async function handler(
+  _req: NextApiRequest,
+  res: NextApiResponse
 ): Promise<void> {
-
   let test;
   try {
     res.statusCode = 200;
