@@ -59,11 +59,9 @@ export default extendTheme({
     Link: {
       variants: {
         // these both work!
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         link: (props: any) => ({
           color: mode("blue.700", "blue.300")(props),
         }),
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         external: (props: any) => ({
           color: mode("purple.600", "purple.300")(props),
         }),
